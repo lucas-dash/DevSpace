@@ -30,6 +30,13 @@ module.exports = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      aspectRatio: {
+        '9/16': '9 / 16',
+      },
+      borderRadius: {
+        '5xl': '32px',
+        '6xl': '40px',
+      },
       colors: {
         primary: '#FFFCF9',
         'primary-dark': '#070707',
@@ -39,6 +46,12 @@ module.exports = {
         'background-dark': '#171717',
         accent: '#6328E2',
         'accent-dark': '#8B58F8',
+        foreground: '#3F96FE',
+        'foreground-dark': '#58A4FE',
+        input: '#EDEDED',
+        'input-dark': '#242424',
+        fadeText: '#575757',
+        'fadeText-dark': '#999999',
       },
     },
   },
