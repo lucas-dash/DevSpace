@@ -13,9 +13,11 @@ export default function Home() {
           </h1>
 
           <div className="flex gap-5 justify-center pt-10 pb-5">
-            <Button className="rounded-2xl">Sign Up</Button>
             <Button className="rounded-2xl" asChild>
-              <Link href={'/login'}>Log In</Link>
+              <Link href={'/auth'}>Sign Up</Link>
+            </Button>
+            <Button className="rounded-2xl" asChild>
+              <Link href={'/auth'}>Log In</Link>
             </Button>
           </div>
         </section>
