@@ -6,11 +6,15 @@ import SignUpForm from './signUp-form';
 
 export default function AuthForm() {
   return (
-    <div className="w-full">
+    <div className="w-[90%] max-w-xs mt-5 md:mt-10 bg-slate-50/80 p-2.5 rounded-xl dark:bg-slate-950/80 backdrop-blur-sm">
       <Tabs defaultValue="login" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="login">Login</TabsTrigger>
-          <TabsTrigger value="signup">Sign Up</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 rounded-lg">
+          <TabsTrigger value="login" className="rounded-lg">
+            Login
+          </TabsTrigger>
+          <TabsTrigger value="signup" className="rounded-lg">
+            Sign Up
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="login">
           <LoginForm />

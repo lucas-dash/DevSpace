@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '../../../components/ui/input';
 import { signUpWithEmailAndPassword } from '../actions';
+import { useTransition } from 'react';
+import { Loader2 } from 'lucide-react';
 
 const formSchema = z
   .object({
@@ -32,6 +34,8 @@ const formSchema = z
   });
 
 export default function SignUpForm() {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,83 +48,89 @@ export default function SignUpForm() {
   async function onSubmit(data: z.infer<typeof formSchema>) {
     console.log(data);
 
-    const result = await signUpWithEmailAndPassword(data);
+    startTransition(async () => {
+      const result = await signUpWithEmailAndPassword(data);
 
-    const { error } = JSON.parse(result);
+      const { error } = JSON.parse(result);
 
-    if (error?.message) {
-      console.log(error.message);
-    } else {
-      console.log('successfuly register');
-    }
-
-    form.reset();
+      if (error?.message) {
+        // toast
+        console.log(error.message);
+      } else {
+        console.log('successfuly register');
+        form.reset();
+      }
+    });
   }
 
   return (
-    <section className="flex flex-col max-w-xs mx-auto gap-5 z-20">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="johndoe@email.com"
-                    {...field}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="********"
-                    {...field}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="********"
-                    {...field}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder="johndoe@email.com"
+                  {...field}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="********"
+                  {...field}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="********"
+                  {...field}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <Button type="submit" className="w-full">
-            Sign Up
-          </Button>
-        </form>
-      </Form>
-    </section>
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={isPending}
+          aria-disabled={isPending}
+        >
+          {isPending && <Loader2 className="animate-spin mr-1" />}
+          Sign Up
+        </Button>
+      </form>
+    </Form>
   );
 }
