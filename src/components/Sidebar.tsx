@@ -7,8 +7,7 @@ import {
   UsersRound,
 } from 'lucide-react';
 import NavLink from './navlink';
-import { Button } from './ui/button';
-import SignOut from '@/app/auth/components/sign-out';
+import SidebarState from './sidebar-state';
 
 const sidebarLinks = [
   {
@@ -52,13 +51,7 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="flex flex-col gap-5">
-        <Button>New Post</Button>
-
-        <div>
-          <SignOut />
-        </div>
-      </div>
+      <SidebarState />
     </aside>
   );
 }
