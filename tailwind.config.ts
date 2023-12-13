@@ -43,7 +43,7 @@ module.exports = {
         secondary: '#070707',
         'secondary-dark': '#FFFCF9',
         background: '#E9E9E9',
-        'background-dark': '#171717',
+        'background-dark': '#1F1F1F',
         accent: '#6328E2',
         'accent-dark': '#8B58F8',
         foreground: '#3F96FE',
