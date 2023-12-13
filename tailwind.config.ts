@@ -49,7 +49,7 @@ module.exports = {
         foreground: '#3F96FE',
         'foreground-dark': '#58A4FE',
         input: '#EDEDED',
-        'input-dark': '#242424',
+        'input-dark': '#171717',
         fadeText: '#575757',
         'fadeText-dark': '#999999',
       },
