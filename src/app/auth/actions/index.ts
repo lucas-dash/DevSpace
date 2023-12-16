@@ -12,6 +12,9 @@ export async function signUpWithEmailAndPassword(data: {
   const result = await supabase.auth.signUp({
     email: data.email,
     password: data.password,
+    options: {
+      emailRedirectTo: 'https://localhost:3000/auth/callback',
+    },
   });
 
   return JSON.stringify(result);

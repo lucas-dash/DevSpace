@@ -14,18 +14,31 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { createPost } from '@/app/(main)/home/actions';
+import { useTransition } from 'react';
+import { Loader2 } from 'lucide-react';
 
 export default function PostForm() {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
-      post: '',
+      content: '',
     },
   });
 
   function onSubmit(data: z.infer<typeof PostSchema>) {
-    console.log(data);
-    form.reset();
+    startTransition(async () => {
+      const result = await createPost(data.content);
+
+      const { error } = JSON.parse(result);
+      if (!error?.message) {
+        // toast
+
+        form.reset();
+      }
+    });
   }
 
   return (
@@ -40,7 +53,7 @@ export default function PostForm() {
         >
           <FormField
             control={form.control}
-            name="post"
+            name="content"
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
@@ -55,7 +68,13 @@ export default function PostForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="rounded-2xl">
+          <Button
+            type="submit"
+            className="rounded-2xl"
+            disabled={isPending}
+            aria-disabled={isPending}
+          >
+            {isPending && <Loader2 className="animate-spin mr-1" />}
             Post
           </Button>
         </form>
