@@ -2,11 +2,20 @@ import readUserSession from '@/lib/actions';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import SignOut from '@/app/auth/components/sign-out';
+import { User } from '@supabase/supabase-js';
 
-export default async function SidebarState() {
-  const { data } = await readUserSession();
+type SidebarStateType = {
+  user: User | null;
+  username: string;
+  display_name: string;
+};
 
-  if (!data.session?.user) {
+export default async function SidebarState({
+  user,
+  username,
+  display_name,
+}: SidebarStateType) {
+  if (!user) {
     return (
       <div className="flex w-full">
         <Button asChild className="w-full" variant={'default'}>
@@ -25,13 +34,13 @@ export default async function SidebarState() {
           <div className="h-[40px] w-[40px] bg-slate-400 grid place-items-center rounded-full">
             L
           </div>
-          <div>
-            <p className="font-semibold text-lg">Lou</p>
-            {/* fade text */}
+          <Link href={`/${username}`}>
+            <p className="font-semibold text-lg">{display_name}</p>
+            {/* fade text if its too long */}
             <p className="text-fadeText dark:text-fadeText-dark text-sm">
-              @spacecode_
+              @{username}
             </p>
-          </div>
+          </Link>
         </div>
 
         <SignOut />

@@ -2,19 +2,20 @@ import Link from 'next/link';
 import PostActions from './post-actions';
 import readUserSession from '@/lib/actions';
 import PostUserActions from './post-user-actions';
-import createSupabaseServerClient from '@/lib/supabase/server';
+import PostUser from './post-user';
 
 export default async function Post({
   content,
   created_by,
+  created_at,
   likes,
   bookmarks,
   reposts,
   id,
 }: Post) {
   const { data: session } = await readUserSession();
-  const supabase = await createSupabaseServerClient();
-  const { data } = await supabase.auth.getUser();
+
+  //todo user image
 
   return (
     <article className="w-full bg-primary dark:bg-primary-dark rounded-2xl p-2.5 flex gap-3.5">
@@ -24,17 +25,13 @@ export default async function Post({
 
       <div className="flex-1">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <h4 className="font-semibold">Lou</h4>
-            <p className="text-fadeText dark:text-fadeText-dark">@spacecode_</p>
-          </div>
+          <PostUser createdBy={created_by} createdAt={created_at} />
 
           <PostActions
             id={id}
             content={content}
             createdBy={created_by}
             session={session?.session}
-            userId={data.user?.id}
           />
         </div>
 

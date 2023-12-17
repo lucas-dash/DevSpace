@@ -1,4 +1,4 @@
-import Post from '@/components/post';
+import Post from '@/components/post/post';
 import createSupabaseServerClient from '@/lib/supabase/server';
 
 type PostType = {

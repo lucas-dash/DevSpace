@@ -1,6 +1,6 @@
-import PostForm from '@/components/post-form';
+import PostForm from '@/components/post/post-form';
 import { readPosts } from './actions';
-import Post from '@/components/post';
+import Post from '@/components/post/post';
 
 export default async function Main() {
   const { data: posts } = await readPosts();

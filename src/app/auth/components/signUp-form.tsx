@@ -1,3 +1,5 @@
+'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -18,10 +20,19 @@ import { Loader2 } from 'lucide-react';
 
 const formSchema = z
   .object({
+    name: z
+      .string()
+      .min(1, { message: 'Name must contain at least 1 character' })
+      .max(20),
+    username: z
+      .string()
+      .min(3, { message: 'Username must cointain at least 3 characters' })
+      .max(10)
+      .toLowerCase(),
     email: z.string().email(),
     password: z
       .string()
-      .min(6, { message: 'Password must cointain at least 6 character(s)' })
+      .min(6, { message: 'Password must cointain at least 6 characters' })
       .max(100),
     confirmPassword: z
       .string()
@@ -39,6 +50,8 @@ export default function SignUpForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      username: '',
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -66,6 +79,42 @@ export default function SignUpForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="johndoe"
+                  {...field}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="John"
+                  {...field}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="email"

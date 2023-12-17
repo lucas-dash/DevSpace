@@ -1,5 +1,5 @@
 import { MessageCircle, Heart, Share, Bookmark } from 'lucide-react';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 
 type PostUserActionsType = {
   likes: number;
