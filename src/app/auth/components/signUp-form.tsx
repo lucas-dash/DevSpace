@@ -14,9 +14,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '../../../components/ui/input';
-import { signUpWithEmailAndPassword } from '../actions';
+// import { signUpWithEmailAndPassword } from '../actions';
+import createSupabaseBrowserClient from '@/lib/supabase/client';
 import { useTransition } from 'react';
 import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z
   .object({
@@ -45,7 +47,9 @@ const formSchema = z
   });
 
 export default function SignUpForm() {
+  const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,9 +66,21 @@ export default function SignUpForm() {
     console.log(data);
 
     startTransition(async () => {
-      const result = await signUpWithEmailAndPassword(data);
+      // const result = await signUpWithEmailAndPassword(data);
 
-      const { error } = JSON.parse(result);
+      // const { error } = JSON.parse(result);
+
+      const { error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          emailRedirectTo: 'https://localhost:3000/auth/callback',
+          data: {
+            username: data.username,
+            display_name: data.name,
+          },
+        },
+      });
 
       if (error?.message) {
         // toast
@@ -72,6 +88,7 @@ export default function SignUpForm() {
       } else {
         console.log('successfuly register');
         form.reset();
+        router.refresh();
       }
     });
   }

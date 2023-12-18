@@ -14,9 +14,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '../../../components/ui/input';
-import { signInWithEmailAndPassword } from '../actions';
+import createSupabaseBrowserClient from '@/lib/supabase/client';
+// import { signInWithEmailAndPassword } from '../actions';
 import { Loader2 } from 'lucide-react';
 import { useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -27,7 +29,9 @@ const formSchema = z.object({
 });
 
 export default function LoginForm() {
+  const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,9 +43,10 @@ export default function LoginForm() {
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const result = await signInWithEmailAndPassword(data);
+      // const result = await signInWithEmailAndPassword(data);
+      const { error } = await supabase.auth.signInWithPassword(data);
 
-      const { error } = await JSON.parse(result);
+      // const { error } = await JSON.parse(result);
 
       if (error?.message) {
         // toast
@@ -50,6 +55,7 @@ export default function LoginForm() {
         // toast
         console.log('successfuly login');
         form.reset();
+        router.refresh();
       }
     });
   }
