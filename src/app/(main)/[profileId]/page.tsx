@@ -1,4 +1,5 @@
 import createSupabaseServerClient from '@/lib/supabase/server';
+import { redirect } from 'next/navigation';
 
 type ProfileIdType = {
   params: {
@@ -16,7 +17,11 @@ export default async function ProfileId({
     .select('*')
     .eq('username', profileId);
 
-  if (!userData) {
+  if (profileId === String(undefined)) {
+    redirect('/auth');
+  }
+
+  if (userData?.length === 0) {
     return (
       <div>
         <h3>User not found</h3>
@@ -26,7 +31,7 @@ export default async function ProfileId({
 
   return (
     <div>
-      <h1>{userData[0]?.username}</h1>
+      <h1>{userData && userData[0]?.username}</h1>
     </div>
   );
 }

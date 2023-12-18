@@ -26,16 +26,6 @@ export async function signUpWithEmailAndPassword(data: {
   return JSON.stringify(result);
 }
 
-// export async function createUserDataOnSignUp(username: string) {
-//   const supabase = await createSupabaseServerClient();
-//   const result = await supabase
-//     .from('users')
-//     .insert([{ username: username }])
-//     .select();
-
-//   return JSON.stringify(result);
-// }
-
 export async function signInWithEmailAndPassword(data: {
   email: string;
   password: string;

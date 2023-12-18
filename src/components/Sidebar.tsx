@@ -57,13 +57,11 @@ export default async function Sidebar() {
         })}
       </nav>
 
-      {data.session && (
-        <SidebarState
-          user={data.session?.user}
-          username={username}
-          display_name={displayName}
-        />
-      )}
+      <SidebarState
+        session={data.session}
+        username={username}
+        display_name={displayName}
+      />
     </aside>
   );
 }

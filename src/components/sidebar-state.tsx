@@ -1,21 +1,20 @@
-import readUserSession from '@/lib/actions';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import SignOut from '@/app/auth/components/sign-out';
-import { User } from '@supabase/supabase-js';
+import { Session } from '@supabase/supabase-js';
 
 type SidebarStateType = {
-  user: User | null;
+  session: Session | null;
   username: string;
   display_name: string;
 };
 
 export default async function SidebarState({
-  user,
+  session,
   username,
   display_name,
 }: SidebarStateType) {
-  if (!user) {
+  if (!session) {
     return (
       <div className="flex w-full">
         <Button asChild className="w-full" variant={'default'}>
