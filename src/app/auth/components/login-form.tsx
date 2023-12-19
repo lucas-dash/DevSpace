@@ -43,8 +43,8 @@ export default function LoginForm() {
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      // const result = await signInWithEmailAndPassword(data);
       const { error } = await supabase.auth.signInWithPassword(data);
+      // const result = await signInWithEmailAndPassword(data);
 
       // const { error } = await JSON.parse(result);
 
