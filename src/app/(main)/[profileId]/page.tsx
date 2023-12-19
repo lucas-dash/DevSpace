@@ -30,8 +30,8 @@ export default async function ProfileId({
   }
 
   return (
-    <div>
+    <section>
       <h1>{userData && userData[0]?.username}</h1>
-    </div>
+    </section>
   );
 }

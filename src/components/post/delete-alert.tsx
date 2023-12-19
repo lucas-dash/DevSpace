@@ -32,7 +32,7 @@ export default function DeleteAlert({ id }: { id: string }) {
   };
 
   return (
-    <AlertDialogContent id="delete">
+    <AlertDialogContent>
       <AlertDialogHeader>
         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
         <AlertDialogDescription>

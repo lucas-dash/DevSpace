@@ -14,29 +14,40 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { createPost } from '@/app/(main)/home/actions';
 import { useTransition } from 'react';
 import { Loader2 } from 'lucide-react';
+import { updatePostById } from '@/app/(main)/home/actions';
+import { usePathname } from 'next/navigation';
 
-export default function PostForm() {
+type PostEditType = {
+  post: Post;
+  user: string;
+};
+
+export default function PostEdit({
+  post: { content, id },
+  user,
+}: PostEditType) {
   const [isPending, startTransition] = useTransition();
+  const pathname = usePathname();
 
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
-      content: '',
+      content: content || '',
     },
   });
 
   function onSubmit(data: z.infer<typeof PostSchema>) {
+    console.log(data);
     startTransition(async () => {
-      const result = await createPost(data.content);
+      const result = await updatePostById(id, data.content, pathname, user);
 
       const { error } = JSON.parse(result);
+
       if (!error?.message) {
         // toast
-
-        form.reset();
+        console.log('successfuly edited');
       } else {
         // toast
         console.log('Failed');
@@ -45,10 +56,9 @@ export default function PostForm() {
   }
 
   return (
-    <div className="bg-primary dark:bg-primary-dark rounded-2xl w-full flex gap-3.5 p-2.5">
-      <div className="h-[40px] w-[40px] bg-slate-400 flex items-center justify-center rounded-full flex-shrink-0">
-        L
-      </div>
+    <article>
+      <h3 className="text-xl font-semibold px-2 py-3">Edit Post</h3>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -73,15 +83,15 @@ export default function PostForm() {
           />
           <Button
             type="submit"
-            className="rounded-2xl"
+            variant={'accent'}
             disabled={isPending}
             aria-disabled={isPending}
           >
             {isPending && <Loader2 className="animate-spin mr-1" />}
-            Post
+            Edit Post
           </Button>
         </form>
       </Form>
-    </div>
+    </article>
   );
 }

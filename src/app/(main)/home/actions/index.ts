@@ -17,22 +17,22 @@ export async function readPosts() {
   return await supabase.from('posts').select('*');
 }
 
-export async function updatePostById(id: string, content: string) {
+export async function updatePostById(
+  id: string,
+  content: string,
+  url: string,
+  user: string
+) {
   const supabase = await createSupabaseServerClient();
 
-  await supabase.from('posts').update({ content }).eq('id', id);
+  const result = await supabase.from('posts').update({ content }).eq('id', id);
 
+  revalidatePath(url);
   revalidatePath('/home');
-  // i need revalidate profile or post page
+  revalidatePath(`/${user}`);
+
+  return JSON.stringify(result);
 }
-
-// export async function deletePostById(id: string) {
-//   const supabase = await createSupabaseServerClient();
-
-//   await supabase.from('posts').delete().eq('id', id);
-
-//   revalidatePath('/home');
-// }
 
 export async function deletePostById(id: string) {
   const supabase = await createSupabaseServerClient();

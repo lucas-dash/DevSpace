@@ -25,7 +25,7 @@ export default async function PostUser({ createdBy, createdAt }: PostUserType) {
       >
         {userData && `@${userData[0].username}`}
       </Link>
-      <p className="text-sm">&#x2022; 15m ago</p>
+      <p className="text-sm max-[370px]:hidden">&#x2022; 15m ago</p>
     </div>
   );
 }

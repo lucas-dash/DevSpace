@@ -17,7 +17,6 @@ import {
 import Link from 'next/link';
 import { Session } from '@supabase/supabase-js';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-
 import DeleteAlert from './delete-alert';
 
 type PostActionsType = {
@@ -29,12 +28,10 @@ type PostActionsType = {
 
 export default function PostActions({
   id,
-  content,
   session,
   createdBy,
 }: PostActionsType) {
   // follow
-  // todo edit
 
   return (
     <AlertDialog>
@@ -58,13 +55,15 @@ export default function PostActions({
                 <>
                   <DropdownMenuItem>
                     <Pencil className="mr-1.5" size={18} />
-                    Edit
+                    <Link
+                      href={`${session.user.user_metadata.username}/${id}`}
+                      className="w-full"
+                    >
+                      Edit
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <AlertDialogTrigger
-                      id="delete"
-                      className="flex items-center text-red-500 dark:text-red-700 hover:text-red-500 dark:hover:text-red-700"
-                    >
+                    <AlertDialogTrigger className="flex items-center text-red-500 dark:text-red-700 hover:text-red-500 dark:hover:text-red-700 w-full">
                       <Trash2
                         className="mr-1.5 text-primary-dark dark:text-primary"
                         size={18}

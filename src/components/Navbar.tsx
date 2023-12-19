@@ -21,7 +21,7 @@ export default function Navbar() {
           className="flex items-center gap-3"
         >
           <Image src="/logo.svg" alt="DevSpace" width={40} height={40} />
-          <h3 className="font-bold text-lg text-secondary dark:text-secondary-dark">
+          <h3 className="font-bold text-lg text-secondary dark:text-secondary-dark max-[370px]:hidden">
             DevSpace
           </h3>
         </Link>
