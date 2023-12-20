@@ -19,6 +19,7 @@ import createSupabaseBrowserClient from '@/lib/supabase/client';
 import { useTransition } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const formSchema = z
   .object({
@@ -83,10 +84,9 @@ export default function SignUpForm() {
       });
 
       if (error?.message) {
-        // toast
-        console.log(error.message);
+        toast.warning(error?.message);
       } else {
-        console.log('successfuly register');
+        toast.success('Successfully registered!');
         form.reset();
         router.refresh();
       }

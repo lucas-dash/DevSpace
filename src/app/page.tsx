@@ -13,10 +13,10 @@ export default function Home() {
           </h1>
 
           <div className="flex gap-5 justify-center pt-10 pb-5">
-            <Button variant={'outline'} asChild>
-              <Link href={'/auth'}>Sign Up</Link>
+            <Button variant={'default'} asChild>
+              <Link href={'/home'}>Home</Link>
             </Button>
-            <Button asChild>
+            <Button asChild variant={'accent'}>
               <Link href={'/auth'}>Log In</Link>
             </Button>
           </div>

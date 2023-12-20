@@ -18,6 +18,7 @@ import { useTransition } from 'react';
 import { Loader2 } from 'lucide-react';
 import { updatePostById } from '@/app/(main)/home/actions';
 import { usePathname } from 'next/navigation';
+import { toast } from 'sonner';
 
 type PostEditType = {
   post: Post;
@@ -46,11 +47,9 @@ export default function PostEdit({
       const { error } = JSON.parse(result);
 
       if (!error?.message) {
-        // toast
-        console.log('successfuly edited');
+        toast.success('The post has been edited!');
       } else {
-        // toast
-        console.log('Failed');
+        toast.warning(error?.message);
       }
     });
   }

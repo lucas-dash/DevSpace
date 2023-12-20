@@ -19,6 +19,7 @@ import createSupabaseBrowserClient from '@/lib/supabase/client';
 import { Loader2 } from 'lucide-react';
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -49,11 +50,9 @@ export default function LoginForm() {
       // const { error } = await JSON.parse(result);
 
       if (error?.message) {
-        // toast
-        console.log(error.message);
+        toast.warning(error?.message);
       } else {
-        // toast
-        console.log('successfuly login');
+        toast.success('Successfully logged in!');
         form.reset();
         router.refresh();
       }

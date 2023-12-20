@@ -13,10 +13,11 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
-import { createPost } from '@/app/(main)/home/actions';
-import { useTransition } from 'react';
 import { Loader2 } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { useTransition } from 'react';
+import { createPost } from '@/app/(main)/home/actions';
+import { toast } from 'sonner';
 
 export default function PostForm() {
   const [isPending, startTransition] = useTransition();
@@ -34,12 +35,10 @@ export default function PostForm() {
 
       const { error } = JSON.parse(result);
       if (!error?.message) {
-        // toast
-
+        toast.success('Posted!');
         form.reset();
       } else {
-        // toast
-        console.log('Failed');
+        toast.warning(error?.message);
       }
     });
   }

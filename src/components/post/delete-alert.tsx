@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { FormEvent, useTransition } from 'react';
 import { deletePostById } from '@/app/(main)/home/actions';
+import { toast } from 'sonner';
 
 export default function DeleteAlert({ id }: { id: string }) {
   const [isPending, startTransition] = useTransition();
@@ -19,14 +20,11 @@ export default function DeleteAlert({ id }: { id: string }) {
     startTransition(async () => {
       const result = await deletePostById(id);
       const { error } = JSON.parse(result);
-      // toast
 
       if (error?.message) {
-        // toast failded
-        console.log('failed');
+        toast.warning(error?.message);
       } else {
-        // success
-        console.log('success');
+        toast.success('The post has been deleted!');
       }
     });
   };
