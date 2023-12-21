@@ -11,8 +11,10 @@ import { Loader2 } from 'lucide-react';
 import { FormEvent, useTransition } from 'react';
 import { deletePostById } from '@/app/(main)/home/actions';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export default function DeleteAlert({ id }: { id: string }) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const deleteOnSubmit = (e: FormEvent) => {
@@ -25,6 +27,7 @@ export default function DeleteAlert({ id }: { id: string }) {
         toast.warning(error?.message);
       } else {
         toast.success('The post has been deleted!');
+        router.back();
       }
     });
   };

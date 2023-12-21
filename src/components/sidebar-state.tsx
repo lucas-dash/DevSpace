@@ -17,7 +17,7 @@ export default async function SidebarState({
   if (!session) {
     return (
       <div className="flex w-full">
-        <Button asChild className="w-full" variant={'default'}>
+        <Button asChild className="w-full">
           <Link href={'/auth'}>Login</Link>
         </Button>
       </div>
@@ -26,7 +26,9 @@ export default async function SidebarState({
 
   return (
     <div className="flex flex-col items-center gap-5 w-full">
-      <Button variant={'default'}>New Post</Button>
+      <Button variant={'accent'} size={'lg'} className="rounded-2xl">
+        New Post
+      </Button>
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-2.5">
           {/* use image */}

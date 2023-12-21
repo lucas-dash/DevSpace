@@ -17,7 +17,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useTransition } from 'react';
 import { Loader2 } from 'lucide-react';
 import { updatePostById } from '@/app/(main)/home/actions';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 type PostEditType = {
@@ -31,6 +31,7 @@ export default function PostEdit({
 }: PostEditType) {
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
@@ -48,6 +49,7 @@ export default function PostEdit({
 
       if (!error?.message) {
         toast.success('The post has been edited!');
+        router.back();
       } else {
         toast.warning(error?.message);
       }

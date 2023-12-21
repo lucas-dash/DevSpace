@@ -53,7 +53,7 @@ export default function PostActions({
             <>
               {session.user.id === createdBy ? (
                 <>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem className="font-semibold">
                     <Pencil className="mr-1.5" size={18} />
                     <Link
                       href={`${session.user.user_metadata.username}/${id}`}
@@ -63,9 +63,9 @@ export default function PostActions({
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <AlertDialogTrigger className="flex items-center text-red-500 dark:text-red-700 hover:text-red-500 dark:hover:text-red-700 w-full">
+                    <AlertDialogTrigger className="flex items-center text-red-500 dark:text-red-700 hover:text-red-500 dark:hover:text-red-700 w-full font-semibold">
                       <Trash2
-                        className="mr-1.5 text-primary-dark dark:text-primary"
+                        className="mr-1.5 text-inherit bg-inherit"
                         size={18}
                       />
                       Delete

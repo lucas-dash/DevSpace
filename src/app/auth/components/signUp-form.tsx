@@ -123,7 +123,7 @@ export default function SignUpForm() {
               <FormControl>
                 <Input
                   type="text"
-                  placeholder="John"
+                  placeholder="John Doe"
                   {...field}
                   onChange={field.onChange}
                 />

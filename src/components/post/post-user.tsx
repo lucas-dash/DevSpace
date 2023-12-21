@@ -1,3 +1,4 @@
+import { formatRelativeTime } from '@/lib/helperFunc';
 import createSupabaseServerClient from '@/lib/supabase/server';
 import Link from 'next/link';
 
@@ -8,8 +9,6 @@ type PostUserType = {
 
 export default async function PostUser({ createdBy, createdAt }: PostUserType) {
   const supabase = await createSupabaseServerClient();
-
-  // todo time function
 
   const { data: userData } = await supabase
     .from('profile')
@@ -25,7 +24,10 @@ export default async function PostUser({ createdBy, createdAt }: PostUserType) {
       >
         {userData && `@${userData[0].username}`}
       </Link>
-      <p className="text-sm max-[370px]:hidden">&#x2022; 15m ago</p>
+      <span className="max-[380px]:hidden">&#x2022;</span>
+      <p className="text-sm max-[380px]:hidden max-[420px]:text-xs">
+        {formatRelativeTime(createdAt)}
+      </p>
     </div>
   );
 }
