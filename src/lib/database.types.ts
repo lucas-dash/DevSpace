@@ -49,29 +49,50 @@ export interface Database {
         Row: {
           avatar_url: string | null;
           bio: string | null;
+          company: string | null;
           created_at: string;
+          display_name: string;
           email: string;
+          hire_email: string | null;
           id: string;
-          username: string | null;
-          display_name: string | null;
+          social_link_one: string | null;
+          social_link_three: string | null;
+          social_link_two: string | null;
+          tech_stack: string[] | null;
+          url: string | null;
+          username: string;
         };
         Insert: {
           avatar_url?: string | null;
           bio?: string | null;
+          company?: string | null;
           created_at?: string;
+          display_name: string;
           email: string;
+          hire_email?: string | null;
           id: string;
-          username?: string | null;
-          display_name: string | null;
+          social_link_one?: string | null;
+          social_link_three?: string | null;
+          social_link_two?: string | null;
+          tech_stack?: string[] | null;
+          url?: string | null;
+          username: string;
         };
         Update: {
           avatar_url?: string | null;
           bio?: string | null;
+          company?: string | null;
           created_at?: string;
+          display_name?: string;
           email?: string;
+          hire_email?: string | null;
           id?: string;
-          username?: string | null;
-          display_name: string | null;
+          social_link_one?: string | null;
+          social_link_three?: string | null;
+          social_link_two?: string | null;
+          tech_stack?: string[] | null;
+          url?: string | null;
+          username?: string;
         };
         Relationships: [
           {

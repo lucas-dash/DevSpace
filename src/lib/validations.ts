@@ -7,7 +7,7 @@ export const PostSchema = z.object({
       message: 'Post must be at least 3 characters.',
     })
     .max(160, {
-      message: 'Post must not be longer than 30 characters.',
+      message: 'Post must not be longer than 160 characters.',
     }),
 });
 
@@ -22,8 +22,12 @@ export const ProfileSchema = z.object({
     .max(20),
   bio: z
     .string()
-    .max(90, { message: 'Bio must cointains max 130 characters.' }),
+    .max(160, { message: 'Bio must cointains max 160 characters.' }),
+  avatar_url: z.string(),
   url: z.string(),
   company: z.string().max(20),
-  hireEmail: z.string().optional(),
+  hireEmail: z.string(),
+  link1: z.string(),
+  link2: z.string(),
+  link3: z.string(),
 });

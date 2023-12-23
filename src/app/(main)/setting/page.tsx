@@ -25,7 +25,7 @@ export default async function Setting() {
       </div>
       <hr />
 
-      {userData && <UserProfileSet {...userData[0]} />}
+      {userData && <UserProfileSet profile={userData[0]} userId={user.id} />}
     </section>
   );
 }
