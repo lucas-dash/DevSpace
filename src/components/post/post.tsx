@@ -3,6 +3,7 @@ import PostActions from './post-actions';
 import readUserSession from '@/lib/actions';
 import PostUserActions from './post-user-actions';
 import PostUser from './post-user';
+import UserAvatar from '../ui/user-avatar';
 
 export default async function Post({
   content,
@@ -15,13 +16,9 @@ export default async function Post({
 }: Post) {
   const { data: session } = await readUserSession();
 
-  //todo user image
-
   return (
     <article className="w-full bg-primary dark:bg-primary-dark rounded-2xl p-2.5 flex gap-3.5">
-      <div className="h-[40px] w-[40px] bg-slate-400 flex items-center justify-center rounded-full flex-shrink-0">
-        L
-      </div>
+      <UserAvatar id={created_by} />
 
       <div className="flex-1">
         <div className="flex items-center justify-between">

@@ -1,7 +1,7 @@
-import PostForm from '@/components/post/post-form';
 import { readPosts } from './actions';
 import Post from '@/components/post/post';
 import readUserSession from '@/lib/actions';
+import PostFormHead from '@/components/post/post-form-head';
 
 export default async function Main() {
   const { data: posts } = await readPosts();
@@ -11,7 +11,7 @@ export default async function Main() {
 
   return (
     <section className="flex flex-col gap-5">
-      <PostForm session={session} />
+      {session && <PostFormHead session={session} />}
       {posts?.map((post: Post) => (
         <Post key={post.id} {...post} />
       ))}

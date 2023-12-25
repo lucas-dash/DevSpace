@@ -2,6 +2,7 @@ import { Button } from './ui/button';
 import Link from 'next/link';
 import SignOut from '@/app/auth/components/sign-out';
 import { Session } from '@supabase/supabase-js';
+import UserAvatar from './ui/user-avatar';
 
 type SidebarStateType = {
   session: Session | null;
@@ -31,10 +32,7 @@ export default async function SidebarState({
       </Button>
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-2.5">
-          {/* use image */}
-          <div className="h-[40px] w-[40px] bg-slate-400 grid place-items-center rounded-full">
-            L
-          </div>
+          <UserAvatar id={session.user.id} />
           <Link href={`/${username}`}>
             <p className="font-semibold text-lg">{display_name}</p>
             {/* fade text if its too long */}

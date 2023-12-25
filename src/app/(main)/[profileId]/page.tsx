@@ -66,7 +66,7 @@ export default async function ProfileId({
               </div>
             ) : (
               <p className="text-3xl">
-                {userData[0]?.display_name?.slice()[0]}
+                {userData[0]?.display_name?.slice()[0].toUpperCase()}
               </p>
             )}
           </div>
