@@ -27,7 +27,7 @@ export default function DeleteAlert({ id }: { id: string }) {
         toast.warning(error?.message);
       } else {
         toast.success('The post has been deleted!');
-        router.back();
+        router.refresh();
       }
     });
   };

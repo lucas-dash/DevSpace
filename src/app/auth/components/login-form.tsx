@@ -50,7 +50,7 @@ export default function LoginForm() {
       // const { error } = await JSON.parse(result);
 
       if (error?.message) {
-        toast.warning(error?.message);
+        toast.error(error?.message);
       } else {
         toast.success('Successfully logged in!');
         form.reset();

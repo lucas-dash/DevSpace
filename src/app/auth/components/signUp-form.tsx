@@ -84,7 +84,7 @@ export default function SignUpForm() {
       });
 
       if (error?.message) {
-        toast.warning(error?.message);
+        toast.error(error?.message);
       } else {
         toast.success('Successfully registered!');
         form.reset();

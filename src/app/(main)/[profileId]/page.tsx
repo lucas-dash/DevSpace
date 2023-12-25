@@ -3,8 +3,9 @@ import { redirect } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { TwitterIcon } from 'lucide-react';
+import { Facebook, LinkIcon, TwitterIcon } from 'lucide-react';
 import UsersPosts from './components/usersPosts';
+import { linkUrlChecker } from '@/lib/helperFunc';
 
 type ProfileIdType = {
   params: {
@@ -37,6 +38,16 @@ export default async function ProfileId({
       </section>
     );
   }
+
+  const urlIcon = (url: string) => {
+    if (url.includes('twitter.com')) {
+      return <TwitterIcon size={20} className="mr-1" />;
+    } else if (url.includes('facebook.com')) {
+      return <Facebook size={20} className="mr-1" />;
+    } else {
+      return <LinkIcon size={20} className="mr-1" />;
+    }
+  };
 
   return (
     <section className="h-full">
@@ -95,26 +106,49 @@ export default async function ProfileId({
           </p>
         </div>
 
-        <div className="py-5">
-          <Button asChild size={'sm'} className="rounded-full">
-            <Link href={''}>
-              <TwitterIcon size={20} className="mr-1" />
-              twitter.com
-            </Link>
-          </Button>
+        <div className="py-5 flex flex-wrap items-start gap-2">
+          {userData[0]?.social_link_one && (
+            <Button asChild size={'sm'} className="rounded-full">
+              <Link
+                href={linkUrlChecker(userData[0]?.social_link_one)}
+                target="_blank"
+                rel="noferrer"
+              >
+                {urlIcon(userData[0]?.social_link_one)}
+                {userData[0]?.social_link_one}
+              </Link>
+            </Button>
+          )}
+          {userData[0]?.social_link_two && (
+            <Button asChild size={'sm'} className="rounded-full">
+              <Link
+                href={linkUrlChecker(userData[0]?.social_link_two)}
+                target="_blank"
+                rel="noferrer"
+              >
+                {urlIcon(userData[0]?.social_link_two)}
+                {userData[0]?.social_link_two}
+              </Link>
+            </Button>
+          )}
         </div>
 
-        <div className="pb-5">
-          <div>
-            <h4 className="font-bold">Career</h4>
-          </div>
-
-          <div>
-            <h4 className="font-bold">Tech stack</h4>
-            <div className="flex items-center border border-secondary dark:border-secondary-dark w-max rounded-full p-1">
-              Nextjs
+        <div>
+          {userData[0]?.company && (
+            <div>
+              <h4 className="font-bold">Company</h4>
+              <p>{userData[0]?.company}</p>
             </div>
-          </div>
+          )}
+
+          {userData[0]?.tech_stack && (
+            <div>
+              <h4 className="font-bold">Tech stack</h4>
+              <div className="flex items-center border border-secondary dark:border-secondary-dark w-max rounded-full p-1">
+                Nextjs
+              </div>
+            </div>
+          )}
         </div>
       </article>
 

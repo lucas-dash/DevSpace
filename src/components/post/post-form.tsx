@@ -18,8 +18,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { useTransition } from 'react';
 import { createPost } from '@/app/(main)/home/actions';
 import { toast } from 'sonner';
+import { Session } from '@supabase/supabase-js';
 
-export default function PostForm() {
+export default function PostForm({ session }: { session: Session | null }) {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof PostSchema>>({
@@ -30,6 +31,11 @@ export default function PostForm() {
   });
 
   function onSubmit(data: z.infer<typeof PostSchema>) {
+    if (!session) {
+      toast.error('You must be logged in!');
+      return;
+    }
+
     startTransition(async () => {
       const result = await createPost(data.content);
 
@@ -38,7 +44,7 @@ export default function PostForm() {
         toast.success('Posted!');
         form.reset();
       } else {
-        toast.warning(error?.message);
+        toast.error(error?.message);
       }
     });
   }
