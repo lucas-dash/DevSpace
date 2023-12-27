@@ -14,7 +14,9 @@ export default async function Post({
   reposts,
   id,
 }: Post) {
-  const { data: session } = await readUserSession();
+  const {
+    data: { session },
+  } = await readUserSession();
 
   return (
     <article className="w-full bg-primary dark:bg-primary-dark rounded-2xl p-2.5 flex gap-3.5">
@@ -24,12 +26,7 @@ export default async function Post({
         <div className="flex items-center justify-between">
           <PostUser createdBy={created_by} createdAt={created_at} />
 
-          <PostActions
-            id={id}
-            content={content}
-            createdBy={created_by}
-            session={session?.session}
-          />
+          <PostActions postId={id} session={session} createdById={created_by} />
         </div>
 
         <Link href={`home/${id}`}>

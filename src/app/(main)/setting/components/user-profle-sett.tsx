@@ -181,7 +181,7 @@ export default function UserProfileSet({
               control={form.control}
               name="hireEmail"
               render={({ field }) => (
-                <FormItem className="w-max">
+                <FormItem>
                   <FormLabel>Hire Email</FormLabel>
                   <FormControl>
                     <Input
