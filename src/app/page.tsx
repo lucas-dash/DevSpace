@@ -14,7 +14,7 @@ export default function Home() {
 
           <div className="flex gap-5 justify-center pt-10 pb-5">
             <Button variant={'default'} asChild>
-              <Link href={'/home'}>Home</Link>
+              <Link href={'/home'}>Explore</Link>
             </Button>
             <Button asChild variant={'accent'}>
               <Link href={'/auth'}>Log In</Link>

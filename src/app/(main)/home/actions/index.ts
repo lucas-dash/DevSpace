@@ -1,9 +1,7 @@
 'use server';
 
 import createSupabaseServerClient from '@/lib/supabase/server';
-import { ProfileSchema } from '@/lib/validations';
 import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
-import { z } from 'zod';
 
 export async function createPost(content: string) {
   const supabase = await createSupabaseServerClient();
@@ -16,7 +14,10 @@ export async function createPost(content: string) {
 export async function readPosts() {
   noStore();
   const supabase = await createSupabaseServerClient();
-  return await supabase.from('posts').select('*');
+  return await supabase
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false });
 }
 
 export async function updatePostById(
@@ -43,29 +44,6 @@ export async function deletePostById(id: string) {
   return JSON.stringify(result);
 }
 
-export async function updateProfileById(
-  id: string,
-  data: z.infer<typeof ProfileSchema>
-) {
-  const { bio, username, name, company, hireEmail, link1, link2, link3, url } =
-    data;
+export async function likePostById(id: string) {}
 
-  const supabase = await createSupabaseServerClient();
-
-  const result = await supabase
-    .from('profile')
-    .update({
-      username: username,
-      display_name: name,
-      bio: bio,
-      company: company,
-      hire_email: hireEmail,
-      social_link_one: link1,
-      social_link_two: link2,
-      social_link_three: link3,
-      url: url,
-    })
-    .eq('id', id);
-
-  return JSON.stringify(result);
-}
+export async function unlikePostById(id: string) {}

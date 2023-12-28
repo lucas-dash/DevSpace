@@ -11,7 +11,8 @@ export default async function UsersPosts({ userId }: UsersPostsType) {
   const { data: posts } = await supabase
     .from('posts')
     .select()
-    .eq('created_by', userId);
+    .eq('created_by', userId)
+    .order('created_at', { ascending: false });
 
   return (
     <section className="py-3.5">

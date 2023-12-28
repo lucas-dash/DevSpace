@@ -75,7 +75,7 @@ export default async function ProfileHeader({
         <ProfileActions session={session} profileId={profileId} id={id} />
       </div>
 
-      <div className="w-full py-5">
+      <div className="w-full py-3">
         <div>
           <h2 className="text-xl font-bold">{display_name}</h2>
           <p className="text-fadeText dark:text-fadeText-dark text-sm">
@@ -83,6 +83,12 @@ export default async function ProfileHeader({
           </p>
         </div>
         <p className={`pt-3.5 text-sm ${!bio && 'hidden'}`}>{bio}</p>
+
+        {url && (
+          <Button variant={'link'} asChild className="p-0 text-xs sm:text-sm">
+            <Link href={linkUrlChecker(url)}>{url}</Link>
+          </Button>
+        )}
       </div>
 
       <div className="flex items-center gap-3">

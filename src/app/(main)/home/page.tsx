@@ -4,10 +4,11 @@ import readUserSession from '@/lib/actions';
 import PostFormHead from '@/components/post/post-form-head';
 
 export default async function Main() {
-  const { data: posts } = await readPosts();
   const {
     data: { session },
   } = await readUserSession();
+
+  const { data: posts } = await readPosts();
 
   return (
     <section className="flex flex-col gap-5">

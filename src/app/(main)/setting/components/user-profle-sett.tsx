@@ -21,7 +21,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
-import { updateProfileById } from '../../home/actions';
+import { updateProfileById } from '../../[profileId]/actions';
 
 type UserProfileSetType = {
   userId: string;

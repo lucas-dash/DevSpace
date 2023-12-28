@@ -25,7 +25,7 @@ export default async function ProfileId({
 
   if (userData?.length === 0 || userData === null) {
     return (
-      <section>
+      <section className="bg-primary dark:bg-primary-dark rounded-2xl h-full flex items-center justify-center">
         <h3>User not found</h3>
       </section>
     );
