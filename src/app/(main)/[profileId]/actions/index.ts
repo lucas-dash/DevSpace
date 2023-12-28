@@ -19,7 +19,8 @@ export async function unfollowUser(userId: string, followId: string) {
   const result = await supabase
     .from('follows')
     .delete()
-    .eq('follower_id', userId);
+    .eq('follower_id', userId)
+    .eq('following_id', followId);
 
   revalidatePath('/');
 

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Facebook, LinkIcon, TwitterIcon } from 'lucide-react';
 import readUserSession from '@/lib/actions';
 import ProfileActions from './profile-actions';
+import createSupabaseServerClient from '@/lib/supabase/server';
 
 type ProfileHeaderType = {
   userData: Profile;
@@ -30,6 +31,17 @@ export default async function ProfileHeader({
   const {
     data: { session },
   } = await readUserSession();
+
+  const supabase = await createSupabaseServerClient();
+  const { data: followers } = await supabase
+    .from('follows')
+    .select()
+    .eq('following_id', id);
+
+  const { data: following } = await supabase
+    .from('follows')
+    .select()
+    .eq('follower_id', id);
 
   const urlIcon = (url: string) => {
     if (url.includes('twitter.com')) {
@@ -75,10 +87,10 @@ export default async function ProfileHeader({
 
       <div className="flex items-center gap-3">
         <p>
-          <span className="font-semibold">90k</span> followers
+          <span className="font-semibold">{followers?.length}</span> followers
         </p>
         <p>
-          <span className="font-semibold">73</span> following
+          <span className="font-semibold">{following?.length}</span> following
         </p>
       </div>
 
