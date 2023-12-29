@@ -11,16 +11,19 @@ export interface Database {
     Tables: {
       follows: {
         Row: {
-          follower_id: string | null
-          following_id: string | null
+          created_at: string
+          follower_id: string
+          following_id: string
         }
         Insert: {
-          follower_id?: string | null
-          following_id?: string | null
+          created_at?: string
+          follower_id: string
+          following_id: string
         }
         Update: {
-          follower_id?: string | null
-          following_id?: string | null
+          created_at?: string
+          follower_id?: string
+          following_id?: string
         }
         Relationships: [
           {
@@ -33,6 +36,42 @@ export interface Database {
           {
             foreignKeyName: "follows_following_id_fkey"
             columns: ["following_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      likes: {
+        Row: {
+          created_at: string
+          like_id: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          like_id?: string
+          post_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          like_id?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "likes_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "likes_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profile"
             referencedColumns: ["id"]

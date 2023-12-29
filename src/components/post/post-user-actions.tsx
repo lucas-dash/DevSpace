@@ -1,17 +1,45 @@
+'use client';
+
 import { MessageCircle, Heart, Share, Bookmark } from 'lucide-react';
 import { Button } from '../ui/button';
+import {
+  likePostByUserId,
+  unlikePostByUserId,
+} from '@/app/(main)/home/actions';
+import { toast } from 'sonner';
 
 type PostUserActionsType = {
-  likes: number;
-  reposts: number;
-  bookmarks: number;
+  postId: string;
+  userId: string;
+  liked: Likes | null;
+  likes: number | undefined;
 };
 
 export default function PostUserActions({
-  reposts,
+  postId,
+  userId,
   likes,
-  bookmarks,
+  liked,
 }: PostUserActionsType) {
+  const handleLikeButton = async () => {
+    const { error } = await likePostByUserId(postId, userId);
+    if (!error?.message) {
+      toast.success('Liked!');
+    } else {
+      toast.error(error?.message);
+    }
+  };
+
+  const handleUnlikeButton = async () => {
+    const { error } = await unlikePostByUserId(postId, userId);
+
+    if (!error?.message) {
+      toast.success('Unliked!');
+    } else {
+      toast.error(error?.message);
+    }
+  };
+
   return (
     <div className="flex items-center justify-between ">
       <div className="flex items-center text-sm gap-1">
@@ -22,7 +50,7 @@ export default function PostUserActions({
         >
           <Share size={18} />
         </Button>
-        <p>{reposts}</p>
+        <p>0</p>
       </div>
 
       <div className="flex items-center text-sm gap-1">
@@ -33,16 +61,22 @@ export default function PostUserActions({
         >
           <MessageCircle size={18} />
         </Button>
-        <p>20</p>
+        <p>0</p>
       </div>
 
       <div className="flex items-center text-sm gap-1">
         <Button
           size={'icon'}
-          className="rounded-full hover:text-red-500 dark:hover:text-red-600"
+          className={`rounded-full group hover:text-red-500 dark:hover:text-red-600 ${
+            liked ? 'text-red-500 dark:text-red-600' : ''
+          }`}
           variant={'ghost'}
+          onClick={!liked ? handleLikeButton : handleUnlikeButton}
         >
-          <Heart size={18} />
+          <Heart
+            size={18}
+            className={`${liked ? 'fill-red-500 dark:fill-red-600 ' : ''}`}
+          />
         </Button>
         <p>{likes}</p>
       </div>
@@ -55,7 +89,7 @@ export default function PostUserActions({
         >
           <Bookmark size={18} />
         </Button>
-        <p>{bookmarks}</p>
+        <p>0</p>
       </div>
     </div>
   );

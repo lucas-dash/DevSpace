@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import PostActions from './post-actions';
 import readUserSession from '@/lib/actions';
-import PostUserActions from './post-user-actions';
 import PostUser from './post-user';
 import UserAvatar from '../ui/user-avatar';
+import PostInteraction from './post-interaction';
 
 export default async function Post({
   content,
@@ -33,11 +33,7 @@ export default async function Post({
           <p className="py-1">{content}</p>
         </Link>
 
-        <PostUserActions
-          bookmarks={bookmarks}
-          likes={likes}
-          reposts={reposts}
-        />
+        <PostInteraction userId={session?.user.id} postId={id} />
       </div>
     </article>
   );
