@@ -1,6 +1,5 @@
 'use server';
 
-import { useId } from 'react';
 import createSupabaseServerClient from '../supabase/server';
 
 export default async function readUserSession() {

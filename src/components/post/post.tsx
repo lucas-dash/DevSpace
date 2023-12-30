@@ -32,7 +32,6 @@ export default async function Post({
         <Link href={`home/${id}`}>
           <p className="py-1">{content}</p>
         </Link>
-
         <PostInteraction userId={session?.user.id} postId={id} />
       </div>
     </article>

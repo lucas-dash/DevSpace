@@ -1,12 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
-import createSupabaseServerClient from '@/lib/supabase/server';
+// import createSupabaseServerClient from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import createSupabaseServerActionClient from '@/lib/supabase';
 
 export default function SignOut() {
   const logOut = async () => {
     'use server';
-    const supabase = await createSupabaseServerClient();
+    const supabase = await createSupabaseServerActionClient();
     await supabase.auth.signOut();
     redirect('/auth');
   };

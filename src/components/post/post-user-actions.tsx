@@ -3,8 +3,10 @@
 import { MessageCircle, Heart, Share, Bookmark } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
-  likePostByUserId,
-  unlikePostByUserId,
+  bookmarkPost,
+  likePost,
+  unbookmarkPost,
+  unlikePost,
 } from '@/app/(main)/home/actions';
 import { toast } from 'sonner';
 
@@ -13,16 +15,21 @@ type PostUserActionsType = {
   userId: string;
   liked: Likes | null;
   likes: number | undefined;
+  bookmarked: Bookmarks | null;
+  bookmarks: number | undefined;
 };
 
 export default function PostUserActions({
   postId,
   userId,
-  likes,
   liked,
+  likes,
+  bookmarked,
+  bookmarks,
 }: PostUserActionsType) {
+  // likes actions
   const handleLikeButton = async () => {
-    const { error } = await likePostByUserId(postId, userId);
+    const { error } = await likePost(postId, userId);
     if (!error?.message) {
       toast.success('Liked!');
     } else {
@@ -31,7 +38,7 @@ export default function PostUserActions({
   };
 
   const handleUnlikeButton = async () => {
-    const { error } = await unlikePostByUserId(postId, userId);
+    const { error } = await unlikePost(postId, userId);
 
     if (!error?.message) {
       toast.success('Unliked!');
@@ -40,8 +47,27 @@ export default function PostUserActions({
     }
   };
 
+  // bookmark actions
+  const handleBookmarkButton = async () => {
+    const { error } = await bookmarkPost(postId, userId);
+    if (!error?.message) {
+      toast.success('Bookmarked!');
+    } else {
+      toast.error(error?.message);
+    }
+  };
+
+  const handleUnbookmarkButton = async () => {
+    const { error } = await unbookmarkPost(postId, userId);
+    if (!error?.message) {
+      toast.success('Unbookmarked!');
+    } else {
+      toast.error(error?.message);
+    }
+  };
+
   return (
-    <div className="flex items-center justify-between ">
+    <div className="flex items-center justify-between pr-2">
       <div className="flex items-center text-sm gap-1">
         <Button
           size={'icon'}
@@ -81,15 +107,23 @@ export default function PostUserActions({
         <p>{likes}</p>
       </div>
 
-      <div className="flex items-center text-sm gap-1">
+      <div className="flex items-center text-sm gap-1 ">
         <Button
           size={'icon'}
-          className="rounded-full hover:text-orange-500 dark:hover:text-orange-600"
+          className={`rounded-full hover:text-orange-500 dark:hover:text-orange-600 ${
+            bookmarked ? 'text-orange-500 dark:text-orange-600' : ''
+          }`}
           variant={'ghost'}
+          onClick={!bookmarked ? handleBookmarkButton : handleUnbookmarkButton}
         >
-          <Bookmark size={18} />
+          <Bookmark
+            size={18}
+            className={`${
+              bookmarked ? 'fill-orange-500 dark:fill-orange-600 ' : ''
+            }`}
+          />
         </Button>
-        <p>0</p>
+        <p>{bookmarks}</p>
       </div>
     </div>
   );

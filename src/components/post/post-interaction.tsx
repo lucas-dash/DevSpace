@@ -1,6 +1,8 @@
 import {
-  checkForAlreadyLikedPost,
-  getAllLikesByPostId,
+  checkBookmarkedPost,
+  checkLikedPost,
+  getLikesByPostId,
+  getBookmarksByPostId,
 } from '@/app/(main)/home/actions';
 import PostUserActions from './post-user-actions';
 
@@ -17,15 +19,20 @@ export default async function PostInteraction({
     return;
   }
 
-  const { data: liked } = await checkForAlreadyLikedPost(postId, userId);
-  const { data: likes } = await getAllLikesByPostId(postId);
+  const { data: liked } = await checkLikedPost(postId, userId);
+  const { data: likes } = await getLikesByPostId(postId);
+
+  const { data: bookmarked } = await checkBookmarkedPost(postId, userId);
+  const { data: bookmarks } = await getBookmarksByPostId(postId);
 
   return (
     <PostUserActions
       postId={postId}
       userId={userId}
-      likes={likes?.length}
       liked={liked}
+      likes={likes?.length}
+      bookmarked={bookmarked}
+      bookmarks={bookmarks?.length}
     />
   );
 }

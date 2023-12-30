@@ -44,7 +44,9 @@ export async function deletePostById(id: string) {
   return JSON.stringify(result);
 }
 
-export async function likePostByUserId(postId: string, userId: string) {
+// post actions
+
+export async function likePost(postId: string, userId: string) {
   const supabase = await createSupabaseServerClient();
   const result = await supabase
     .from('likes')
@@ -54,7 +56,7 @@ export async function likePostByUserId(postId: string, userId: string) {
   return result;
 }
 
-export async function unlikePostByUserId(postId: string, userId: string) {
+export async function unlikePost(postId: string, userId: string) {
   const supabase = await createSupabaseServerClient();
   const result = await supabase
     .from('likes')
@@ -66,7 +68,7 @@ export async function unlikePostByUserId(postId: string, userId: string) {
   return result;
 }
 
-export async function checkForAlreadyLikedPost(postId: string, userId: string) {
+export async function checkLikedPost(postId: string, userId: string) {
   const supabase = await createSupabaseServerClient();
   const result = await supabase
     .from('likes')
@@ -78,9 +80,55 @@ export async function checkForAlreadyLikedPost(postId: string, userId: string) {
   return result;
 }
 
-export async function getAllLikesByPostId(postId: string) {
+export async function getLikesByPostId(postId: string) {
   const supabase = await createSupabaseServerClient();
   const result = await supabase.from('likes').select().eq('post_id', postId);
+
+  return result;
+}
+
+// bookmarks
+
+export async function bookmarkPost(postId: string, userId: string) {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase
+    .from('bookmarks')
+    .insert({ post_id: postId, user_id: userId });
+  revalidatePath('/home');
+
+  return result;
+}
+
+export async function unbookmarkPost(postId: string, userId: string) {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase
+    .from('bookmarks')
+    .delete()
+    .eq('post_id', postId)
+    .eq('user_id', userId);
+  revalidatePath('/home');
+
+  return result;
+}
+
+export async function checkBookmarkedPost(postId: string, userId: string) {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase
+    .from('bookmarks')
+    .select()
+    .eq('post_id', postId)
+    .eq('user_id', userId)
+    .single();
+
+  return result;
+}
+
+export async function getBookmarksByPostId(postId: string) {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase
+    .from('bookmarks')
+    .select()
+    .eq('post_id', postId);
 
   return result;
 }
