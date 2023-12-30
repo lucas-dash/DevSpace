@@ -41,7 +41,6 @@ export default function PostEdit({
   });
 
   function onSubmit(data: z.infer<typeof PostSchema>) {
-    console.log(data);
     startTransition(async () => {
       const result = await updatePostById(id, data.content, pathname, user);
 

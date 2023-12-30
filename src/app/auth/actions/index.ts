@@ -1,6 +1,6 @@
 'use server';
 
-import createSupabaseServerClient from '@/lib/supabase/server';
+import { createSupabaseServerActionClient } from '@/lib/supabase/action';
 
 export async function signUpWithEmailAndPassword(data: {
   name: string;
@@ -9,7 +9,7 @@ export async function signUpWithEmailAndPassword(data: {
   password: string;
   confirmPassword: string;
 }) {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createSupabaseServerActionClient();
 
   const result = await supabase.auth.signUp({
     email: data.email,
@@ -30,7 +30,7 @@ export async function signInWithEmailAndPassword(data: {
   email: string;
   password: string;
 }) {
-  const supabase = await createSupabaseServerClient();
+  const supabase = await createSupabaseServerActionClient();
 
   const result = await supabase.auth.signInWithPassword({
     email: data.email,
@@ -38,4 +38,10 @@ export async function signInWithEmailAndPassword(data: {
   });
 
   return JSON.stringify(result);
+}
+
+export async function singOut() {
+  const supabase = await createSupabaseServerActionClient();
+  const result = await supabase.auth.signOut();
+  return result;
 }

@@ -1,5 +1,3 @@
-'use server';
-
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { Database } from '../database.types';
@@ -18,9 +16,9 @@ export default async function createSupabaseServerClient() {
         // set(name: string, value: string, options: CookieOptions) {
         //   cookieStore.set({ name, value, ...options });
         // },
-        remove(name: string, options: CookieOptions) {
-          cookieStore.set({ name, value: '', ...options });
-        },
+        // remove(name: string, options: CookieOptions) {
+        //   cookieStore.set({ name, value: '', ...options });
+        // },
       },
     }
   );
