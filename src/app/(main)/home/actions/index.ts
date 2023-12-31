@@ -11,9 +11,16 @@ export async function createPost(content: string) {
   return JSON.stringify(result);
 }
 
-export async function readPosts() {
+export async function readPosts(userId?: string) {
   noStore();
   const supabase = await createSupabaseServerClient();
+  if (userId) {
+    return await supabase
+      .from('posts')
+      .select()
+      .eq('created_by', userId)
+      .order('created_at', { ascending: false });
+  }
   return await supabase
     .from('posts')
     .select('*')
@@ -129,6 +136,47 @@ export async function getBookmarksByPostId(postId: string) {
     .from('bookmarks')
     .select()
     .eq('post_id', postId);
+
+  return result;
+}
+
+export async function repostPost(postId: string, userId: string) {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase
+    .from('reposts')
+    .insert({ post_id: postId, user_id: userId });
+  revalidatePath('/home');
+
+  return result;
+}
+
+export async function unrepostPost(postId: string, userId: string) {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase
+    .from('reposts')
+    .delete()
+    .eq('post_id', postId)
+    .eq('user_id', userId);
+  revalidatePath('/home');
+
+  return result;
+}
+
+export async function checkRepostedPost(postId: string, userId: string) {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase
+    .from('reposts')
+    .select()
+    .eq('post_id', postId)
+    .eq('user_id', userId)
+    .single();
+
+  return result;
+}
+
+export async function getRepostsByPostId(postId: string) {
+  const supabase = await createSupabaseServerClient();
+  const result = await supabase.from('reposts').select().eq('post_id', postId);
 
   return result;
 }

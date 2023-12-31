@@ -3,6 +3,8 @@ import {
   checkLikedPost,
   getLikesByPostId,
   getBookmarksByPostId,
+  getRepostsByPostId,
+  checkRepostedPost,
 } from '@/app/(main)/home/actions';
 import PostUserActions from './post-user-actions';
 
@@ -25,6 +27,9 @@ export default async function PostInteraction({
   const { data: bookmarked } = await checkBookmarkedPost(postId, userId);
   const { data: bookmarks } = await getBookmarksByPostId(postId);
 
+  const { data: reposted } = await checkRepostedPost(postId, userId);
+  const { data: reposts } = await getRepostsByPostId(postId);
+
   return (
     <PostUserActions
       postId={postId}
@@ -33,6 +38,8 @@ export default async function PostInteraction({
       likes={likes?.length}
       bookmarked={bookmarked}
       bookmarks={bookmarks?.length}
+      reposted={reposted}
+      reposts={reposts?.length}
     />
   );
 }

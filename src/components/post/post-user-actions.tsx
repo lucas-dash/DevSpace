@@ -1,14 +1,17 @@
 'use client';
 
-import { MessageCircle, Heart, Share, Bookmark } from 'lucide-react';
+import { MessageCircle, Heart, Bookmark, Repeat2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
   bookmarkPost,
   likePost,
+  repostPost,
   unbookmarkPost,
   unlikePost,
+  unrepostPost,
 } from '@/app/(main)/home/actions';
 import { toast } from 'sonner';
+import Link from 'next/link';
 
 type PostUserActionsType = {
   postId: string;
@@ -17,6 +20,8 @@ type PostUserActionsType = {
   likes: number | undefined;
   bookmarked: Bookmarks | null;
   bookmarks: number | undefined;
+  reposted: Reposts | null;
+  reposts: number | undefined;
 };
 
 export default function PostUserActions({
@@ -26,6 +31,8 @@ export default function PostUserActions({
   likes,
   bookmarked,
   bookmarks,
+  reposted,
+  reposts,
 }: PostUserActionsType) {
   // likes actions
   const handleLikeButton = async () => {
@@ -66,28 +73,52 @@ export default function PostUserActions({
     }
   };
 
+  // respost
+  const handleRepostButton = async () => {
+    const { error } = await repostPost(postId, userId);
+    if (!error?.message) {
+      toast.success('Reposted!');
+    } else {
+      toast.error(error?.message);
+    }
+  };
+
+  const handleUnrepostButton = async () => {
+    const { error } = await unrepostPost(postId, userId);
+    if (!error?.message) {
+      toast.success('Unreposted!');
+    } else {
+      toast.error(error?.message);
+    }
+  };
+
   return (
     <div className="flex items-center justify-between pr-2">
-      <div className="flex items-center text-sm gap-1">
-        <Button
-          size={'icon'}
-          className="rounded-full hover:text-green-500 dark:hover:text-green-600"
-          variant={'ghost'}
-        >
-          <Share size={18} />
-        </Button>
-        <p>0</p>
-      </div>
+      <Link href={`/home/${postId}`}>
+        <div className="flex items-center text-sm gap-1">
+          <Button
+            size={'icon'}
+            className="rounded-full hover:text-blue-500 dark:hover:text-blue-600"
+            variant={'ghost'}
+          >
+            <MessageCircle size={18} />
+          </Button>
+          <p className="font-medium">0</p>
+        </div>
+      </Link>
 
       <div className="flex items-center text-sm gap-1">
         <Button
           size={'icon'}
-          className="rounded-full hover:text-blue-500 dark:hover:text-blue-600"
+          className={`rounded-full hover:text-green-500 dark:hover:text-green-600 ${
+            reposted ? 'text-green-500 ' : ''
+          }`}
           variant={'ghost'}
+          onClick={!reposted ? handleRepostButton : handleUnrepostButton}
         >
-          <MessageCircle size={18} />
+          <Repeat2 size={18} />
         </Button>
-        <p>0</p>
+        <p className="font-medium">{reposts}</p>
       </div>
 
       <div className="flex items-center text-sm gap-1">
@@ -104,7 +135,7 @@ export default function PostUserActions({
             className={`${liked ? 'fill-red-500 dark:fill-red-600 ' : ''}`}
           />
         </Button>
-        <p>{likes}</p>
+        <p className="font-medium">{likes}</p>
       </div>
 
       <div className="flex items-center text-sm gap-1 ">
@@ -123,7 +154,7 @@ export default function PostUserActions({
             }`}
           />
         </Button>
-        <p>{bookmarks}</p>
+        <p className="font-medium">{bookmarks}</p>
       </div>
     </div>
   );

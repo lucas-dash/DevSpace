@@ -116,37 +116,25 @@ export interface Database {
       }
       posts: {
         Row: {
-          bookmarks: number
           content: string
           created_at: string
           created_by: string
           id: string
-          likes: number
           private: boolean
-          reposted_by: string | null
-          reposts: number
         }
         Insert: {
-          bookmarks?: number
           content?: string
           created_at?: string
           created_by?: string
           id?: string
-          likes?: number
           private?: boolean
-          reposted_by?: string | null
-          reposts?: number
         }
         Update: {
-          bookmarks?: number
           content?: string
           created_at?: string
           created_by?: string
           id?: string
-          likes?: number
           private?: boolean
-          reposted_by?: string | null
-          reposts?: number
         }
         Relationships: []
       }
@@ -204,6 +192,42 @@ export interface Database {
             foreignKeyName: "profile_id_fkey"
             columns: ["id"]
             isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      reposts: {
+        Row: {
+          created_at: string
+          post_id: string
+          repost_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          post_id: string
+          repost_id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          post_id?: string
+          repost_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reposts_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reposts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }

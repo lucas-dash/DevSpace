@@ -6,13 +6,10 @@ import UserAvatar from '../ui/user-avatar';
 import PostInteraction from './post-interaction';
 
 export default async function Post({
+  id,
   content,
   created_by,
   created_at,
-  likes,
-  bookmarks,
-  reposts,
-  id,
 }: Post) {
   const {
     data: { session },
