@@ -1,6 +1,6 @@
 'use server';
 
-import { createSupabaseServerActionClient } from '@/lib/supabase/action';
+import createSupabaseServerClient from '@/lib/supabase/server';
 import { ProfileSchema } from '@/lib/validations';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
@@ -12,7 +12,7 @@ export async function updateProfileById(
   const { bio, username, name, company, hireEmail, link1, link2, link3, url } =
     data;
 
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
 
   const result = await supabase
     .from('profile')
@@ -33,7 +33,7 @@ export async function updateProfileById(
 }
 
 export async function followUser(userId: string, followId: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
 
   const result = await supabase
     .from('follows')
@@ -43,7 +43,7 @@ export async function followUser(userId: string, followId: string) {
 }
 
 export async function unfollowUser(userId: string, followId: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
 
   const result = await supabase
     .from('follows')
@@ -57,7 +57,7 @@ export async function unfollowUser(userId: string, followId: string) {
 }
 
 export async function checkForFollowedUser(userId: string, followId: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
 
   const result = await supabase
     .from('follows')

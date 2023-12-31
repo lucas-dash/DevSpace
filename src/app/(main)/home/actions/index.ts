@@ -1,10 +1,10 @@
 'use server';
 
-import { createSupabaseServerActionClient } from '@/lib/supabase/action';
+import createSupabaseServerClient from '@/lib/supabase/server';
 import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
 
 export async function createPost(content: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
   const result = await supabase.from('posts').insert({ content }).single();
   revalidatePath('/home');
 
@@ -13,7 +13,7 @@ export async function createPost(content: string) {
 
 export async function readPosts() {
   noStore();
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
   return await supabase
     .from('posts')
     .select('*')
@@ -26,7 +26,7 @@ export async function updatePostById(
   url: string,
   user: string
 ) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
 
   const result = await supabase.from('posts').update({ content }).eq('id', id);
 
@@ -38,7 +38,7 @@ export async function updatePostById(
 }
 
 export async function deletePostById(id: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
   const result = await supabase.from('posts').delete().eq('id', id);
   revalidatePath('/home');
   return JSON.stringify(result);
@@ -47,7 +47,7 @@ export async function deletePostById(id: string) {
 // post actions
 
 export async function likePost(postId: string, userId: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
   const result = await supabase
     .from('likes')
     .insert({ post_id: postId, user_id: userId });
@@ -57,7 +57,7 @@ export async function likePost(postId: string, userId: string) {
 }
 
 export async function unlikePost(postId: string, userId: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
   const result = await supabase
     .from('likes')
     .delete()
@@ -69,7 +69,7 @@ export async function unlikePost(postId: string, userId: string) {
 }
 
 export async function checkLikedPost(postId: string, userId: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
   const result = await supabase
     .from('likes')
     .select()
@@ -81,7 +81,7 @@ export async function checkLikedPost(postId: string, userId: string) {
 }
 
 export async function getLikesByPostId(postId: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
   const result = await supabase.from('likes').select().eq('post_id', postId);
 
   return result;
@@ -90,7 +90,7 @@ export async function getLikesByPostId(postId: string) {
 // bookmarks
 
 export async function bookmarkPost(postId: string, userId: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
   const result = await supabase
     .from('bookmarks')
     .insert({ post_id: postId, user_id: userId });
@@ -100,7 +100,7 @@ export async function bookmarkPost(postId: string, userId: string) {
 }
 
 export async function unbookmarkPost(postId: string, userId: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
   const result = await supabase
     .from('bookmarks')
     .delete()
@@ -112,7 +112,7 @@ export async function unbookmarkPost(postId: string, userId: string) {
 }
 
 export async function checkBookmarkedPost(postId: string, userId: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
   const result = await supabase
     .from('bookmarks')
     .select()
@@ -124,7 +124,7 @@ export async function checkBookmarkedPost(postId: string, userId: string) {
 }
 
 export async function getBookmarksByPostId(postId: string) {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
   const result = await supabase
     .from('bookmarks')
     .select()

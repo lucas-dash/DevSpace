@@ -1,9 +1,9 @@
 'use server';
 
-import { createSupabaseServerActionClient } from '../supabase/action';
+import createSupabaseServerClient from '../supabase/server';
 
 export default async function readUserSession() {
-  const supabase = await createSupabaseServerActionClient();
+  const supabase = await createSupabaseServerClient();
 
   return supabase.auth.getSession();
 }
