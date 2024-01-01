@@ -1,9 +1,9 @@
-'use server';
-
-import createSupabaseServerClient from '../supabase/server';
+import { cookies } from 'next/headers';
+import { createSupabaseServerClient } from '../supabase/server';
 
 export default async function readUserSession() {
-  const supabase = await createSupabaseServerClient();
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
 
-  return supabase.auth.getSession();
+  return await supabase.auth.getSession();
 }

@@ -1,5 +1,6 @@
 import PostEdit from '@/components/post/post-edit';
-import createSupabaseServerClient from '@/lib/supabase/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 type EditIdType = {
@@ -9,7 +10,8 @@ type EditIdType = {
 };
 
 export default async function EditId({ params: { editId } }: EditIdType) {
-  const supabase = await createSupabaseServerClient();
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
 
   const {
     data: { session },

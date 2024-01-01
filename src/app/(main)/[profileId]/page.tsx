@@ -1,7 +1,8 @@
-import createSupabaseServerClient from '@/lib/supabase/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import UsersPosts from './components/usersPosts';
 import ProfileHeader from './components/profile-header';
+import { cookies } from 'next/headers';
 
 type ProfileIdType = {
   params: {
@@ -12,7 +13,8 @@ type ProfileIdType = {
 export default async function ProfileId({
   params: { profileId },
 }: ProfileIdType) {
-  const supabase = await createSupabaseServerClient();
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
 
   const { data: userData } = await supabase
     .from('profile')

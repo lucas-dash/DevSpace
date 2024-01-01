@@ -10,7 +10,7 @@ type SidebarStateType = {
   display_name: string;
 };
 
-export default async function SidebarState({
+export default function SidebarState({
   session,
   username,
   display_name,

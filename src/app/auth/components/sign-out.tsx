@@ -1,35 +1,28 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
-import createSupabaseBrowserClient from '@/lib/supabase/client';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { LogOut } from 'lucide-react';
-import { redirect, useRouter } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default function SignOut() {
-  const router = useRouter();
-  // const logOut = async () => {
-  //   'use server';
-  //   // const supabase = await createSupabaseServerActionClient();
-  //   await supabase.auth.signOut();
-  //   redirect('/auth');
-  // };
-  const supabase = createSupabaseBrowserClient();
+  const signOut = async () => {
+    'use server';
 
-  const logOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    router.push('/');
+    const cookieStore = cookies();
+    const supabase = createSupabaseServerClient(cookieStore);
+    await supabase.auth.signOut();
+    return redirect('/auth');
   };
 
   return (
-    // <form action={logOut}>
-    <Button
-      variant={'ghost'}
-      size={'icon'}
-      onClick={logOut}
-      className="rounded-2xl hover:bg-red-500 hover:text-primary dark:hover:bg-red-800"
-    >
-      <LogOut />
-    </Button>
-    // </form>
+    <form action={signOut}>
+      <Button
+        variant={'ghost'}
+        size={'icon'}
+        className="rounded-2xl hover:bg-red-500 hover:text-primary dark:hover:bg-red-800"
+      >
+        <LogOut />
+      </Button>
+    </form>
   );
 }

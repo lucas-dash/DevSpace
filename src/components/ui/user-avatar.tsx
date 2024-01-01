@@ -1,8 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import createSupabaseServerClient from '@/lib/supabase/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 
 export default async function UserAvatar({ id }: { id: string }) {
-  const supabase = await createSupabaseServerClient();
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
   const { data: user } = await supabase.from('profile').select().eq('id', id);
 
   if (user) {

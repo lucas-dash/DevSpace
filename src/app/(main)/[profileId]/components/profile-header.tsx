@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { Facebook, LinkIcon, TwitterIcon } from 'lucide-react';
 import readUserSession from '@/lib/actions';
 import ProfileActions from './profile-actions';
-import createSupabaseServerClient from '@/lib/supabase/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 
 type ProfileHeaderType = {
   userData: Profile;
@@ -28,11 +29,13 @@ export default async function ProfileHeader({
     tech_stack,
   },
 }: ProfileHeaderType) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
   const {
     data: { session },
   } = await readUserSession();
 
-  const supabase = await createSupabaseServerClient();
   const { data: followers } = await supabase
     .from('follows')
     .select()

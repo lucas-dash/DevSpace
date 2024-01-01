@@ -1,12 +1,14 @@
 import Post from '@/components/post/post';
-import createSupabaseServerClient from '@/lib/supabase/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 
 type UsersPostsType = {
   userId: string;
 };
 
 export default async function UsersPosts({ userId }: UsersPostsType) {
-  const supabase = await createSupabaseServerClient();
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
 
   const { data: posts } = await supabase
     .from('posts')

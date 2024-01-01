@@ -1,5 +1,6 @@
 import Post from '@/components/post/post';
-import createSupabaseServerClient from '@/lib/supabase/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 
 type PostType = {
   params: {
@@ -8,7 +9,8 @@ type PostType = {
 };
 
 export default async function PostId({ params: { postId } }: PostType) {
-  const supabase = await createSupabaseServerClient();
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
   const { data: post } = await supabase
     .from('posts')
     .select('*')
