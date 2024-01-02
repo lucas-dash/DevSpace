@@ -1,5 +1,39 @@
 import * as z from 'zod';
 
+export const SignUpSchema = z
+  .object({
+    name: z
+      .string()
+      .min(1, { message: 'Name must contain at least 1 character' })
+      .max(20),
+    username: z
+      .string()
+      .min(3, { message: 'Username must cointain at least 3 characters' })
+      .max(10)
+      .toLowerCase(),
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(6, { message: 'Password must cointain at least 6 characters' })
+      .max(100),
+    confirmPassword: z
+      .string()
+      .min(6, { message: 'Password do not match' })
+      .max(100),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Password did not match',
+    path: ['confirmPassword'],
+  });
+
+export const LoginSchema = z.object({
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(6, { message: 'Password must cointain at least 6 character(s)' })
+    .max(100),
+});
+
 export const PostSchema = z.object({
   content: z
     .string()

@@ -1,8 +1,10 @@
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import UsersPosts from './components/usersPosts';
+import UsersPosts from './components/users-posts';
 import ProfileHeader from './components/profile-header';
 import { cookies } from 'next/headers';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import UserReposts from './components/user-reposts';
 
 type ProfileIdType = {
   params: {
@@ -36,7 +38,28 @@ export default async function ProfileId({
   return (
     <section className="h-full">
       <ProfileHeader userData={userData[0]} profileId={profileId} />
-      <UsersPosts userId={userData[0].id} />
+      <Tabs defaultValue="posts" className="w-full mt-2.5">
+        <TabsList className="grid w-full grid-cols-2 rounded-lg bg-transparent dark:bg-transparent">
+          <TabsTrigger
+            value="posts"
+            className="dark:data-[state=active]:bg-accent-dark"
+          >
+            Posts
+          </TabsTrigger>
+          <TabsTrigger
+            value="reposts"
+            className="dark:data-[state=active]:bg-accent-dark"
+          >
+            Reposts
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="posts">
+          <UsersPosts userId={userData[0].id} />
+        </TabsContent>
+        <TabsContent value="reposts">
+          <UserReposts userId={userData[0].id} />
+        </TabsContent>
+      </Tabs>
     </section>
   );
 }

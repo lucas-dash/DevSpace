@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { SignUpSchema } from '@/lib/validations';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,46 +15,19 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '../../../components/ui/input';
-// import { signUpWithEmailAndPassword } from '../actions';
 import createSupabaseBrowserClient from '@/lib/supabase/client';
 import { useTransition } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-const formSchema = z
-  .object({
-    name: z
-      .string()
-      .min(1, { message: 'Name must contain at least 1 character' })
-      .max(20),
-    username: z
-      .string()
-      .min(3, { message: 'Username must cointain at least 3 characters' })
-      .max(10)
-      .toLowerCase(),
-    email: z.string().email(),
-    password: z
-      .string()
-      .min(6, { message: 'Password must cointain at least 6 characters' })
-      .max(100),
-    confirmPassword: z
-      .string()
-      .min(6, { message: 'Password do not match' })
-      .max(100),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Password did not match',
-    path: ['confirmPassword'],
-  });
-
 export default function SignUpForm() {
   const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof SignUpSchema>>({
+    resolver: zodResolver(SignUpSchema),
     defaultValues: {
       username: '',
       name: '',
@@ -63,14 +37,8 @@ export default function SignUpForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
-
+  async function onSubmit(data: z.infer<typeof SignUpSchema>) {
     startTransition(async () => {
-      // const result = await signUpWithEmailAndPassword(data);
-
-      // const { error } = JSON.parse(result);
-
       const { error } = await supabase.auth.signUp({
         email: data.email,
         password: data.password,
@@ -85,7 +53,6 @@ export default function SignUpForm() {
 
       if (error?.message) {
         toast.error(error?.message);
-        router.push('/auth?message=Could not authenticate user');
       } else {
         toast.success('Successfully registered!');
         form.reset();
@@ -97,42 +64,46 @@ export default function SignUpForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input
-                  type="text"
-                  placeholder="johndoe"
-                  {...field}
-                  onChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input
-                  type="text"
-                  placeholder="John Doe"
-                  {...field}
-                  onChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex gap-5">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="johndoe"
+                    className="bg-white"
+                    {...field}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="John Doe"
+                    className="bg-white"
+                    {...field}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="email"
@@ -143,6 +114,7 @@ export default function SignUpForm() {
                 <Input
                   type="email"
                   placeholder="johndoe@email.com"
+                  className="bg-white"
                   {...field}
                   onChange={field.onChange}
                 />
@@ -161,6 +133,7 @@ export default function SignUpForm() {
                 <Input
                   type="password"
                   placeholder="********"
+                  className="bg-white"
                   {...field}
                   onChange={field.onChange}
                 />
@@ -179,6 +152,7 @@ export default function SignUpForm() {
                 <Input
                   type="password"
                   placeholder="********"
+                  className="bg-white"
                   {...field}
                   onChange={field.onChange}
                 />

@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { LoginSchema } from '@/lib/validations';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,43 +16,30 @@ import {
 } from '@/components/ui/form';
 import { Input } from '../../../components/ui/input';
 import createSupabaseBrowserClient from '@/lib/supabase/client';
-// import { signInWithEmailAndPassword } from '../actions';
 import { Loader2 } from 'lucide-react';
 import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z
-    .string()
-    .min(6, { message: 'Password must cointain at least 6 character(s)' })
-    .max(100),
-});
 
 export default function LoginForm() {
   const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  function onSubmit(data: z.infer<typeof LoginSchema>) {
     startTransition(async () => {
       const { error } = await supabase.auth.signInWithPassword(data);
-      // const result = await signInWithEmailAndPassword(data);
-
-      // const { error } = await JSON.parse(result);
 
       if (error?.message) {
         toast.error(error?.message);
-        router.push('/auth?message=Could not authenticate user');
       } else {
         toast.success('Successfully logged in!');
         form.reset();
@@ -73,6 +61,7 @@ export default function LoginForm() {
                 <Input
                   type="email"
                   placeholder="johndoe@email.com"
+                  className="bg-white"
                   {...field}
                   onChange={field.onChange}
                 />
@@ -91,6 +80,7 @@ export default function LoginForm() {
                 <Input
                   type="password"
                   placeholder="********"
+                  className="bg-white"
                   {...field}
                   onChange={field.onChange}
                 />
