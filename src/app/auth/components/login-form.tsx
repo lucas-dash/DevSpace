@@ -51,6 +51,7 @@ export default function LoginForm() {
 
       if (error?.message) {
         toast.error(error?.message);
+        router.push('/auth?message=Could not authenticate user');
       } else {
         toast.success('Successfully logged in!');
         form.reset();

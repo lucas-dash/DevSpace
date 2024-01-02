@@ -75,7 +75,7 @@ export default function SignUpForm() {
         email: data.email,
         password: data.password,
         options: {
-          emailRedirectTo: 'https://localhost:3000/auth/callback',
+          emailRedirectTo: `${origin}/auth/callback`,
           data: {
             username: data.username,
             display_name: data.name,
@@ -85,6 +85,7 @@ export default function SignUpForm() {
 
       if (error?.message) {
         toast.error(error?.message);
+        router.push('/auth?message=Could not authenticate user');
       } else {
         toast.success('Successfully registered!');
         form.reset();

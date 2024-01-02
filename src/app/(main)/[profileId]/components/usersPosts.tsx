@@ -1,5 +1,6 @@
 import Post from '@/components/post/post';
-import createSupabaseServerClient from '@/lib/supabase/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 import { readPosts } from '../../home/actions';
 
 type UsersPostsType = {

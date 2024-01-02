@@ -1,9 +1,11 @@
 import { redirect } from 'next/navigation';
 import UserProfileSet from './components/user-profle-sett';
-import createSupabaseServerClient from '@/lib/supabase/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 
 export default async function Setting() {
-  const supabase = await createSupabaseServerClient();
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
   const {
     data: { user },
   } = await supabase.auth.getUser();
