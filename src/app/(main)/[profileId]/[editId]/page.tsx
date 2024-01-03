@@ -17,7 +17,11 @@ export default async function EditId({ params: { editId } }: EditIdType) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  const { data: post } = await supabase.from('posts').select().eq('id', editId);
+  const { data: post } = await supabase
+    .from('posts')
+    .select()
+    .eq('id', editId)
+    .single();
 
   if (!post) {
     return (
@@ -27,13 +31,13 @@ export default async function EditId({ params: { editId } }: EditIdType) {
     );
   }
 
-  if (!session || session.user.id !== post[0].created_by) {
+  if (!session || session.user.id !== post.created_by) {
     redirect('/home');
   }
 
   return (
     <section className="bg-primary dark:bg-primary-dark rounded-2xl p-5">
-      <PostEdit post={post[0]} user={session.user.user_metadata.username} />
+      <PostEdit post={post} user={session.user.user_metadata.username} />
     </section>
   );
 }

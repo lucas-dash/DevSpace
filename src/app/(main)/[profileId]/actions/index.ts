@@ -36,7 +36,7 @@ export async function updateProfileById(
 
 export async function followUser(userId: string, followId: string) {
   const cookieStore = cookies();
-  const supabase = await createSupabaseServerClient(cookieStore);
+  const supabase = createSupabaseServerClient(cookieStore);
 
   const result = await supabase
     .from('follows')

@@ -21,13 +21,14 @@ export default async function ProfileId({
   const { data: userData } = await supabase
     .from('profile')
     .select('*')
-    .eq('username', profileId);
+    .eq('username', profileId)
+    .single();
 
   if (profileId === String(undefined)) {
     redirect('/auth');
   }
 
-  if (userData?.length === 0 || userData === null) {
+  if (!userData) {
     return (
       <section className="bg-primary dark:bg-primary-dark rounded-2xl h-full flex items-center justify-center">
         <h3>User not found</h3>
@@ -37,27 +38,27 @@ export default async function ProfileId({
 
   return (
     <section className="h-full">
-      <ProfileHeader userData={userData[0]} profileId={profileId} />
+      <ProfileHeader userData={userData} profileId={profileId} />
       <Tabs defaultValue="posts" className="w-full mt-2.5">
         <TabsList className="grid w-full grid-cols-2 rounded-lg bg-transparent dark:bg-transparent">
           <TabsTrigger
             value="posts"
-            className="dark:data-[state=active]:bg-accent-dark"
+            className="data-[state=active]:bg-accent dark:data-[state=active]:bg-accent-dark data-[state=active]:text-primary"
           >
             Posts
           </TabsTrigger>
           <TabsTrigger
             value="reposts"
-            className="dark:data-[state=active]:bg-accent-dark"
+            className="data-[state=active]:bg-accent dark:data-[state=active]:bg-accent-dark data-[state=active]:text-primary"
           >
             Reposts
           </TabsTrigger>
         </TabsList>
         <TabsContent value="posts">
-          <UsersPosts userId={userData[0].id} />
+          <UsersPosts userId={userData.id} />
         </TabsContent>
         <TabsContent value="reposts">
-          <UserReposts userId={userData[0].id} />
+          <UserReposts userId={userData.id} />
         </TabsContent>
       </Tabs>
     </section>

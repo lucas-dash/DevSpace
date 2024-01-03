@@ -41,7 +41,7 @@ export default function PostDropdown({
               <DropdownMenuItem className="font-semibold">
                 <Pencil className="mr-1.5" size={18} />
                 <Link
-                  href={`${user.user_metadata.username}/${postId}`}
+                  href={`/${user.user_metadata.username}/${postId}`}
                   className="w-full"
                 >
                   Edit
