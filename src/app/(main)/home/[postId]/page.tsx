@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
+import CreateComment from './components/create-comment';
 
 type PostType = {
   params: {
@@ -35,11 +36,16 @@ export default async function PostId({ params: { postId } }: PostType) {
     );
   }
   return (
-    <section className="h-full flex flex-col gap-5 bg-primary dark:bg-primary-dark rounded-2xl">
+    <section className="h-full flex flex-col gap-5 bg-primary dark:bg-primary-dark rounded-2xl py-2 px-1.5">
       <Post {...post} />
-      <hr />
       {/* comment form */}
       <hr />
+      {session && (
+        <>
+          <CreateComment postId={postId} />
+          <hr />
+        </>
+      )}
       {/* //todo comments */}
     </section>
   );

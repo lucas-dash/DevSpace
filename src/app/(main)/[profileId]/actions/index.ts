@@ -6,6 +6,19 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
 
+export async function getUserDataById(userId: string) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
+  const { data: userData } = await supabase
+    .from('profile')
+    .select()
+    .eq('id', userId)
+    .single();
+
+  return userData;
+}
+
 export async function updateProfileById(
   id: string,
   data: z.infer<typeof ProfileSchema>

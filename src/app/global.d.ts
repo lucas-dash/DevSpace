@@ -7,4 +7,5 @@ declare global {
   type Likes = Database['public']['Tables']['likes']['Row'];
   type Bookmarks = Database['public']['Tables']['bookmarks']['Row'];
   type Reposts = Database['public']['Tables']['reposts']['Row'];
+  type Comments = Database['public']['Tables']['comments']['Row'];
 }

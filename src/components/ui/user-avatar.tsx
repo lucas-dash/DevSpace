@@ -1,25 +1,37 @@
+import { getUserDataById } from '@/app/(main)/[profileId]/actions';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
 
-export default async function UserAvatar({ userId }: { userId: string }) {
+type UserAvatarType = {
+  userId?: string;
+};
+
+export default async function UserAvatar({ userId }: UserAvatarType) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
-  const { data: user } = await supabase
-    .from('profile')
-    .select()
-    .eq('id', userId)
-    .single();
 
-  if (user) {
-    const nameFallback = user?.display_name.slice()[0].toUpperCase();
-    const userImage = user?.avatar_url ? user?.avatar_url : '';
-
-    return (
-      <Avatar>
-        <AvatarImage src={userImage} />
-        <AvatarFallback className="bg-slate-300">{nameFallback}</AvatarFallback>
-      </Avatar>
-    );
+  let effectiveUserId = userId;
+  if (!effectiveUserId) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    effectiveUserId = user?.id;
   }
+
+  if (!effectiveUserId) return null;
+
+  const userData = await getUserDataById(effectiveUserId);
+
+  if (!userData) return null;
+
+  const nameFallback = userData?.display_name.slice()[0].toUpperCase();
+  const userImage = userData?.avatar_url ? userData?.avatar_url : '';
+
+  return (
+    <Avatar>
+      <AvatarImage src={userImage} />
+      <AvatarFallback className="bg-slate-300">{nameFallback}</AvatarFallback>
+    </Avatar>
+  );
 }
