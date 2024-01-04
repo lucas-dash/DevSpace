@@ -14,14 +14,16 @@ export default async function PostId({ params: { postId } }: PostType) {
   const { data: post } = await supabase
     .from('posts')
     .select('*')
-    .eq('id', postId);
+    .eq('id', postId)
+    .single();
 
   if (!post) {
     return;
   }
   return (
-    <div>
-      <Post {...post[0]} />
-    </div>
+    <section>
+      <Post {...post} />
+      {/* //todo comments */}
+    </section>
   );
 }

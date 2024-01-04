@@ -1,5 +1,3 @@
-import { Twitter } from 'lucide-react';
-
 export function formatRelativeTime(isoTimestamp: string): string {
   const timestampDate = new Date(isoTimestamp);
   const timestamp = Math.floor(timestampDate.getTime() / 1000); // Convert to seconds

@@ -1,29 +1,29 @@
 import { checkForFollowedUser } from '@/app/(main)/[profileId]/actions';
-import { Session } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 import PostDropdown from './post-dropdown';
 
 type PostAsyncActionsType = {
   postId: string;
-  session: Session | null;
-  createdById: string;
+  user: User | null;
+  createdBy: string;
 };
 
 export default async function PostAsyncActions({
-  session,
+  user,
   postId,
-  createdById,
+  createdBy,
 }: PostAsyncActionsType) {
-  if (!session) {
+  if (!user) {
     return;
   }
 
-  const { data } = await checkForFollowedUser(session.user.id, createdById);
+  const { data } = await checkForFollowedUser(user.id, createdBy);
 
   return (
     <PostDropdown
       postId={postId}
-      user={session.user}
-      createdById={createdById}
+      user={user}
+      createdById={createdBy}
       followingData={data}
     />
   );

@@ -1,40 +1,36 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import FollowButton from './follow-button';
-import { Session } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 import { checkForFollowedUser } from '../actions';
 
 type ProfileActionsType = {
-  session: Session | null;
+  user: User | null;
   profileId: string;
   id: string;
 };
 
 export default async function ProfileActions({
-  session,
+  user,
   profileId,
   id,
 }: ProfileActionsType) {
-  if (!session) {
+  if (!user) {
     return;
   }
 
-  const { data } = await checkForFollowedUser(session?.user.id, id);
+  const { data } = await checkForFollowedUser(user?.id, id);
 
   return (
     <div className="flex gap-2.5 max-sm:flex-col">
-      {session?.user.user_metadata.username === profileId ? (
+      {user.user_metadata.username === profileId ? (
         <Button asChild variant={'outline'}>
           <Link href="/setting">Edit Profile</Link>
         </Button>
       ) : (
         <>
           <Button variant={'outline'}>Get in touch</Button>
-          <FollowButton
-            userId={session?.user.id}
-            followId={id}
-            followed={data}
-          />
+          <FollowButton userId={user.id} followId={id} followed={data} />
         </>
       )}
     </div>

@@ -15,6 +15,7 @@ export async function middleware(request: NextRequest) {
     const {
       data: { session },
     } = await supabase.auth.getSession();
+    console.log(session);
 
     const sessionCookies = {
       name: 'sb-duncazsaiuxemkuxyfpm-auth-token',

@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Facebook, LinkIcon, TwitterIcon } from 'lucide-react';
-import readUserSession from '@/lib/actions';
 import ProfileActions from './profile-actions';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
@@ -33,8 +32,8 @@ export default async function ProfileHeader({
   const supabase = createSupabaseServerClient(cookieStore);
 
   const {
-    data: { session },
-  } = await readUserSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: followers } = await supabase
     .from('follows')
@@ -75,7 +74,7 @@ export default async function ProfileHeader({
           )}
         </div>
 
-        <ProfileActions session={session} profileId={profileId} id={id} />
+        <ProfileActions user={user} profileId={profileId} id={id} />
       </div>
 
       <div className="w-full py-3">
@@ -109,7 +108,7 @@ export default async function ProfileHeader({
             <Link
               href={linkUrlChecker(social_link_one)}
               target="_blank"
-              rel="noferrer"
+              rel="noreferrer"
             >
               {urlIcon(social_link_one)}
               {social_link_one}
@@ -121,7 +120,7 @@ export default async function ProfileHeader({
             <Link
               href={linkUrlChecker(social_link_two)}
               target="_blank"
-              rel="noferrer"
+              rel="noreferrer"
             >
               {urlIcon(social_link_two)}
               {social_link_two}
@@ -133,7 +132,7 @@ export default async function ProfileHeader({
             <Link
               href={linkUrlChecker(social_link_three)}
               target="_blank"
-              rel="noferrer"
+              rel="noreferrer"
             >
               {urlIcon(social_link_three)}
               {social_link_three}

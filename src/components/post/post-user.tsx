@@ -15,16 +15,17 @@ export default async function PostUser({ createdBy, createdAt }: PostUserType) {
   const { data: userData } = await supabase
     .from('profile')
     .select('*')
-    .eq('id', createdBy);
+    .eq('id', createdBy)
+    .single();
 
   return (
     <div className="flex items-center gap-1.5">
-      <h4 className="font-semibold">{userData && userData[0].display_name}</h4>
+      <h4 className="font-semibold">{userData && userData.display_name}</h4>
       <Link
-        href={`/${userData && userData[0].username}`}
+        href={`/${userData && userData.username}`}
         className="text-fadeText dark:text-fadeText-dark hover:underline"
       >
-        {userData && `@${userData[0].username}`}
+        {userData && `@${userData.username}`}
       </Link>
       <span className="max-[380px]:hidden">&#x2022;</span>
       <p className="text-sm max-[380px]:hidden max-[420px]:text-xs">

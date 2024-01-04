@@ -11,10 +11,12 @@ import SidebarState from './sidebar-state';
 import readUserSession from '@/lib/actions';
 
 export default async function Sidebar() {
-  const { data } = await readUserSession();
+  const {
+    data: { session },
+  } = await readUserSession();
 
-  const username = data.session?.user.user_metadata.username;
-  const displayName = data.session?.user.user_metadata.display_name;
+  const username = session?.user.user_metadata.username;
+  const displayName = session?.user.user_metadata.display_name;
 
   const sidebarLinks = [
     {
@@ -58,7 +60,7 @@ export default async function Sidebar() {
       </nav>
 
       <SidebarState
-        session={data.session}
+        session={session}
         username={username}
         display_name={displayName}
       />
