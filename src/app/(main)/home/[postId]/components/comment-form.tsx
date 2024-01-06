@@ -18,6 +18,7 @@ import { Loader2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
+import { usePathname } from 'next/navigation';
 
 type CommentFormType = {
   postId: string;
@@ -26,6 +27,7 @@ type CommentFormType = {
 
 export default function CommentForm({ postId, userId }: CommentFormType) {
   const [isPending, startTransition] = useTransition();
+  const path = usePathname();
 
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
@@ -36,7 +38,7 @@ export default function CommentForm({ postId, userId }: CommentFormType) {
 
   function onSubmit(data: z.infer<typeof PostSchema>) {
     startTransition(async () => {
-      const { error } = await createComment(data.content, postId, userId);
+      const { error } = await createComment(data.content, postId, userId, path);
       if (!error?.message) {
         toast.success('Sent!');
         form.reset();
@@ -59,7 +61,7 @@ export default function CommentForm({ postId, userId }: CommentFormType) {
             <FormItem className="w-full">
               <FormControl>
                 <Textarea
-                  placeholder="What's happening?!"
+                  placeholder="Post your reply."
                   className="resize-none rounded-lg"
                   {...field}
                   onChange={field.onChange}
@@ -76,7 +78,7 @@ export default function CommentForm({ postId, userId }: CommentFormType) {
           aria-disabled={isPending}
         >
           {isPending && <Loader2 className="animate-spin mr-1" />}
-          Replay
+          Reply
         </Button>
       </form>
     </Form>

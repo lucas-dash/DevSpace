@@ -8,7 +8,7 @@ type PostAsyncActionsType = {
   createdBy: string;
 };
 
-export default async function PostAsyncActions({
+export default async function PostActions({
   user,
   postId,
   createdBy,

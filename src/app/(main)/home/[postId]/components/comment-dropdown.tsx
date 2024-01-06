@@ -6,27 +6,25 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '../ui/button';
-import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
-import Link from 'next/link';
-import { User } from '@supabase/supabase-js';
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import DeleteAlert from './delete-alert';
+import { Button } from '@/components/ui/button';
+import { MoreHorizontal, Trash2 } from 'lucide-react';
 import FollowButton from '@/app/(main)/[profileId]/components/follow-button';
+import DeleteAlert from '@/components/post/delete-alert';
 
-type PostDropdownType = {
-  postId: string;
-  user: User;
-  createdById: string;
+type CommentDropdownType = {
+  activeUser: string;
+  createdBy: string;
   followingData: Following[] | null;
+  commentId: string;
 };
 
-export default function PostDropdown({
-  postId,
-  createdById,
-  user,
+export default function CommentDropdown({
+  activeUser,
+  createdBy,
   followingData,
-}: PostDropdownType) {
+  commentId,
+}: CommentDropdownType) {
   return (
     <AlertDialog>
       <DropdownMenu>
@@ -36,17 +34,8 @@ export default function PostDropdown({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="rounded-lg">
-          {user.id === createdById ? (
+          {activeUser === createdBy ? (
             <>
-              <DropdownMenuItem className="font-semibold">
-                <Pencil className="mr-1.5" size={18} />
-                <Link
-                  href={`/${user.user_metadata.username}/${postId}`}
-                  className="w-full"
-                >
-                  Edit
-                </Link>
-              </DropdownMenuItem>
               <DropdownMenuItem>
                 <AlertDialogTrigger className="flex items-center text-red-500 dark:text-red-700 hover:text-red-500 dark:hover:text-red-700 w-full font-semibold">
                   <Trash2
@@ -60,15 +49,15 @@ export default function PostDropdown({
           ) : (
             <DropdownMenuItem>
               <FollowButton
-                followId={createdById}
-                userId={user.id}
+                followId={createdBy}
+                userId={activeUser}
                 followed={followingData}
               />
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-      <DeleteAlert id={postId} type="Post" />
+      <DeleteAlert id={commentId} type="Comment" />
     </AlertDialog>
   );
 }

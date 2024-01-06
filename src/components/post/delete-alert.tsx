@@ -12,21 +12,39 @@ import { useTransition } from 'react';
 import { deletePostById } from '@/app/(main)/home/actions';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { deleteCommentById } from '@/lib/actions/comments';
 
-export default function DeleteAlert({ id }: { id: string }) {
+type DeleteAlertType = {
+  id: string;
+  type: 'Post' | 'Comment';
+};
+
+export default function DeleteAlert({ id, type }: DeleteAlertType) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const deleteOnSubmit = () => {
     startTransition(async () => {
-      const result = await deletePostById(id);
-      const { error } = JSON.parse(result);
+      if (type === 'Post') {
+        const { error } = await deletePostById(id);
 
-      if (error?.message) {
-        toast.warning(error?.message);
-      } else {
-        toast.success('The post has been deleted!');
-        router.refresh();
+        if (error?.message) {
+          toast.error(error?.message);
+        } else {
+          toast.success('The post has been deleted!');
+          router.refresh();
+        }
+      }
+
+      if (type === 'Comment') {
+        const { error } = await deleteCommentById(id);
+
+        if (error?.message) {
+          toast.error(error?.message);
+        } else {
+          toast.success('The comment has been deleted!');
+          router.refresh();
+        }
       }
     });
   };
@@ -36,7 +54,8 @@ export default function DeleteAlert({ id }: { id: string }) {
       <AlertDialogHeader>
         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
         <AlertDialogDescription>
-          This action cannot be undone. This will permanently delete your post.
+          This action cannot be undone. This will permanently delete your{' '}
+          {type === 'Post' ? 'post' : 'comment'}.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>

@@ -13,7 +13,7 @@ export default async function Auth() {
   }
 
   return (
-    <div className="flex flex-col items-center relative min-h-screen">
+    <section className="flex flex-col items-center relative min-h-screen">
       <HomeNav />
 
       <h1 className="text-4xl sm:text-5xl md:text-6xl text-secondary dark:text-secondary-dark font-semibold text-center p-5">
@@ -31,6 +31,6 @@ export default async function Auth() {
       <div className="rounded-full bg-secondary dark:bg-secondary-dark absolute h-[100px] w-[100px] left-[6%] top-[24%] -z-10"></div>
 
       <div className="rounded-full bg-secondary dark:bg-secondary-dark absolute h-[100px] w-[100px] left-9 sm:left-[42%] bottom-[6%] -z-10"></div>
-    </div>
+    </section>
   );
 }

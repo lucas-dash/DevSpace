@@ -53,7 +53,7 @@ export async function deletePostById(id: string) {
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase.from('posts').delete().eq('id', id);
   revalidatePath('/home');
-  return JSON.stringify(result);
+  return result;
 }
 
 // post actions
