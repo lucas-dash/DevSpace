@@ -4,10 +4,14 @@ import { cookies } from 'next/headers';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 type CreateCommentType = {
-  postId: string;
+  postId?: string;
+  commentId?: string;
 };
 
-export default async function CreateComment({ postId }: CreateCommentType) {
+export default async function CreateComment({
+  postId,
+  commentId,
+}: CreateCommentType) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 
@@ -22,7 +26,7 @@ export default async function CreateComment({ postId }: CreateCommentType) {
       <div className="max-[480px]:hidden">
         <UserAvatar />
       </div>
-      <CommentForm postId={postId} userId={user?.id} />
+      <CommentForm postId={postId} userId={user?.id} commentId={commentId} />
     </section>
   );
 }

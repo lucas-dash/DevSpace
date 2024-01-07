@@ -7,6 +7,7 @@ import {
   checkRepostedPost,
 } from '@/app/(main)/home/actions';
 import PostUserActions from './post-user-actions';
+import { getPostCommentsNumber } from '@/lib/actions/comments';
 
 type PostInteractionType = {
   postId: string;
@@ -30,6 +31,8 @@ export default async function PostInteraction({
   const { data: reposted } = await checkRepostedPost(postId, userId);
   const { data: reposts } = await getRepostsByPostId(postId);
 
+  const { data: comments } = await getPostCommentsNumber(postId);
+
   return (
     <PostUserActions
       postId={postId}
@@ -40,6 +43,7 @@ export default async function PostInteraction({
       bookmarks={bookmarks?.length}
       reposted={reposted}
       reposts={reposts?.length}
+      comments={comments?.length}
     />
   );
 }

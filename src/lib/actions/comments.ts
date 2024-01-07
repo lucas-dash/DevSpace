@@ -23,13 +23,6 @@ export async function createComment(
   return result;
 }
 
-export async function replayToComment(
-  parentComment: string,
-  post_id: string,
-  user_id: string,
-  content: string
-) {}
-
 export async function deleteCommentById(commentId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
@@ -41,3 +34,34 @@ export async function deleteCommentById(commentId: string) {
 
   return result;
 }
+
+export async function replayToComment(
+  content: string,
+  parentComment: string,
+  user_id: string,
+  path: string
+) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
+  const result = supabase.from('comments').insert({
+    content,
+    user_id,
+    post_id: null,
+    parentCommentId: parentComment,
+  });
+
+  revalidatePath(path);
+
+  return result;
+}
+
+export async function getPostCommentsNumber(post_id: string) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
+  const result = supabase.from('comments').select().eq('post_id', post_id);
+  return result;
+}
+
+export async function likeComment() {}

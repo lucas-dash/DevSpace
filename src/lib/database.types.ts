@@ -51,7 +51,7 @@ export interface Database {
           content: string;
           created_at: string;
           parentCommentId: string | null;
-          post_id: string;
+          post_id: string | null;
           user_id: string;
         };
         Insert: {
@@ -59,7 +59,7 @@ export interface Database {
           content: string;
           created_at?: string;
           parentCommentId?: string | null;
-          post_id: string;
+          post_id: string | null;
           user_id: string;
         };
         Update: {
@@ -67,7 +67,7 @@ export interface Database {
           content?: string;
           created_at?: string;
           parentCommentId?: string | null;
-          post_id?: string;
+          post_id?: string | null;
           user_id?: string;
         };
         Relationships: [

@@ -22,6 +22,7 @@ type PostUserActionsType = {
   bookmarks: number | undefined;
   reposted: Reposts | null;
   reposts: number | undefined;
+  comments: number | undefined;
 };
 
 export default function PostUserActions({
@@ -33,6 +34,7 @@ export default function PostUserActions({
   bookmarks,
   reposted,
   reposts,
+  comments,
 }: PostUserActionsType) {
   // likes actions
   const handleLikeButton = async () => {
@@ -103,7 +105,7 @@ export default function PostUserActions({
           >
             <MessageCircle size={18} />
           </Button>
-          <p className="font-medium">0</p>
+          <p className="font-medium">{comments}</p>
         </div>
       </Link>
 

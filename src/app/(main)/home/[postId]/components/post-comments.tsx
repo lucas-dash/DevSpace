@@ -17,7 +17,7 @@ export default async function PostComments({ postId }: UserCommentsType) {
     .order('created_at', { ascending: false });
 
   return (
-    <section className="flex flex-col gap-5">
+    <section className="flex flex-col gap-2">
       {comments?.map((comment) => (
         <Comment key={comment.comment_id} {...comment} />
       ))}

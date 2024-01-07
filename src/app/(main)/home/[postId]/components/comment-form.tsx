@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { PostSchema } from '@/lib/validations';
-import { createComment } from '@/lib/actions/comments';
+import { createComment, replayToComment } from '@/lib/actions/comments';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -21,11 +21,16 @@ import { toast } from 'sonner';
 import { usePathname } from 'next/navigation';
 
 type CommentFormType = {
-  postId: string;
+  postId?: string;
   userId: string;
+  commentId?: string;
 };
 
-export default function CommentForm({ postId, userId }: CommentFormType) {
+export default function CommentForm({
+  postId,
+  userId,
+  commentId,
+}: CommentFormType) {
   const [isPending, startTransition] = useTransition();
   const path = usePathname();
 
@@ -38,12 +43,35 @@ export default function CommentForm({ postId, userId }: CommentFormType) {
 
   function onSubmit(data: z.infer<typeof PostSchema>) {
     startTransition(async () => {
-      const { error } = await createComment(data.content, postId, userId, path);
-      if (!error?.message) {
-        toast.success('Sent!');
-        form.reset();
-      } else {
-        toast.error(error?.message);
+      if (commentId) {
+        const { error } = await replayToComment(
+          data.content,
+          commentId,
+          userId,
+          path
+        );
+
+        if (!error?.message) {
+          toast.success('Sent!');
+          form.reset();
+        } else {
+          toast.error(error?.message);
+        }
+      }
+
+      if (postId) {
+        const { error } = await createComment(
+          data.content,
+          postId,
+          userId,
+          path
+        );
+        if (!error?.message) {
+          toast.success('Sent!');
+          form.reset();
+        } else {
+          toast.error(error?.message);
+        }
       }
     });
   }
