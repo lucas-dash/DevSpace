@@ -27,9 +27,11 @@ export default function SidebarState({
 
   return (
     <div className="flex flex-col items-center gap-5 w-full">
-      <Button variant={'accent'} size={'lg'} className="rounded-2xl">
-        New Post
-      </Button>
+      <Link href={`?modal=true`}>
+        <Button variant={'accent'} size={'lg'} className="rounded-2xl">
+          New Post
+        </Button>
+      </Link>
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-2.5">
           <UserAvatar userId={session.user.id} />

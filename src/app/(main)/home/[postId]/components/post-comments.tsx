@@ -2,11 +2,11 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
 import Comment from './comment';
 
-type UserCommentsType = {
+type PostCommentsType = {
   postId: string;
 };
 
-export default async function PostComments({ postId }: UserCommentsType) {
+export default async function PostComments({ postId }: PostCommentsType) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 

@@ -6,6 +6,7 @@ import { cookies } from 'next/headers';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import ChildComment from './child-comment';
 import CreateComment from './create-comment';
+import Modal from '@/components/Modal';
 
 export default async function Comment({
   content,
@@ -35,11 +36,12 @@ export default async function Comment({
             <CommentActions createdBy={user_id} commentId={comment_id} />
           </div>
           <p className="py-1">{content}</p>
-          <CommentInteraction comments={childComments?.length} />
+          <CommentInteraction
+            comments={childComments?.length}
+            commentId={comment_id}
+          />
         </div>
       </article>
-
-      {/* <CreateComment commentId={comment_id} /> */}
 
       {/* child comment styling */}
 

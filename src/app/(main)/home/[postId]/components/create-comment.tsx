@@ -19,6 +19,7 @@ export default async function CreateComment({
     data: { user },
   } = await supabase.auth.getUser();
 
+  // delete user.id from supabase table and automatic asign user.id
   if (!user) return;
 
   return (

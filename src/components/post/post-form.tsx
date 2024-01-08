@@ -18,8 +18,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { useTransition } from 'react';
 import { createPost } from '@/app/(main)/home/actions';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
-export default function PostForm() {
+export default function PostForm({ modalPost }: { modalPost?: boolean }) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof PostSchema>>({
@@ -37,6 +39,9 @@ export default function PostForm() {
       if (!error?.message) {
         toast.success('Posted!');
         form.reset();
+        if (modalPost) {
+          router.back();
+        }
       } else {
         toast.error(error?.message);
       }

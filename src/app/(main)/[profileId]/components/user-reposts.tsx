@@ -10,7 +10,8 @@ export default async function UserReposts({ userId }: { userId: string }) {
   const { data: reposts } = await supabase
     .from('reposts')
     .select()
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
 
   const { data: posts } = await readPosts();
 

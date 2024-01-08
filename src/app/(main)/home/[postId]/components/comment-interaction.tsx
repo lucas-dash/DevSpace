@@ -6,15 +6,17 @@ import Link from 'next/link';
 
 type CommentInteractionType = {
   comments?: number | undefined;
+  commentId: string;
 };
 
 export default function CommentInteraction({
   comments,
+  commentId,
 }: CommentInteractionType) {
   return (
     <div className="flex items-center gap-5">
       <div className="flex items-center text-sm gap-1">
-        <Link href={'/'}>
+        <Link href={`?comment=${commentId}`}>
           <Button
             size={'icon'}
             className="rounded-full hover:text-blue-500 dark:hover:text-blue-600"
