@@ -61,6 +61,7 @@ export async function deletePostById(id: string) {
 export async function likePost(postId: string, userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
+
   const result = await supabase
     .from('likes')
     .insert({ post_id: postId, user_id: userId });

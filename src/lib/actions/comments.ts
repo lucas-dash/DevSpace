@@ -7,7 +7,6 @@ import { revalidatePath } from 'next/cache';
 export async function createComment(
   content: string,
   post_id: string,
-  user_id: string,
   path: string
 ) {
   const cookieStore = cookies();
@@ -15,7 +14,7 @@ export async function createComment(
 
   const result = await supabase
     .from('comments')
-    .insert({ content, post_id, user_id })
+    .insert({ content, post_id })
     .single();
 
   revalidatePath(path);
@@ -35,10 +34,9 @@ export async function deleteCommentById(commentId: string) {
   return result;
 }
 
-export async function replayToComment(
+export async function replyToComment(
   content: string,
   parentComment: string,
-  user_id: string,
   path: string
 ) {
   const cookieStore = cookies();
@@ -46,7 +44,6 @@ export async function replayToComment(
 
   const result = supabase.from('comments').insert({
     content,
-    user_id,
     post_id: null,
     parentCommentId: parentComment,
   });
@@ -64,4 +61,52 @@ export async function getPostCommentsNumber(post_id: string) {
   return result;
 }
 
-export async function likeComment() {}
+export async function likeComment(commentId: string, userId: string) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+  const result = await supabase
+    .from('likes')
+    .insert({ comment_id: commentId, user_id: userId });
+
+  revalidatePath('/home');
+  return result;
+}
+
+export async function unlikeComment(commentId: string, userId: string) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
+  const result = await supabase
+    .from('likes')
+    .delete()
+    .eq('comment_id', commentId)
+    .eq('user_id', userId);
+  revalidatePath('/home');
+
+  return result;
+}
+
+export async function checkLikedComment(commentId: string, userId: string) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
+  const result = await supabase
+    .from('likes')
+    .select()
+    .eq('comment_id', commentId)
+    .eq('user_id', userId)
+    .single();
+
+  return result;
+}
+
+export async function getLikesByCommentId(commentId: string) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+  const result = await supabase
+    .from('likes')
+    .select()
+    .eq('comment_id', commentId);
+
+  return result;
+}

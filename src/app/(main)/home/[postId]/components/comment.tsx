@@ -5,15 +5,12 @@ import CommentInteraction from './comment-interaction';
 import { cookies } from 'next/headers';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import ChildComment from './child-comment';
-import CreateComment from './create-comment';
-import Modal from '@/components/Modal';
+import { checkLikedComment, getLikesByCommentId } from '@/lib/actions/comments';
 
 export default async function Comment({
   content,
   user_id,
   created_at,
-  parentCommentId,
-  post_id,
   comment_id,
 }: Comments) {
   const cookieStore = cookies();
@@ -24,6 +21,9 @@ export default async function Comment({
     .select()
     .eq('parentCommentId', comment_id)
     .order('created_at', { ascending: false });
+
+  const { data: liked } = await checkLikedComment(comment_id, user_id);
+  const { data: likes } = await getLikesByCommentId(comment_id);
 
   return (
     <section className="border-t border-slate-200 dark:border-slate-600">
@@ -39,6 +39,9 @@ export default async function Comment({
           <CommentInteraction
             comments={childComments?.length}
             commentId={comment_id}
+            userId={user_id}
+            liked={liked}
+            likes={likes?.length}
           />
         </div>
       </article>

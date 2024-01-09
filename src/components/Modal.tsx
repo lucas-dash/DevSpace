@@ -32,7 +32,11 @@ export default function Modal({ className, ...props }: ModalProps) {
               </DialogTitle>
             </DialogHeader>
 
-            {comment ? <div>{comment}</div> : <PostForm modalPost />}
+            {comment ? (
+              <CommentForm commentId={comment} modal />
+            ) : (
+              <PostForm modalPost />
+            )}
           </DialogContent>
         </Dialog>
       )}
