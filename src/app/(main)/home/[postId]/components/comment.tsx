@@ -25,9 +25,16 @@ export default async function Comment({
   const { data: liked } = await checkLikedComment(comment_id, user_id);
   const { data: likes } = await getLikesByCommentId(comment_id);
 
+  const avatarStyle = childComments?.some(
+    (comment) => comment.parentCommentId === comment_id
+  );
+
   return (
-    <section className="border-t border-slate-200 dark:border-slate-600">
-      <article className="p-2.5 flex gap-3.5">
+    <section className="border-t border-slate-200 dark:border-slate-600 py-2.5">
+      <article className={'px-2.5 flex gap-3.5 relative'}>
+        {avatarStyle && (
+          <div className="border-l-2 border-slate-200 dark:border-slate-600 absolute top-1/2 left-7 h-20"></div>
+        )}
         <UserAvatar userId={user_id} />
 
         <div className="flex-1">
@@ -45,8 +52,6 @@ export default async function Comment({
           />
         </div>
       </article>
-
-      {/* child comment styling */}
 
       {childComments?.length !== 0 &&
         childComments?.map((comment) => (

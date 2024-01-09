@@ -24,9 +24,24 @@ export default async function ChildComment({
   const { data: liked } = await checkLikedComment(comment_id, user_id);
   const { data: likes } = await getLikesByCommentId(comment_id);
 
+  const avatarStyle = childComments?.some(
+    (comment) => comment.parentCommentId === comment_id
+  );
+
+  const commentDivider = childComments?.some(
+    (comment) => comment.parentCommentId === comment_id
+  );
+
   return (
-    <section>
-      <article className="px-5 py-2.5 flex gap-3.5">
+    <section
+      className={`ml-7 border-l-2 border-slate-200 dark:border-slate-600 ${
+        commentDivider && 'border-b border-slate-200 dark:border-slate-600'
+      }`}
+    >
+      <article className={`pl-3 py-2.5 flex gap-3.5 relative `}>
+        {avatarStyle && (
+          <div className="border-l-2 border-slate-200 dark:border-slate-600 absolute top-1/2 left-7 h-20"></div>
+        )}
         <UserAvatar userId={user_id} />
 
         <div className="flex-1">

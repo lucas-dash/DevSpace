@@ -19,7 +19,7 @@ export default async function PostUser({ createdBy, createdAt }: PostUserType) {
     .single();
 
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-1.5 flex-wrap">
       <h4 className="font-semibold">{userData && userData.display_name}</h4>
       <Link
         href={`/${userData && userData.username}`}
@@ -27,8 +27,8 @@ export default async function PostUser({ createdBy, createdAt }: PostUserType) {
       >
         {userData && `@${userData.username}`}
       </Link>
-      <span className="max-[380px]:hidden">&#x2022;</span>
       <p className="text-sm max-[380px]:hidden max-[420px]:text-xs">
+        <span className="mr-1">&#x2022;</span>
         {formatRelativeTime(createdAt)}
       </p>
     </div>
