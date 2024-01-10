@@ -61,7 +61,7 @@ export default function PostForm({ modalPost }: { modalPost?: boolean }) {
             <FormItem className="w-full">
               <FormControl>
                 <Textarea
-                  placeholder="What's happening?!"
+                  placeholder="What are you working on?"
                   className="resize-none rounded-lg"
                   {...field}
                   onChange={field.onChange}

@@ -102,6 +102,7 @@ export default function PostUserActions({
             size={'icon'}
             className="rounded-full hover:text-blue-500 dark:hover:text-blue-600"
             variant={'ghost'}
+            aria-label="link to comments of this post"
           >
             <MessageCircle size={18} />
           </Button>
@@ -117,6 +118,7 @@ export default function PostUserActions({
           }`}
           variant={'ghost'}
           onClick={!reposted ? handleRepostButton : handleUnrepostButton}
+          aria-label="repost post"
         >
           <Repeat2 size={18} />
         </Button>
@@ -131,6 +133,7 @@ export default function PostUserActions({
           }`}
           variant={'ghost'}
           onClick={!liked ? handleLikeButton : handleUnlikeButton}
+          aria-label="like post"
         >
           <Heart
             size={18}
@@ -147,6 +150,7 @@ export default function PostUserActions({
             bookmarked ? 'text-orange-500 dark:text-orange-600' : ''
           }`}
           variant={'ghost'}
+          aria-label="bookmark post"
           onClick={!bookmarked ? handleBookmarkButton : handleUnbookmarkButton}
         >
           <Bookmark

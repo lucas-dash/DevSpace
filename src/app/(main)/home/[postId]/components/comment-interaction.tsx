@@ -45,13 +45,14 @@ export default function CommentInteraction({
   return (
     <div className="flex items-center gap-5">
       <div className="flex items-center text-sm gap-1">
-        <Link
-          href={`${userId ? `${createdBy}?comment=${commentId}` : '/auth'}`}
-        >
+        <Link href={`${userId ? `?comment=${commentId}` : '/auth'}`}>
           <Button
             size={'icon'}
             className="rounded-full hover:text-blue-500 dark:hover:text-blue-600"
             variant={'ghost'}
+            aria-label={`${
+              userId ? 'comment button' : 'you must be login to comment'
+            }`}
           >
             <MessageCircle size={18} />
           </Button>
@@ -66,7 +67,9 @@ export default function CommentInteraction({
             liked ? 'text-red-500 dark:text-red-600' : ''
           }`}
           variant={'ghost'}
+          aria-label="like comment"
           disabled={!userId}
+          aria-disabled={!userId}
           onClick={!liked ? handleLikeButton : handleUnlikeButton}
         >
           <Heart

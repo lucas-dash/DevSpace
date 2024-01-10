@@ -10,6 +10,7 @@ import {
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { ModeToggle } from './ui/mode-toggle';
+import NavigationButtons from './navigation-buttons';
 
 export default function Navbar() {
   return (
@@ -26,14 +27,7 @@ export default function Navbar() {
           </h3>
         </Link>
 
-        <div className="flex items-center max-sm:hidden">
-          <Button variant={'ghost'} size={'icon'} className="rounded-full">
-            <ChevronLeft />
-          </Button>
-          <Button variant={'ghost'} size={'icon'} className="rounded-full">
-            <ChevronRight />
-          </Button>
-        </div>
+        <NavigationButtons />
       </div>
 
       <div className="flex items-center gap-1 sm:gap-3">
