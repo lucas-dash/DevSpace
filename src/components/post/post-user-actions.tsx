@@ -95,7 +95,7 @@ export default function PostUserActions({
   };
 
   return (
-    <div className="flex items-center justify-between pr-2">
+    <div className="flex items-center justify-between min-[390px]:justify-evenly ">
       <Link href={`/home/${postId}`}>
         <div className="flex items-center text-sm gap-1">
           <Button

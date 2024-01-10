@@ -9,20 +9,22 @@ import { likeComment, unlikeComment } from '@/lib/actions/comments';
 type CommentInteractionType = {
   comments?: number | undefined;
   commentId: string;
-  userId: string;
+  createdBy: string;
   liked: Likes | null;
   likes: number | undefined;
+  userId: string | undefined;
 };
 
 export default function CommentInteraction({
   comments,
   commentId,
-  userId,
+  createdBy,
   liked,
   likes,
+  userId,
 }: CommentInteractionType) {
   const handleLikeButton = async () => {
-    const { error } = await likeComment(commentId, userId);
+    const { error } = await likeComment(commentId, createdBy);
     if (!error?.message) {
       toast.success('Liked!');
     } else {
@@ -31,7 +33,7 @@ export default function CommentInteraction({
   };
 
   const handleUnlikeButton = async () => {
-    const { error } = await unlikeComment(commentId, userId);
+    const { error } = await unlikeComment(commentId, createdBy);
 
     if (!error?.message) {
       toast.success('Unliked!');
@@ -43,7 +45,9 @@ export default function CommentInteraction({
   return (
     <div className="flex items-center gap-5">
       <div className="flex items-center text-sm gap-1">
-        <Link href={`?comment=${commentId}`}>
+        <Link
+          href={`${userId ? `${createdBy}?comment=${commentId}` : '/auth'}`}
+        >
           <Button
             size={'icon'}
             className="rounded-full hover:text-blue-500 dark:hover:text-blue-600"
@@ -62,6 +66,7 @@ export default function CommentInteraction({
             liked ? 'text-red-500 dark:text-red-600' : ''
           }`}
           variant={'ghost'}
+          disabled={!userId}
           onClick={!liked ? handleLikeButton : handleUnlikeButton}
         >
           <Heart

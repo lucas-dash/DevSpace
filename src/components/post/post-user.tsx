@@ -19,11 +19,11 @@ export default async function PostUser({ createdBy, createdAt }: PostUserType) {
     .single();
 
   return (
-    <div className="flex items-center gap-1.5 flex-wrap">
+    <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
       <h4 className="font-semibold">{userData && userData.display_name}</h4>
       <Link
         href={`/${userData && userData.username}`}
-        className="text-fadeText dark:text-fadeText-dark hover:underline"
+        className="text-fadeText dark:text-fadeText-dark hover:underline max-[380px]:text-sm"
       >
         {userData && `@${userData.username}`}
       </Link>

@@ -39,8 +39,12 @@ export default async function PostId({ params: { postId } }: PostType) {
   return (
     <section className="flex flex-col gap-5 bg-primary dark:bg-primary-dark rounded-2xl py-2 px-1.5">
       <Post {...post} />
-      <hr className="border-slate-200 dark:border-slate-600" />
-      {session && <CreateComment postId={postId} />}
+      {session && (
+        <>
+          <hr className="border-slate-200 dark:border-slate-600" />
+          <CreateComment postId={postId} />
+        </>
+      )}
       <PostComments postId={postId} />
     </section>
   );

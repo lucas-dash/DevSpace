@@ -1,31 +1,24 @@
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
 import CommentDropdown from './comment-dropdown';
 import { checkForFollowedUser } from '@/app/(main)/[profileId]/actions';
 
 type CommentActionsType = {
   createdBy: string;
   commentId: string;
+  userId: string | undefined;
 };
 
 export default async function CommentActions({
   createdBy,
   commentId,
+  userId,
 }: CommentActionsType) {
-  const cookieStore = cookies();
-  const supabase = createSupabaseServerClient(cookieStore);
+  if (!userId) return;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return;
-
-  const { data: followData } = await checkForFollowedUser(user?.id, createdBy);
+  const { data: followData } = await checkForFollowedUser(userId, createdBy);
 
   return (
     <CommentDropdown
-      activeUser={user.id}
+      activeUser={userId}
       createdBy={createdBy}
       followingData={followData}
       commentId={commentId}

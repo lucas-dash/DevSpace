@@ -20,21 +20,22 @@ export default async function Post({
   } = await supabase.auth.getUser();
 
   return (
-    <article className="w-full bg-primary dark:bg-primary-dark rounded-2xl p-2.5 flex gap-3.5">
-      <UserAvatar userId={created_by} />
+    <article className="w-full bg-primary dark:bg-primary-dark rounded-2xl p-2.5">
+      <div className="flex gap-3.5">
+        <UserAvatar userId={created_by} />
+        <div className="flex-1">
+          <div className="flex items-center justify-between">
+            <PostUser createdBy={created_by} createdAt={created_at} />
 
-      <div className="flex-1">
-        <div className="flex items-center justify-between">
-          <PostUser createdBy={created_by} createdAt={created_at} />
+            <PostActions postId={id} user={user} createdBy={created_by} />
+          </div>
 
-          <PostActions postId={id} user={user} createdBy={created_by} />
+          <Link href={`home/${id}`}>
+            <p className="py-1">{content}</p>
+          </Link>
         </div>
-
-        <Link href={`home/${id}`}>
-          <p className="py-1">{content}</p>
-        </Link>
-        <PostInteraction userId={user?.id} postId={id} />
       </div>
+      <PostInteraction userId={user?.id} postId={id} />
     </article>
   );
 }
