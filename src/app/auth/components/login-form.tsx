@@ -15,16 +15,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '../../../components/ui/input';
-import createSupabaseBrowserClient from '@/lib/supabase/client';
+// import createSupabaseBrowserClient from '@/lib/supabase/client';
 import { Loader2 } from 'lucide-react';
 import { useTransition } from 'react';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { logInWithEmailAndPassword } from '../actions';
 
 export default function LoginForm() {
-  const supabase = createSupabaseBrowserClient();
+  // const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -36,14 +35,14 @@ export default function LoginForm() {
 
   function onSubmit(data: z.infer<typeof LoginSchema>) {
     startTransition(async () => {
-      const { error } = await supabase.auth.signInWithPassword(data);
+      // const { error } = await supabase.auth.signInWithPassword(data);
+      const { error } = await logInWithEmailAndPassword(data);
 
       if (error?.message) {
         toast.error(error?.message);
       } else {
         toast.success('Successfully logged in!');
         form.reset();
-        router.refresh();
       }
     });
   }

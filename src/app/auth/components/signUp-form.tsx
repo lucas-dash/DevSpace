@@ -15,16 +15,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '../../../components/ui/input';
-import createSupabaseBrowserClient from '@/lib/supabase/client';
+// import createSupabaseBrowserClient from '@/lib/supabase/client';
 import { useTransition } from 'react';
 import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { signUpWithEmailAndPassword } from '../actions';
 
 export default function SignUpForm() {
-  const supabase = createSupabaseBrowserClient();
+  // const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
@@ -39,24 +38,24 @@ export default function SignUpForm() {
 
   async function onSubmit(data: z.infer<typeof SignUpSchema>) {
     startTransition(async () => {
-      const { error } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-        options: {
-          emailRedirectTo: `${origin}/auth/callback`,
-          data: {
-            username: data.username,
-            display_name: data.name,
-          },
-        },
-      });
+      // const { error } = await supabase.auth.signUp({
+      //   email: data.email,
+      //   password: data.password,
+      //   options: {
+      //     emailRedirectTo: `${origin}/auth/callback`,
+      //     data: {
+      //       username: data.username,
+      //       display_name: data.name,
+      //     },
+      //   },
+      // });
+      const { error } = await signUpWithEmailAndPassword(data);
 
       if (error?.message) {
         toast.error(error?.message);
       } else {
         toast.success('Successfully registered!');
         form.reset();
-        router.refresh();
       }
     });
   }
