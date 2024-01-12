@@ -1,16 +1,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import {
-  AlignRight,
-  BellDot,
-  ChevronLeft,
-  ChevronRight,
-  Search,
-} from 'lucide-react';
+import { AlignRight, BellDot, Search } from 'lucide-react';
 import { Button } from './ui/button';
-import { Input } from './ui/input';
 import { ModeToggle } from './ui/mode-toggle';
 import NavigationButtons from './navigation-buttons';
+import SearchCommand from './search/search-command';
 
 export default function Navbar() {
   return (
@@ -30,22 +24,13 @@ export default function Navbar() {
         <NavigationButtons />
       </div>
 
-      <div className="flex items-center gap-1 sm:gap-3">
+      <div className="flex items-center gap-0 sm:gap-3">
         <Button variant={'ghost'} size={'icon'} className="rounded-full">
           <BellDot />
         </Button>
 
-        {/* <div className="relative">
-          <Search className="max-sm:absolute max-sm:top-1/2 max-sm:-translate-y-1/2 max-sm:left-1" />
-          <Input
-          type="text"
-          placeholder="Search..."
-          className="pl-8 max-sm:hidden"
-          />
-        </div> */}
-        <Button variant={'ghost'} size={'icon'} className="rounded-full">
-          <Search />
-        </Button>
+        <SearchCommand />
+
         <ModeToggle />
         <Button
           variant={'ghost'}

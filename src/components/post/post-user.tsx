@@ -28,7 +28,7 @@ export default async function PostUser({ createdBy, createdAt }: PostUserType) {
         {userData && `@${userData.username}`}
       </Link>
       <p
-        className="text-sm max-[380px]:hidden max-[420px]:text-xs"
+        className="text-sm max-[370px]:hidden max-[420px]:text-xs"
         aria-label="created at"
       >
         <span className="mr-1">&#x2022;</span>

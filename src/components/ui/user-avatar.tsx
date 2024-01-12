@@ -25,12 +25,11 @@ export default async function UserAvatar({ userId }: UserAvatarType) {
 
   if (!userData) return null;
 
-  const nameFallback = userData?.display_name.slice()[0].toUpperCase();
-  const userImage = userData?.avatar_url ? userData?.avatar_url : '';
+  const nameFallback = userData?.display_name[0].toUpperCase();
 
   return (
     <Avatar>
-      <AvatarImage src={userImage} />
+      <AvatarImage src={userData?.avatar_url || ''} />
       <AvatarFallback className="bg-slate-300">{nameFallback}</AvatarFallback>
     </Avatar>
   );

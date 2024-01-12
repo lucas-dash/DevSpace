@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { cookies } from 'next/headers';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import Post from '@/components/post/post';
+import SearchCommand from '@/components/search/search-command';
 
 export default async function Bookmarks() {
   const cookieStore = cookies();
