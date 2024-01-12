@@ -70,7 +70,7 @@ export default function SearchCommand() {
         onClick={() => setOpen(true)}
       >
         <Search className="sm:mr-1" />
-        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 max-sm:hidden">
+        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 max-sm:hidden border-slate-400">
           <span className="text-xs">⌘</span>K
         </kbd>
       </Button>
@@ -81,7 +81,7 @@ export default function SearchCommand() {
             placeholder="Type for search posts..."
             type="text"
             className={
-              'my-3 flex w-full dark:bg-zinc-950 py-3 text-sm outline-none placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 dark:placeholder:text-slate-400'
+              'my-2 flex w-full dark:bg-zinc-950 py-3 text-sm outline-none border-none focus-visible:ring-0 focus-visible:ring-none dark:focus-visible:ring-none placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 dark:placeholder:text-slate-400'
             }
             value={query}
             onChange={(e) => handleSearchInput(e)}
@@ -90,7 +90,7 @@ export default function SearchCommand() {
 
         <CommandList>
           <CommandGroup heading="Searching">
-            {posts === null || posts.length === 0 ? (
+            {posts?.length === 0 ? (
               <p className="py-2 text-center text-sm w-full">No posts found.</p>
             ) : (
               posts?.map((post) => {

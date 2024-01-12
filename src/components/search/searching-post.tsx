@@ -31,7 +31,7 @@ export default function SearchingPost({
   }, [created_by, supabase]);
 
   return (
-    <article className="w-full bg-slate-200 dark:bg-gray-900 rounded-2xl p-2.5">
+    <article className="w-full bg-gray-100 dark:bg-gray-900 rounded-2xl p-2.5">
       <div className="flex gap-2">
         <Avatar>
           <AvatarImage src={user?.avatar_url || ''} />
