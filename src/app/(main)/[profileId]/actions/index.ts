@@ -29,6 +29,10 @@ export async function updateProfileById(
   const { bio, username, name, company, hireEmail, link1, link2, link3, url } =
     data;
 
+  await supabase.auth.updateUser({
+    data: { username: username, display_name: name },
+  });
+
   const result = await supabase
     .from('profile')
     .update({
@@ -44,7 +48,7 @@ export async function updateProfileById(
     })
     .eq('id', id);
 
-  return JSON.stringify(result);
+  return result;
 }
 
 export async function followUser(userId: string, followId: string) {

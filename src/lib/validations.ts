@@ -9,7 +9,7 @@ export const SignUpSchema = z
     username: z
       .string()
       .min(3, { message: 'Username must cointain at least 3 characters' })
-      .max(10)
+      .max(20)
       .toLowerCase(),
     email: z.string().email(),
     password: z

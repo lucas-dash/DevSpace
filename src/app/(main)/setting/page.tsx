@@ -17,7 +17,8 @@ export default async function Setting() {
   const { data: userData } = await supabase
     .from('profile')
     .select()
-    .eq('id', user?.id);
+    .eq('id', user?.id)
+    .single();
 
   return (
     <section className="rounded-2xl bg-primary dark:bg-primary-dark h-full p-6">
@@ -27,7 +28,7 @@ export default async function Setting() {
       </div>
       <hr />
 
-      {userData && <UserProfileSet profile={userData[0]} userId={user.id} />}
+      {userData && <UserProfileSet profile={userData} userId={user.id} />}
     </section>
   );
 }

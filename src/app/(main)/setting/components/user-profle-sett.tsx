@@ -22,6 +22,7 @@ import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { updateProfileById } from '../../[profileId]/actions';
+import createSupabaseBrowserClient from '@/lib/supabase/client';
 
 type UserProfileSetType = {
   userId: string;
@@ -43,6 +44,7 @@ export default function UserProfileSet({
     url,
   },
 }: UserProfileSetType) {
+  const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -63,15 +65,34 @@ export default function UserProfileSet({
   });
 
   function onSubmit(data: z.infer<typeof ProfileSchema>) {
-    startTransition(async () => {
-      const result = await updateProfileById(userId, data);
-      const { error } = JSON.parse(result);
-      if (!error?.message) {
-        toast.success('The profile has been edited!');
-        router.refresh();
-      } else {
-        toast.warning(error?.message);
+    const checkUsername = async () => {
+      let prevUsername = username;
+
+      const { data: userData, error } = await supabase
+        .from('profile')
+        .select()
+        .ilike('username', `%${data.username}%`)
+        .single();
+      if (
+        userData?.username !== data.username ||
+        prevUsername === data.username
+      ) {
+        const { error } = await updateProfileById(userId, data);
+        if (error?.message) {
+          toast.error(error?.message);
+        } else {
+          toast.success('The profile has been edited!');
+          router.refresh();
+        }
+      } else if (!error?.message && userData?.username === data.username) {
+        toast.warning('Username already exists!');
+      } else if (error?.message) {
+        toast.error(error?.message);
       }
+    };
+
+    startTransition(async () => {
+      await checkUsername();
     });
   }
 

@@ -15,14 +15,14 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '../../../components/ui/input';
-// import createSupabaseBrowserClient from '@/lib/supabase/client';
 import { useTransition } from 'react';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { signUpWithEmailAndPassword } from '../actions';
+import createSupabaseBrowserClient from '@/lib/supabase/client';
 
 export default function SignUpForm() {
-  // const supabase = createSupabaseBrowserClient();
+  const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof SignUpSchema>>({
@@ -36,27 +36,29 @@ export default function SignUpForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof SignUpSchema>) {
-    startTransition(async () => {
-      // const { error } = await supabase.auth.signUp({
-      //   email: data.email,
-      //   password: data.password,
-      //   options: {
-      //     emailRedirectTo: `${origin}/auth/callback`,
-      //     data: {
-      //       username: data.username,
-      //       display_name: data.name,
-      //     },
-      //   },
-      // });
-      const { error } = await signUpWithEmailAndPassword(data);
-
-      if (error?.message) {
+  async function onSubmit(formData: z.infer<typeof SignUpSchema>) {
+    const checkAndSignUpUser = async () => {
+      const { data: userData, error } = await supabase
+        .from('profile')
+        .select()
+        .ilike('username', `%${formData.username}%`)
+        .single();
+      if (userData?.username !== formData.username) {
+        const { error } = await signUpWithEmailAndPassword(formData);
+        if (error?.message) {
+          toast.error(error?.message);
+        } else {
+          toast.success('Successfully registered!');
+          form.reset();
+        }
+      } else if (!error?.message && userData?.username === formData.username) {
+        toast.warning('Username already exists!');
+      } else if (error?.message) {
         toast.error(error?.message);
-      } else {
-        toast.success('Successfully registered!');
-        form.reset();
       }
+    };
+    startTransition(async () => {
+      await checkAndSignUpUser();
     });
   }
 

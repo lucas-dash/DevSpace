@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { AlignRight, BellDot, Search } from 'lucide-react';
+import { AlignRight, BellDot } from 'lucide-react';
 import { Button } from './ui/button';
 import { ModeToggle } from './ui/mode-toggle';
 import NavigationButtons from './navigation-buttons';
