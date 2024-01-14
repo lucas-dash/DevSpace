@@ -34,52 +34,57 @@ export default function EmailUpdateForm() {
 
   function onSubmit(data: z.infer<typeof EmailSchema>) {
     startTransition(async () => {
-      //   const result = await updateUserEmail(data.email);
-      //   const { error } = JSON.parse(result);
-      //   if (!error?.message) {
-      //     toast.success('E-mail has been succesfully updated!');
-      //     form.reset();
-      //   } else {
-      //     toast.error(error?.message);
-      //   }
+      const result = await updateUserEmail(data.email);
+      const { error } = JSON.parse(result);
+      if (!error?.message) {
+        toast.success('Check your email inbox to confirm the changes.');
+        form.reset();
+      } else {
+        toast.error(error?.message);
+      }
     });
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className=" w-full flex flex-col gap-2 sm:w-1/2"
-      >
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>New Email</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder="newEmail@email.com"
-                  className="bg-white"
-                  {...field}
-                  onChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button
-          type="submit"
-          className="rounded-2xl w-max"
-          disabled={isPending}
-          aria-disabled={isPending}
+    <section>
+      <h3 className="text-lg font-medium">Update E-mail</h3>
+      <hr className="border-primary-dark dark:border-primary" />
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className=" w-full flex flex-col gap-2 sm:w-1/2 my-2"
         >
-          {isPending && <Loader2 className="animate-spin mr-1" />}
-          Update
-        </Button>
-      </form>
-    </Form>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>New Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="newEmail@email.com"
+                    className="bg-white"
+                    {...field}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            type="submit"
+            className="rounded-2xl w-max"
+            disabled={isPending}
+            aria-disabled={isPending}
+          >
+            {isPending && <Loader2 className="animate-spin mr-1" />}
+            Update
+          </Button>
+        </form>
+      </Form>
+    </section>
   );
 }

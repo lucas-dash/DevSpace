@@ -1,8 +1,8 @@
 import {
+  BellDot,
   Bookmark,
   CircleUserRound,
   Layout,
-  Search,
   Settings2,
   UsersRound,
 } from 'lucide-react';
@@ -25,9 +25,9 @@ export default async function Sidebar() {
       icon: <Layout />,
     },
     {
-      title: 'Explore',
-      path: '/search',
-      icon: <Search />,
+      title: 'Notification',
+      path: '/notification',
+      icon: <BellDot />,
     },
     {
       title: 'Bookmarks',

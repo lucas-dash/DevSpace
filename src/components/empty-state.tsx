@@ -32,12 +32,14 @@ export default function EmptyState({
         {title}
       </h3>
       {!image && (
-        <Image
-          src={'/empty-state.svg'}
-          alt="empty state"
-          width={350}
-          height={350}
-        />
+        <div className="dark:bg-slate-300 rounded-xl">
+          <Image
+            src={'/empty-state.svg'}
+            alt="empty state"
+            width={350}
+            height={350}
+          />
+        </div>
       )}
       {linkTo && linkTitle && (
         <Button variant={'accent'} asChild>
