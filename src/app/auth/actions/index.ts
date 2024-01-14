@@ -8,7 +8,6 @@ export async function signUpWithEmailAndPassword(data: {
   username: string;
   email: string;
   password: string;
-  confirmPassword: string;
 }) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
@@ -25,7 +24,7 @@ export async function signUpWithEmailAndPassword(data: {
     },
   });
 
-  return result;
+  return JSON.stringify(result);
 }
 
 export async function logInWithEmailAndPassword(data: {
@@ -40,5 +39,13 @@ export async function logInWithEmailAndPassword(data: {
     password: data.password,
   });
 
-  return result;
+  return JSON.stringify(result);
+}
+
+export async function updateUserEmail(newEmail: string) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
+  const result = supabase.auth.updateUser({ email: newEmail });
+  return JSON.stringify(result);
 }

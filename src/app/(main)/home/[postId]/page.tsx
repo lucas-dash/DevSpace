@@ -1,10 +1,9 @@
 import Post from '@/components/post/post';
-import { Button } from '@/components/ui/button';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
-import Link from 'next/link';
 import CreateComment from './components/create-comment';
 import PostComments from './components/post-comments';
+import EmptyState from '@/components/empty-state';
 
 type PostType = {
   params: {
@@ -28,12 +27,12 @@ export default async function PostId({ params: { postId } }: PostType) {
 
   if (!post) {
     return (
-      <div className="h-full flex flex-col gap-2 items-center justify-center">
-        <h3 className="font-medium text-lg">Post doesn&apos;t exists.</h3>
-        <Button asChild variant={'accent'}>
-          <Link href={'/home'}>Back to home</Link>
-        </Button>
-      </div>
+      <EmptyState
+        title="Post doesn't exists."
+        linkTitle="Back to home"
+        linkTo="/home"
+        icon
+      />
     );
   }
   return (

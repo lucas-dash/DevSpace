@@ -1,7 +1,7 @@
 import Modal from '@/components/Modal';
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
-import CreatePost from '@/components/post/create-post';
+import NotificationPanel from '@/components/notification-panel';
 
 export default function MainLayout({
   children,
@@ -19,15 +19,7 @@ export default function MainLayout({
           {children}
           <Modal />
         </main>
-        <section className="max-lg:hidden sticky top-[calc(60px+20px)] rounded-2xl bg-primary dark:bg-primary-dark min-w-[250px] max-w-[260px] xl:max-w-[420px] h-max p-3">
-          <h3 className="font-semibold">Activity</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta, nisi
-            excepturi iure enim porro molestiae qui voluptatibus doloremque
-            maiores aliquam cumque blanditiis ab! Fugiat totam rerum natus enim
-            maxime nobis!
-          </p>
-        </section>
+        <NotificationPanel />
       </div>
     </div>
   );

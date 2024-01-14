@@ -33,7 +33,8 @@ export default function LoginForm() {
 
   function onSubmit(data: z.infer<typeof LoginSchema>) {
     startTransition(async () => {
-      const { error } = await logInWithEmailAndPassword(data);
+      const result = await logInWithEmailAndPassword(data);
+      const { error } = JSON.parse(result);
 
       if (error?.message) {
         toast.error(error?.message);

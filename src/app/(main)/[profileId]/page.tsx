@@ -5,6 +5,7 @@ import ProfileHeader from './components/profile-header';
 import { cookies } from 'next/headers';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UserReposts from './components/user-reposts';
+import EmptyState from '@/components/empty-state';
 
 type ProfileIdType = {
   params: {
@@ -30,9 +31,12 @@ export default async function ProfileId({
 
   if (!userData) {
     return (
-      <section className="bg-primary dark:bg-primary-dark rounded-2xl h-full flex items-center justify-center">
-        <h3>User not found</h3>
-      </section>
+      <EmptyState
+        title="User not found!"
+        linkTo="home"
+        linkTitle="Back to home"
+        icon
+      />
     );
   }
 

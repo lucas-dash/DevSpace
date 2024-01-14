@@ -1,3 +1,4 @@
+import EmptyState from '@/components/empty-state';
 import PostEdit from '@/components/post/post-edit';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
@@ -25,9 +26,12 @@ export default async function EditId({ params: { editId } }: EditIdType) {
 
   if (!post) {
     return (
-      <div>
-        <h1>Post not found</h1>
-      </div>
+      <EmptyState
+        title="Post not found!"
+        linkTitle="Back to home"
+        linkTo="/home"
+        icon
+      />
     );
   }
 

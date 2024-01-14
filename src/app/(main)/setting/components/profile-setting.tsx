@@ -24,12 +24,12 @@ import Image from 'next/image';
 import { updateProfileById } from '../../[profileId]/actions';
 import createSupabaseBrowserClient from '@/lib/supabase/client';
 
-type UserProfileSetType = {
+type ProfileSettingType = {
   userId: string;
   profile: Profile;
 };
 
-export default function UserProfileSet({
+export default function ProfileSetting({
   userId,
   profile: {
     bio,
@@ -43,7 +43,7 @@ export default function UserProfileSet({
     hire_email,
     url,
   },
-}: UserProfileSetType) {
+}: ProfileSettingType) {
   const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -98,7 +98,7 @@ export default function UserProfileSet({
 
   return (
     <article className="py-5">
-      <div className="flex max-sm:flex-col max-sm:items-stretch justify-between  gap-5 sm:gap-10">
+      <div className="flex max-sm:flex-col max-sm:items-stretch justify-between gap-5 sm:gap-10">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -108,7 +108,7 @@ export default function UserProfileSet({
               control={form.control}
               name="username"
               render={({ field }) => (
-                <FormItem className="w-max">
+                <FormItem className="sm:w-max">
                   <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input
@@ -127,7 +127,7 @@ export default function UserProfileSet({
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="w-max">
+                <FormItem className="sm:w-max">
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
@@ -287,28 +287,30 @@ export default function UserProfileSet({
           </form>
         </Form>
 
-        <div className="w-[100px] sm:w-[120px] h-[100px] sm:h-[120px] rounded-full flex items-center justify-center border-2 border-primary-dark dark:border-primary relative">
-          {avatar_url ? (
-            <div className="max-w-[120px] max-h-[120px]">
-              <Image
-                src={avatar_url}
-                alt={`${username} profile picture`}
-                width={120}
-                height={120}
-                className="rounded-full"
-              />
-            </div>
-          ) : (
-            <p className="text-3xl">{display_name?.slice()[0]}</p>
-          )}
-          <Button
-            className="absolute -bottom-4 left-0 rounded-full"
-            variant={'outline'}
-            size={'icon'}
-          >
-            <Edit />
-          </Button>
-        </div>
+        <section className="flex justify-center">
+          <div className="w-[100px] sm:w-[120px] h-[100px] sm:h-[120px] rounded-full flex items-center justify-center border-2 border-primary-dark dark:border-primary relative">
+            {avatar_url ? (
+              <div className="max-w-[120px] max-h-[120px]">
+                <Image
+                  src={avatar_url}
+                  alt={`${username} profile picture`}
+                  width={120}
+                  height={120}
+                  className="rounded-full"
+                />
+              </div>
+            ) : (
+              <p className="text-3xl">{display_name[0]}</p>
+            )}
+            <Button
+              className="absolute -bottom-4 left-0 rounded-full"
+              variant={'outline'}
+              size={'icon'}
+            >
+              <Edit />
+            </Button>
+          </div>
+        </section>
       </div>
     </article>
   );

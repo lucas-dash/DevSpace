@@ -1,5 +1,6 @@
 import Post from '@/components/post/post';
 import { readPosts } from '../../home/actions';
+import EmptyState from '@/components/empty-state';
 
 type UsersPostsType = {
   userId: string;
@@ -11,9 +12,7 @@ export default async function UsersPosts({ userId }: UsersPostsType) {
   return (
     <section className="flex flex-col gap-5">
       {posts?.length === 0 || !posts ? (
-        <div className="flex items-center justify-center py-5">
-          <h3 className="font-semibold">No Posts Yet!</h3>
-        </div>
+        <EmptyState title="No Posts Yet!" image className="text-base" />
       ) : (
         posts?.map((post) => <Post key={post.id} {...post} />)
       )}

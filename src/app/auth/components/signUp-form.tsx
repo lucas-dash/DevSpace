@@ -44,7 +44,8 @@ export default function SignUpForm() {
         .ilike('username', `%${formData.username}%`)
         .single();
       if (userData?.username !== formData.username) {
-        const { error } = await signUpWithEmailAndPassword(formData);
+        const result = await signUpWithEmailAndPassword(formData);
+        const { error } = JSON.parse(result);
         if (error?.message) {
           toast.error(error?.message);
         } else {

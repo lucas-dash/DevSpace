@@ -16,7 +16,7 @@ export default function SearchingPost({
   const [user, setUser] = useState<Profile | null>(null);
   const supabase = createSupabaseBrowserClient();
 
-  const nameFallback = user?.display_name[0].toUpperCase() || 'username';
+  const nameFallback = user?.display_name[0].toUpperCase() || 'U';
 
   useEffect(() => {
     const getUser = async () => {
