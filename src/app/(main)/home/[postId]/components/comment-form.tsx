@@ -61,17 +61,17 @@ export default function CommentForm({
 
   function onSubmit(data: z.infer<typeof PostSchema>) {
     startTransition(async () => {
-      if (commentId) {
+      if (commentId && postId) {
         const { error } = await replyToComment(data.content, commentId, path);
 
         if (!error?.message) {
-          toast.success('Sent!');
+          toast.success('Send!');
           // notification
           if (userId !== createdBy) {
             const { error: notifyError } = await sendNotification(
               createdBy,
               'comments',
-              commentId
+              postId
             );
             notifyError?.message && console.log(notifyError?.message);
           }
@@ -85,11 +85,11 @@ export default function CommentForm({
         }
       }
 
-      if (postId) {
+      if (postId && !commentId) {
         const { error } = await createComment(data.content, postId, path);
 
         if (!error?.message) {
-          toast.success('Sent!');
+          toast.success('Send!');
 
           // notification
           if (userId !== createdBy) {

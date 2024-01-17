@@ -21,6 +21,7 @@ export default function Modal({ className, ...props }: ModalProps) {
   const modal = searchParams.get('modal');
   const comment = searchParams.get('comment');
   const createdBy = searchParams.get('createdBy');
+  const postId = searchParams.get('postId');
 
   return (
     <>
@@ -33,8 +34,13 @@ export default function Modal({ className, ...props }: ModalProps) {
               </DialogTitle>
             </DialogHeader>
 
-            {comment && createdBy ? (
-              <CommentForm createdBy={createdBy} commentId={comment} modal />
+            {comment && createdBy && postId ? (
+              <CommentForm
+                createdBy={createdBy}
+                commentId={comment}
+                postId={postId}
+                modal
+              />
             ) : (
               <PostForm modalPost />
             )}

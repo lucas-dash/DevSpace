@@ -19,7 +19,7 @@ export default async function PostComments({ postId }: PostCommentsType) {
   return (
     <section className="flex flex-col gap-2">
       {comments?.map((comment) => (
-        <Comment key={comment.comment_id} {...comment} />
+        <Comment key={comment.comment_id} comment={comment} postId={postId} />
       ))}
     </section>
   );

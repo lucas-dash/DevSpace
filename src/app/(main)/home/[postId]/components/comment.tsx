@@ -7,12 +7,15 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import ChildComment from './child-comment';
 import { checkLikedComment, getLikesByCommentId } from '@/lib/actions/comments';
 
+type CommentType = {
+  comment: Comments;
+  postId: string;
+};
+
 export default async function Comment({
-  content,
-  user_id,
-  created_at,
-  comment_id,
-}: Comments) {
+  comment: { content, user_id, created_at, comment_id },
+  postId,
+}: CommentType) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 
@@ -58,13 +61,18 @@ export default async function Comment({
             liked={liked}
             likes={likes?.length}
             userId={user?.id}
+            postId={postId}
           />
         </div>
       </article>
 
       {childComments?.length !== 0 &&
         childComments?.map((comment) => (
-          <ChildComment key={comment.comment_id} {...comment} />
+          <ChildComment
+            key={comment.comment_id}
+            comment={comment}
+            postId={postId}
+          />
         ))}
     </section>
   );

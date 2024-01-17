@@ -14,6 +14,7 @@ type CommentInteractionType = {
   liked: Likes | null;
   likes: number | undefined;
   userId: string | undefined;
+  postId: string;
 };
 
 export default function CommentInteraction({
@@ -23,6 +24,7 @@ export default function CommentInteraction({
   liked,
   likes,
   userId,
+  postId,
 }: CommentInteractionType) {
   const handleLikeButton = async () => {
     const { error } = await likeComment(commentId, createdBy);
@@ -33,8 +35,8 @@ export default function CommentInteraction({
       if (userId !== createdBy) {
         const { error: notifyError } = await sendNotification(
           createdBy,
-          'comments',
-          commentId
+          'likes',
+          postId
         );
         notifyError?.message && console.log(notifyError?.message);
       }
@@ -58,7 +60,9 @@ export default function CommentInteraction({
       <div className="flex items-center text-sm gap-1">
         <Link
           href={`${
-            userId ? `?comment=${commentId}&createdBy=${createdBy}` : '/auth'
+            userId
+              ? `?comment=${commentId}&createdBy=${createdBy}&postId=${postId}`
+              : '/auth'
           }`}
         >
           <Button

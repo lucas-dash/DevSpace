@@ -24,6 +24,23 @@ export default async function Notify({
 
   const nameFallback = userData?.display_name[0].toUpperCase();
 
+  const { data: post } = await supabase
+    .from('posts')
+    .select()
+    .eq('id', event_id)
+    .single();
+
+  // if (!post?.id) {
+  //   const { data: comment } = await supabase
+  //   .from('comments')
+  //   .select()
+  //   .eq('comment_id', event_id)
+  //   .single();
+
+  //   let linkToPost = comment?.post_id
+  // }
+  // let linkToPost = post?.id
+
   return (
     <article
       className={`p-2 relative ${
@@ -40,14 +57,16 @@ export default async function Notify({
           </AvatarFallback>
         </Avatar>
 
-        <div className="">
+        <div>
           <Link
             href={`/${userData?.username}`}
             className="hover:underline font-semibold text-lg"
           >
             {userData?.display_name}
           </Link>
-          <p className="inline px-1">{notifyTypeCheck(event_type)}</p>
+          <Link href={`/home/${post?.id}`} className="hover:underline">
+            <p className="inline px-1">{notifyTypeCheck(event_type)}</p>
+          </Link>
           <p className="text-sm max-[420px]:text-sm font-medium inline-block">
             <span className="mr-1">&#x2022;</span>
             {formatRelativeTime(created_at)}
