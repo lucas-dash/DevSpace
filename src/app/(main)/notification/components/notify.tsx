@@ -23,12 +23,21 @@ export default async function Notify({
     .single();
 
   const nameFallback = userData?.display_name[0].toUpperCase();
+  let linkToPost: string = '';
 
   const { data: post } = await supabase
     .from('posts')
     .select()
     .eq('id', event_id)
     .single();
+
+  if (post) {
+    linkToPost = `/home/${post?.id}`;
+  }
+
+  if (event_type === 'follows') {
+    linkToPost = '';
+  }
 
   return (
     <article
@@ -53,7 +62,12 @@ export default async function Notify({
           >
             {userData?.display_name}
           </Link>
-          <Link href={`/home/${post?.id}`} className="hover:underline">
+          <Link
+            href={linkToPost}
+            className={`${
+              linkToPost !== '' ? 'hover:underline' : 'cursor-default'
+            }`}
+          >
             <p className="inline px-1">{notifyTypeCheck(event_type)}</p>
           </Link>
           <p className="text-sm max-[420px]:text-sm font-medium inline-block">
