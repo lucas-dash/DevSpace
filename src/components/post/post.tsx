@@ -35,7 +35,7 @@ export default async function Post({
           </Link>
         </div>
       </div>
-      <PostInteraction userId={user?.id} postId={id} />
+      <PostInteraction userId={user?.id} postId={id} createdBy={created_by} />
     </article>
   );
 }

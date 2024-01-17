@@ -41,7 +41,7 @@ export default async function PostId({ params: { postId } }: PostType) {
       {session && (
         <>
           <hr className="border-slate-200 dark:border-slate-600" />
-          <CreateComment postId={postId} />
+          <CreateComment postId={postId} createBy={post.created_by} />
         </>
       )}
       <PostComments postId={postId} />

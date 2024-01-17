@@ -5,6 +5,7 @@ import { MessageCircle, Heart } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { likeComment, unlikeComment } from '@/lib/actions/comments';
+import { sendNotification } from '@/app/(main)/notification/actions/notification';
 
 type CommentInteractionType = {
   comments?: number | undefined;
@@ -27,6 +28,16 @@ export default function CommentInteraction({
     const { error } = await likeComment(commentId, createdBy);
     if (!error?.message) {
       toast.success('Liked!');
+
+      // notification
+      if (userId !== createdBy) {
+        const { error: notifyError } = await sendNotification(
+          createdBy,
+          'comments',
+          commentId
+        );
+        notifyError?.message && console.log(notifyError?.message);
+      }
     } else {
       toast.error(error?.message);
     }
@@ -45,7 +56,11 @@ export default function CommentInteraction({
   return (
     <div className="flex items-center gap-5">
       <div className="flex items-center text-sm gap-1">
-        <Link href={`${userId ? `?comment=${commentId}` : '/auth'}`}>
+        <Link
+          href={`${
+            userId ? `?comment=${commentId}&createdBy=${createdBy}` : '/auth'
+          }`}
+        >
           <Button
             size={'icon'}
             className="rounded-full hover:text-blue-500 dark:hover:text-blue-600"

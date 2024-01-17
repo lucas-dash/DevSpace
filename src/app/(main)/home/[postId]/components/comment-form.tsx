@@ -16,24 +16,41 @@ import {
 } from '@/components/ui/form';
 import { Loader2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
-import { useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 import { usePathname, useRouter } from 'next/navigation';
+import { sendNotification } from '@/app/(main)/notification/actions/notification';
+import createSupabaseBrowserClient from '@/lib/supabase/client';
 
 type CommentFormType = {
+  createdBy: string;
   postId?: string;
   commentId?: string;
   modal?: boolean;
 };
 
 export default function CommentForm({
+  createdBy,
   postId,
   commentId,
   modal,
 }: CommentFormType) {
+  const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
+  const [userId, setUserId] = useState<string | undefined>();
   const router = useRouter();
   const path = usePathname();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUserId(user?.id);
+      return;
+    };
+    getUser();
+  }, [supabase]);
 
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
@@ -49,6 +66,16 @@ export default function CommentForm({
 
         if (!error?.message) {
           toast.success('Sent!');
+          // notification
+          if (userId !== createdBy) {
+            const { error: notifyError } = await sendNotification(
+              createdBy,
+              'comments',
+              commentId
+            );
+            notifyError?.message && console.log(notifyError?.message);
+          }
+
           form.reset();
           if (modal) {
             router.back();
@@ -60,8 +87,20 @@ export default function CommentForm({
 
       if (postId) {
         const { error } = await createComment(data.content, postId, path);
+
         if (!error?.message) {
           toast.success('Sent!');
+
+          // notification
+          if (userId !== createdBy) {
+            const { error: notifyError } = await sendNotification(
+              createdBy,
+              'comments',
+              postId
+            );
+            notifyError?.message && console.log(notifyError?.message);
+          }
+
           form.reset();
         } else {
           toast.error(error?.message);

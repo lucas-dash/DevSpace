@@ -2,12 +2,14 @@ import UserAvatar from '@/components/ui/user-avatar';
 import CommentForm from './comment-form';
 
 type CreateCommentType = {
+  createBy: string;
   postId?: string;
   commentId?: string;
   modal?: boolean;
 };
 
 export default async function CreateComment({
+  createBy,
   postId,
   commentId,
   modal,
@@ -17,7 +19,12 @@ export default async function CreateComment({
       <div className="max-[480px]:hidden">
         <UserAvatar />
       </div>
-      <CommentForm postId={postId} commentId={commentId} modal={modal} />
+      <CommentForm
+        postId={postId}
+        commentId={commentId}
+        modal={modal}
+        createdBy={createBy}
+      />
     </section>
   );
 }

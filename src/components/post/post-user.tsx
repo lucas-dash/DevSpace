@@ -20,12 +20,12 @@ export default async function PostUser({ createdBy, createdAt }: PostUserType) {
 
   return (
     <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
-      <h4 className="font-semibold">{userData && userData.display_name}</h4>
+      <h4 className="font-semibold">{userData?.display_name}</h4>
       <Link
-        href={`/${userData && userData.username}`}
+        href={`/${userData?.username}`}
         className="text-fadeText dark:text-fadeText-dark hover:underline max-[380px]:text-sm"
       >
-        {userData && `@${userData.username}`}
+        {`@${userData?.username}`}
       </Link>
       <p
         className="text-sm max-[370px]:hidden max-[420px]:text-xs"

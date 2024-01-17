@@ -8,4 +8,5 @@ declare global {
   type Bookmarks = Database['public']['Tables']['bookmarks']['Row'];
   type Reposts = Database['public']['Tables']['reposts']['Row'];
   type Comments = Database['public']['Tables']['comments']['Row'];
+  type Notify = Database['public']['Tables']['notification']['Row'];
 }

@@ -6,6 +6,7 @@ import { Loader2, UserRoundPlus, UserRoundMinus } from 'lucide-react';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { sendNotification } from '../../notification/actions/notification';
 
 type FollowButtonType = {
   userId: string | undefined;
@@ -31,6 +32,13 @@ export default function FollowButton({
 
       if (!error?.message) {
         toast.success('You started following the new user!');
+
+        const { error } = await sendNotification(followId, 'follows', followId);
+
+        if (error?.message) {
+          console.log(error?.message);
+        }
+
         router.refresh();
       } else {
         toast.error('Something went wrong!');

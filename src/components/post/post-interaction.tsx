@@ -12,11 +12,13 @@ import { getPostCommentsNumber } from '@/lib/actions/comments';
 type PostInteractionType = {
   postId: string;
   userId: string | undefined;
+  createdBy: string;
 };
 
 export default async function PostInteraction({
   postId,
   userId,
+  createdBy,
 }: PostInteractionType) {
   if (!userId) {
     return;
@@ -37,6 +39,7 @@ export default async function PostInteraction({
     <PostUserActions
       postId={postId}
       userId={userId}
+      createdBy={createdBy}
       liked={liked}
       likes={likes?.length}
       bookmarked={bookmarked}

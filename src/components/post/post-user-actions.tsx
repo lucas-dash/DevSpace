@@ -12,10 +12,12 @@ import {
 } from '@/app/(main)/home/actions';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { sendNotification } from '@/app/(main)/notification/actions/notification';
 
 type PostUserActionsType = {
   postId: string;
   userId: string;
+  createdBy: string;
   liked: Likes | null;
   likes: number | undefined;
   bookmarked: Bookmarks | null;
@@ -28,6 +30,7 @@ type PostUserActionsType = {
 export default function PostUserActions({
   postId,
   userId,
+  createdBy,
   liked,
   likes,
   bookmarked,
@@ -41,6 +44,15 @@ export default function PostUserActions({
     const { error } = await likePost(postId, userId);
     if (!error?.message) {
       toast.success('Liked!');
+      // notification
+      if (userId !== createdBy) {
+        const { error: notifyError } = await sendNotification(
+          createdBy,
+          'likes',
+          postId
+        );
+        notifyError?.message && console.log(notifyError?.message);
+      }
     } else {
       toast.error(error?.message);
     }
@@ -61,6 +73,16 @@ export default function PostUserActions({
     const { error } = await bookmarkPost(postId, userId);
     if (!error?.message) {
       toast.success('Bookmarked!');
+
+      // notification
+      if (userId !== createdBy) {
+        const { error: notifyError } = await sendNotification(
+          createdBy,
+          'bookmarks',
+          postId
+        );
+        notifyError?.message && console.log(notifyError?.message);
+      }
     } else {
       toast.error(error?.message);
     }
@@ -80,6 +102,16 @@ export default function PostUserActions({
     const { error } = await repostPost(postId, userId);
     if (!error?.message) {
       toast.success('Reposted!');
+
+      // notification
+      if (userId !== createdBy) {
+        const { error: notifyError } = await sendNotification(
+          createdBy,
+          'reposts',
+          postId
+        );
+        notifyError?.message && console.log(notifyError?.message);
+      }
     } else {
       toast.error(error?.message);
     }

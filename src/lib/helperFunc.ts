@@ -28,3 +28,27 @@ export const linkUrlChecker = (socLink: string) => {
     return socLink;
   }
 };
+
+export function notifyTypeCheck(
+  event_type:
+    | 'likes'
+    | 'follows'
+    | 'reposts'
+    | 'bookmarks'
+    | 'comments'
+    | string
+) {
+  if (event_type === 'follows') {
+    return 'started following you.';
+  } else if (event_type === 'likes') {
+    return 'like your post.';
+  } else if (event_type === 'reposts') {
+    return 'reposted your post.';
+  } else if (event_type === 'comments') {
+    return 'comment your post.';
+  } else if (event_type === 'bookmarks') {
+    return 'bookmarked your post.';
+  } else if (typeof event_type === 'string') {
+    return 'send you notification';
+  }
+}
