@@ -25,10 +25,6 @@ export default function Navbar() {
       </div>
 
       <div className="flex items-center gap-0 sm:gap-3">
-        <Button variant={'ghost'} size={'icon'} className="rounded-full">
-          <BellDot />
-        </Button>
-
         <SearchCommand />
 
         <ModeToggle />

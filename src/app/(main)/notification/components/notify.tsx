@@ -30,17 +30,6 @@ export default async function Notify({
     .eq('id', event_id)
     .single();
 
-  // if (!post?.id) {
-  //   const { data: comment } = await supabase
-  //   .from('comments')
-  //   .select()
-  //   .eq('comment_id', event_id)
-  //   .single();
-
-  //   let linkToPost = comment?.post_id
-  // }
-  // let linkToPost = post?.id
-
   return (
     <article
       className={`p-2 relative ${

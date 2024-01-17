@@ -39,10 +39,13 @@ export default async function NotificationPanel() {
 
   return (
     <aside className="max-lg:hidden sticky top-[calc(60px+20px)] rounded-2xl bg-primary dark:bg-primary-dark min-w-[250px] max-w-[280px] xl:max-w-[420px] h-max p-3 flex-1">
-      <h3 className="font-semibold flex items-center gap-1.5 pb-3 pl-2">
+      <Link
+        href={'/notification'}
+        className="font-semibold flex items-center gap-1.5 pb-3 pl-2 hover:underline"
+      >
         <BellDot size={22} />
         Activity
-      </h3>
+      </Link>
 
       <RealtimeNotify>
         {notifications?.length === 0 || !notifications ? (
