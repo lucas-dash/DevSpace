@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Drawer, DrawerTrigger } from '@/components/ui/drawer';
 import { Textarea } from '@/components/ui/textarea';
 import { useTransition } from 'react';
 import { Edit, Link, Loader2 } from 'lucide-react';
@@ -23,6 +24,8 @@ import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { updateProfileById } from '../../[profileId]/actions';
 import createSupabaseBrowserClient from '@/lib/supabase/client';
+import DrawerContents from '@/components/drawer-content';
+import ChangeAvatar from './change-avatar';
 
 type ProfileSettingType = {
   userId: string;
@@ -302,13 +305,20 @@ export default function ProfileSetting({
             ) : (
               <p className="text-3xl">{display_name[0]}</p>
             )}
-            <Button
-              className="absolute -bottom-4 left-0 rounded-full"
-              variant={'outline'}
-              size={'icon'}
-            >
-              <Edit />
-            </Button>
+            <Drawer>
+              <DrawerTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="absolute -bottom-4 left-0 rounded-full"
+                  size={'icon'}
+                >
+                  <Edit />
+                </Button>
+              </DrawerTrigger>
+              <DrawerContents title="Upload your avatar">
+                <ChangeAvatar prevAvatar={avatar_url} />
+              </DrawerContents>
+            </Drawer>
           </div>
         </section>
       </div>

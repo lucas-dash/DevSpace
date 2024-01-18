@@ -52,3 +52,12 @@ export function notifyTypeCheck(
     return 'send you notification';
   }
 }
+
+export function validFileType(file: File) {
+  const allowedExtensions = ['image/jpeg', 'image/png', 'image/gif'];
+  return allowedExtensions.includes(file.type);
+}
+
+export function validFileSize(file: File, maxSizeInBytes: number) {
+  return file.size <= maxSizeInBytes;
+}
