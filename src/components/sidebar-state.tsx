@@ -34,7 +34,7 @@ export default function SidebarState({
       </Link>
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-2.5">
-          <UserAvatar userId={session.user.id} />
+          <UserAvatar />
           <Link href={`/${username}`}>
             <p className="font-semibold text-lg">{display_name}</p>
             {/* fade text if its too long */}

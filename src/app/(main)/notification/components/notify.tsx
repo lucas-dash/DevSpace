@@ -44,7 +44,7 @@ export default async function Notify({
       className={`p-2 relative ${
         !is_read
           ? 'bg-slate-200 dark:bg-gray-900 rounded-xl'
-          : 'border-b border-slate-200 dark:border-slate-50'
+          : 'last:border-0 border-b border-slate-200 dark:border-slate-500'
       } `}
     >
       <div className="flex items-center gap-2 ">
