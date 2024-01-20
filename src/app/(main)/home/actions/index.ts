@@ -4,10 +4,13 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
 import { cookies } from 'next/headers';
 
-export async function createPost(content: string) {
+export async function createPost(content: string, draft: boolean) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
-  const result = await supabase.from('posts').insert({ content }).single();
+  const result = await supabase
+    .from('posts')
+    .insert({ content, private: draft })
+    .single();
   revalidatePath('/home');
 
   return JSON.stringify(result);
@@ -22,12 +25,43 @@ export async function readPosts(userId?: string) {
       .from('posts')
       .select()
       .eq('created_by', userId)
+      .eq('private', false)
       .order('created_at', { ascending: false });
   }
   return await supabase
     .from('posts')
     .select('*')
+    .eq('private', false)
     .order('created_at', { ascending: false });
+}
+
+export async function readDrafts(userId: string) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
+  const result = supabase
+    .from('posts')
+    .select()
+    .eq('created_by', userId)
+    .eq('private', true)
+    .order('created_at', { ascending: false });
+
+  return result;
+}
+
+export async function postDraft(postId: string) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
+  const result = supabase
+    .from('posts')
+    .update({ private: false, created_at: new Date().toISOString() })
+    .eq('id', postId)
+    .single();
+
+  revalidatePath('/home');
+
+  return result;
 }
 
 export async function updatePostById(

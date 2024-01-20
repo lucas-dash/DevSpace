@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { validFileType, validFileSize } from '@/lib/helperFunc';
 import { Button } from '@/components/ui/button';
+import { DrawerClose } from '@/components/ui/drawer';
 
 type ChangeAvatarProps = {
   prevAvatar: string | null;
@@ -105,22 +106,26 @@ export default function ChangeAvatar({ prevAvatar }: ChangeAvatarProps) {
   }, [supabase]);
 
   return (
-    <div className="py-5 flex flex-col gap-5">
-      <Input
-        type="file"
-        accept="image/png, image/jpeg"
-        onChange={(e) => uploadImage(e)}
-      />
+    <section className="h-full w-full flex items-center justify-center">
+      <div className="py-5 flex flex-col gap-5">
+        <Input
+          type="file"
+          accept="image/png, image/jpeg"
+          onChange={(e) => uploadImage(e)}
+        />
 
-      {prevAvatar && (
-        <Button
-          variant={'destructive'}
-          onClick={deleteAvatar}
-          className="w-full"
-        >
-          Delete Avatar
-        </Button>
-      )}
-    </div>
+        {prevAvatar && (
+          <DrawerClose asChild>
+            <Button
+              variant={'destructive'}
+              onClick={deleteAvatar}
+              className="w-full"
+            >
+              Delete Avatar
+            </Button>
+          </DrawerClose>
+        )}
+      </div>
+    </section>
   );
 }

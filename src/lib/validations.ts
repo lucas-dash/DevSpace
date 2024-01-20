@@ -43,6 +43,7 @@ export const PostSchema = z.object({
     .max(160, {
       message: 'Post must not be longer than 160 characters.',
     }),
+  draft: z.boolean(),
 });
 
 export const ProfileSchema = z.object({

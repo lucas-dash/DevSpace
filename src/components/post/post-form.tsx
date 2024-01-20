@@ -11,34 +11,38 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Loader2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { createPost } from '@/app/(main)/home/actions';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { Checkbox } from '../ui/checkbox';
 
 export default function PostForm({ modalPost }: { modalPost?: boolean }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [draft, setDraft] = useState(false);
 
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
       content: '',
+      draft: false,
     },
   });
 
   function onSubmit(data: z.infer<typeof PostSchema>) {
     startTransition(async () => {
-      const result = await createPost(data.content);
-
+      const result = await createPost(data.content, data.draft);
       const { error } = JSON.parse(result);
       if (!error?.message) {
-        toast.success('Posted!');
+        toast.success(!data.draft ? 'Posted!' : 'Draft is saved!');
         form.reset();
+
         if (modalPost) {
           router.back();
         }
@@ -71,15 +75,36 @@ export default function PostForm({ modalPost }: { modalPost?: boolean }) {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="rounded-2xl"
-          disabled={isPending}
-          aria-disabled={isPending}
-        >
-          {isPending && <Loader2 className="animate-spin mr-1" />}
-          Post
-        </Button>
+
+        <div className="flex items-center gap-5">
+          <FormField
+            control={form.control}
+            name="draft"
+            render={({ field }) => (
+              <FormItem className="flex items-center">
+                <FormLabel className="mt-2 mr-1.5">Draft?</FormLabel>
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    onClick={() => setDraft((prev) => !prev)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button
+            type="submit"
+            className="rounded-2xl"
+            disabled={isPending}
+            aria-disabled={isPending}
+          >
+            {isPending && <Loader2 className="animate-spin mr-1" />}
+            {!draft ? 'Post' : 'Save'}
+          </Button>
+        </div>
       </form>
     </Form>
   );

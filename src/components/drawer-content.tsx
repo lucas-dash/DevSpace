@@ -21,7 +21,7 @@ export default function DrawerContents({
   description,
 }: DrawerContentProps) {
   return (
-    <DrawerContent className="h-1/2">
+    <DrawerContent className="h-[90dvh] sm:h-[85dvh]">
       <div className="mx-auto w-full max-w-sm">
         <DrawerHeader>
           <DrawerTitle>{title}</DrawerTitle>

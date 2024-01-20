@@ -315,7 +315,10 @@ export default function ProfileSetting({
                   <Edit />
                 </Button>
               </DrawerTrigger>
-              <DrawerContents title="Upload your avatar">
+              <DrawerContents
+                title="Upload your avatar"
+                description="Your image must have a maximum size of 5 MB."
+              >
                 <ChangeAvatar prevAvatar={avatar_url} />
               </DrawerContents>
             </Drawer>

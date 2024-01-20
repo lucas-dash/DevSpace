@@ -12,7 +12,7 @@ export default async function Main() {
 
   return (
     <section className="flex flex-col gap-5">
-      {session && <CreatePost />}
+      {session && <CreatePost userId={session.user.id} />}
       {posts?.map((post: Post) => (
         <Post key={post.id} {...post} />
       ))}

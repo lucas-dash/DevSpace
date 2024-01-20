@@ -7,6 +7,7 @@ import { cookies } from 'next/headers';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import EmptyState from './empty-state';
+import { ScrollArea } from './ui/scroll-area';
 
 export default async function NotificationPanel() {
   const cookieStore = cookies();
