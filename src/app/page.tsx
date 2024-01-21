@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <HomeNav />
-      <main className="flex flex-col min-h-[calc(100vh-56px)] items-center justify-start">
+      <main className="flex flex-col min-h-[calc(100dvh-56px)] items-center justify-start 2xl:container">
         <section className="mt-9">
           <h1 className="text-4xl sm:text-5xl md:text-6xl text-secondary dark:text-secondary-dark font-bold text-center p-5">
             Join the Developer Community
@@ -23,7 +23,7 @@ export default function Home() {
         </section>
 
         <section className="grid grid-cols-[1fr,1fr] md:grid-cols-[1fr_200px] gap-1 md:gap-5 h-full w-full sm:w-4/5 mx-auto mt-16">
-          <section className="grid  md:grid-cols-4 gap-1 md:gap-5">
+          <section className="grid md:grid-cols-4 gap-1 md:gap-5">
             <div className="bg-secondary dark:bg-secondary-dark rounded-5xl lg:rounded-6xl flex items-center justify-center min-h-[100px] max-md:col-span-2 md:col-span-2 lg:col-span-3">
               <h3 className="text-lg sm:text-xl md:text-3xl lg:text-4xl text-primary dark:text-primary-dark font-semibold p-3">
                 Share your work with the world.

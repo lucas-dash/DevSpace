@@ -66,7 +66,7 @@ export default function SearchCommand() {
       <Button
         variant={'ghost'}
         size={'sm'}
-        className="text-sm text-muted-foreground flex items-center gap-1 px-1"
+        className="text-sm text-muted-foreground flex items-center gap-1 px-1 max-sm:rounded-full"
         onClick={() => setOpen(true)}
       >
         <Search className="sm:mr-1" />
