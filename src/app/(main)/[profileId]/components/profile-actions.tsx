@@ -23,7 +23,8 @@ export default async function ProfileActions({
 
   return (
     <div className="flex gap-2.5 max-sm:flex-col">
-      {user.user_metadata.username === profileId ? (
+      {user.user_metadata.username === profileId ||
+      user.user_metadata.user_name === profileId ? (
         <Button asChild variant={'outline'}>
           <Link href="/setting">Edit Profile</Link>
         </Button>

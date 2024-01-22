@@ -46,6 +46,17 @@ export const PostSchema = z.object({
   draft: z.boolean(),
 });
 
+export const CommentSchema = z.object({
+  content: z
+    .string()
+    .min(3, {
+      message: 'Post must be at least 3 characters.',
+    })
+    .max(160, {
+      message: 'Post must not be longer than 160 characters.',
+    }),
+});
+
 export const ProfileSchema = z.object({
   username: z
     .string()

@@ -5,7 +5,13 @@ import { cookies } from 'next/headers';
 
 export async function sendNotification(
   recipient_user_id: string,
-  event_type: 'likes' | 'follows' | 'reposts' | 'bookmarks' | 'comments',
+  event_type:
+    | 'likes'
+    | 'follows'
+    | 'reposts'
+    | 'bookmarks'
+    | 'comments'
+    | 'replyComment',
   event_id: string
 ) {
   const cookieStore = cookies();

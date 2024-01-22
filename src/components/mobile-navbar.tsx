@@ -28,6 +28,10 @@ export default function MobileNavbar({
   const [session, setSession] = useState<Session | null>();
   const router = useRouter();
 
+  const profilePath =
+    session?.user.user_metadata.username ||
+    session?.user.user_metadata.user_name;
+
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
 
@@ -78,7 +82,7 @@ export default function MobileNavbar({
     },
     {
       title: 'Profile',
-      path: `/${session?.user.user_metadata.username}`,
+      path: `/${profilePath}`,
       icon: <CircleUserRound />,
     },
     {

@@ -16,7 +16,7 @@ export async function signUpWithEmailAndPassword(data: {
     email: data.email,
     password: data.password,
     options: {
-      emailRedirectTo: 'https://localhost:3000/auth/callback',
+      emailRedirectTo: `http://localhost:3000/auth/callback`,
       data: {
         username: data.username,
         display_name: data.name,

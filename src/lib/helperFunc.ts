@@ -36,6 +36,7 @@ export function notifyTypeCheck(
     | 'reposts'
     | 'bookmarks'
     | 'comments'
+    | 'replyComment'
     | string
 ) {
   if (event_type === 'follows') {
@@ -46,6 +47,8 @@ export function notifyTypeCheck(
     return 'reposted your post.';
   } else if (event_type === 'comments') {
     return 'comment your post.';
+  } else if (event_type === 'replyComment') {
+    return 'reply to your comment.';
   } else if (event_type === 'bookmarks') {
     return 'bookmarked your post.';
   } else if (typeof event_type === 'string') {

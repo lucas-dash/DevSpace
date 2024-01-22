@@ -14,7 +14,7 @@ export default function CreatePost({ userId }: { userId: string }) {
         <Drawer>
           <DrawerTrigger asChild>
             <Button variant={'ghost'} size={'icon'}>
-              <Inbox />
+              <Inbox size={22} />
             </Button>
           </DrawerTrigger>
           <DrawerContents title="Your Drafts">

@@ -30,7 +30,7 @@ export default async function Post({
             <PostActions postId={id} user={user} createdBy={created_by} />
           </div>
 
-          <Link href={`home/${id}`}>
+          <Link href={`/home/${id}`}>
             <p className="py-1">{content}</p>
           </Link>
         </div>

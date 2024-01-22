@@ -15,8 +15,12 @@ export default async function Sidebar() {
     data: { session },
   } = await readUserSession();
 
-  const username = session?.user.user_metadata.username;
-  const displayName = session?.user.user_metadata.display_name;
+  const username =
+    session?.user.user_metadata.username ||
+    session?.user.user_metadata.user_name;
+  const displayName =
+    session?.user.user_metadata.display_name ||
+    session?.user.user_metadata.name;
 
   const sidebarLinks = [
     {

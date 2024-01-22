@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { PostSchema } from '@/lib/validations';
+import { CommentSchema } from '@/lib/validations';
 import { createComment, replyToComment } from '@/lib/actions/comments';
 
 import { Button } from '@/components/ui/button';
@@ -52,14 +52,14 @@ export default function CommentForm({
     getUser();
   }, [supabase]);
 
-  const form = useForm<z.infer<typeof PostSchema>>({
-    resolver: zodResolver(PostSchema),
+  const form = useForm<z.infer<typeof CommentSchema>>({
+    resolver: zodResolver(CommentSchema),
     defaultValues: {
       content: '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof PostSchema>) {
+  function onSubmit(data: z.infer<typeof CommentSchema>) {
     startTransition(async () => {
       if (commentId && postId) {
         const { error } = await replyToComment(data.content, commentId, path);
@@ -70,7 +70,7 @@ export default function CommentForm({
           if (userId !== createdBy) {
             const { error: notifyError } = await sendNotification(
               createdBy,
-              'comments',
+              'replyComment',
               postId
             );
             notifyError?.message && console.log(notifyError?.message);
