@@ -2,12 +2,20 @@ import { getUserDataById } from '@/app/(main)/[profileId]/actions';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
+import { HTMLAttributes } from 'react';
 
 type UserAvatarType = {
   userId?: string;
-};
+  className?: string;
+  textClassName?: string;
+} & HTMLAttributes<HTMLSpanElement>;
 
-export default async function UserAvatar({ userId }: UserAvatarType) {
+export default async function UserAvatar({
+  userId,
+  textClassName,
+  className,
+  ...props
+}: UserAvatarType) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 
@@ -28,9 +36,14 @@ export default async function UserAvatar({ userId }: UserAvatarType) {
   const nameFallback = userData?.display_name[0].toUpperCase();
 
   return (
-    <Avatar>
-      <AvatarImage src={userData?.avatar_url || ''} />
-      <AvatarFallback className="bg-slate-300">{nameFallback}</AvatarFallback>
+    <Avatar className={className} {...props}>
+      <AvatarImage
+        src={userData?.avatar_url || ''}
+        alt={`${userData?.username} profile image`}
+      />
+      <AvatarFallback className={`${textClassName} bg-slate-300`}>
+        {nameFallback}
+      </AvatarFallback>
     </Avatar>
   );
 }

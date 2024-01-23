@@ -51,6 +51,24 @@ export async function updateProfileById(
   return result;
 }
 
+export async function updateTechStackArray(
+  userId: string,
+  techStack: string[]
+) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
+  const updatedArray = techStack || [];
+
+  const result = await supabase
+    .from('profile')
+    .update({ tech_stack: updatedArray })
+    .eq('id', userId)
+    .single();
+
+  return result;
+}
+
 export async function followUser(userId: string, followId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);

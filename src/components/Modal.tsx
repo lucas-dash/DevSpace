@@ -1,52 +1,33 @@
-'use client';
-
 import { cn } from '@/lib/utils';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 import {
-  Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import PostForm from './post/post-form';
-import CommentForm from '@/app/(main)/home/[postId]/components/comment-form';
 
-type ModalProps = {} & HTMLAttributes<HTMLDivElement>;
+type ModalProps = {
+  children: ReactNode;
+  title: string;
+  description?: string;
+} & HTMLAttributes<HTMLDivElement>;
 
-export default function Modal({ className, ...props }: ModalProps) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const modal = searchParams.get('modal');
-  const comment = searchParams.get('comment');
-  const createdBy = searchParams.get('createdBy');
-  const postId = searchParams.get('postId');
-
+export default function Modal({
+  title,
+  description,
+  children,
+  className,
+  ...props
+}: ModalProps) {
   return (
-    <>
-      {(modal || comment) && (
-        <Dialog defaultOpen onOpenChange={() => router.back()}>
-          <DialogContent className={cn('', className)} {...props}>
-            <DialogHeader>
-              <DialogTitle>
-                {modal ? 'Add Post' : 'Reply to Comment'}
-              </DialogTitle>
-            </DialogHeader>
-
-            {comment && createdBy && postId ? (
-              <CommentForm
-                createdBy={createdBy}
-                commentId={comment}
-                postId={postId}
-                modal
-              />
-            ) : (
-              <PostForm modalPost />
-            )}
-          </DialogContent>
-        </Dialog>
-      )}
-    </>
+    <DialogContent className={cn('', className)} {...props}>
+      <DialogHeader>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogDescription>{description}</DialogDescription>
+      </DialogHeader>
+      {children}
+    </DialogContent>
   );
 }

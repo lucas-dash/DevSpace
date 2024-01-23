@@ -1,7 +1,7 @@
-import Modal from '@/components/Modal';
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
 import NotificationPanel from '@/components/notification-panel';
+import URLModal from '@/components/url-modal';
 
 export default function MainLayout({
   children,
@@ -16,7 +16,7 @@ export default function MainLayout({
 
         <main className="flex-1 lg:max-w-[600px]">
           {children}
-          <Modal />
+          <URLModal />
         </main>
         <NotificationPanel />
       </div>

@@ -33,7 +33,7 @@ export default function Draft({ id, content }: Post) {
   };
 
   return (
-    <article className="bg-gray-200 dark:bg-gray-700 rounded-xl py-2 px-4 flex items-center justify-between">
+    <article className="border-b border-primary-dark dark:border-primary py-2 px-4 flex items-center justify-between">
       <p className="font-medium">{content}</p>
       <div className="flex items-center gap-1.5">
         <DrawerClose asChild>
