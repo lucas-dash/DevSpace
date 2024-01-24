@@ -1,7 +1,7 @@
 'use client';
 
 import { Input } from '@/components/ui/input';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent } from 'react';
 import createSupabaseBrowserClient from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
@@ -11,11 +11,14 @@ import { DrawerClose } from '@/components/ui/drawer';
 
 type ChangeAvatarProps = {
   prevAvatar: string | null;
+  userId: string;
 };
 
-export default function ChangeAvatar({ prevAvatar }: ChangeAvatarProps) {
+export default function ChangeAvatar({
+  prevAvatar,
+  userId,
+}: ChangeAvatarProps) {
   const supabase = createSupabaseBrowserClient();
-  const [userId, setUserId] = useState<string | null>();
   const router = useRouter();
 
   const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -94,16 +97,6 @@ export default function ChangeAvatar({ prevAvatar }: ChangeAvatarProps) {
       router.refresh();
     }
   };
-
-  useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setUserId(user?.id);
-    };
-    getUser();
-  }, [supabase]);
 
   return (
     <section className="h-full w-full flex items-center justify-center">

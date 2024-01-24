@@ -39,7 +39,7 @@ export default function ProfileSetting({
               title="Upload your avatar"
               description="Your image must have a maximum size of 5 MB."
             >
-              <ChangeAvatar prevAvatar={profile?.avatar_url} />
+              <ChangeAvatar prevAvatar={profile?.avatar_url} userId={userId} />
             </DrawerContents>
           </Drawer>
         </div>

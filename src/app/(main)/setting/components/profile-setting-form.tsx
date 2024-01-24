@@ -69,14 +69,15 @@ export default function ProfileSettingForm({
   });
 
   function onSubmit(data: z.infer<typeof ProfileSchema>) {
-    const checkUsername = async () => {
+    const checkExistsUsername = async () => {
       let prevUsername = username;
 
-      const { data: userData, error } = await supabase
+      const { data: userData, error: userError } = await supabase
         .from('profile')
         .select()
         .ilike('username', `%${data.username}%`)
         .single();
+
       if (
         userData?.username !== data.username ||
         prevUsername === data.username
@@ -88,15 +89,15 @@ export default function ProfileSettingForm({
           toast.success('The profile has been edited!');
           router.refresh();
         }
-      } else if (!error?.message && userData?.username === data.username) {
+      } else if (!userError?.message && userData?.username === data.username) {
         toast.warning('Username already exists!');
-      } else if (error?.message) {
-        toast.error(error?.message);
+      } else if (userError?.message) {
+        toast.error(userError?.message);
       }
     };
 
     startTransition(async () => {
-      await checkUsername();
+      await checkExistsUsername();
     });
   }
 
