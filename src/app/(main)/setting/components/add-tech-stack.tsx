@@ -2,12 +2,13 @@
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { updateTechStackArray } from '../../[profileId]/actions';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { updateTechStackArray } from '../../[profileId]/actions';
+import { DialogClose } from '@/components/ui/dialog';
 
 type AddTechStackType = {
   userId: string;
@@ -16,45 +17,38 @@ type AddTechStackType = {
 
 export default function AddTechStack({ userId, tech_stack }: AddTechStackType) {
   const [newItem, setNewItem] = useState('');
+  const [techStack, setTechStack] = useState(tech_stack || []);
   const router = useRouter();
 
-  if (tech_stack?.length === 0 || !tech_stack) {
-    tech_stack = [];
-  }
-
-  const addTechStack = async () => {
-    if (newItem !== '') {
-      if (tech_stack) {
-        const updatedArray = [...tech_stack, newItem];
-
-        const { error } = await updateTechStackArray(userId, updatedArray);
-
-        if (error?.message) {
-          toast.error(error?.message);
-        } else {
-          toast.success('Tech stack has been updated!');
-          setNewItem('');
-          router.refresh();
-        }
-      }
+  const addTechBadge = () => {
+    if (techStack) {
+      setTechStack([...techStack, newItem]);
+      setNewItem('');
     }
   };
 
   const deleteTechBadge = async (item?: string) => {
-    if (tech_stack) {
-      const updatedTechStack = tech_stack?.filter((tech) => {
-        if (item !== tech) {
-          return tech;
+    if (techStack) {
+      const newArray = techStack.filter((badge) => {
+        if (badge !== item) {
+          return badge;
         }
       });
 
-      const { error } = await updateTechStackArray(userId, updatedTechStack);
+      setTechStack(newArray);
+    }
+  };
+
+  const saveTechStack = async () => {
+    if (techStack) {
+      const { error } = await updateTechStackArray(userId, techStack);
 
       if (error?.message) {
         toast.error(error?.message);
       } else {
-        router.refresh();
         toast.success('Tech stack has been updated!');
+        setNewItem('');
+        router.refresh();
       }
     }
   };
@@ -62,13 +56,13 @@ export default function AddTechStack({ userId, tech_stack }: AddTechStackType) {
   return (
     <section>
       <div className="flex items-center gap-3 mb-3 flex-wrap">
-        {tech_stack?.map((item, i) => {
+        {techStack?.map((item, i) => {
           return (
             <div key={i} className="relative">
               <Badge className="capitalize">{item}</Badge>
               <Button
                 type="button"
-                variant={'outline'}
+                variant={'secondary'}
                 size={'icon'}
                 className="h-4 w-4 absolute -top-0.5 -right-2 z-40"
                 onClick={() => deleteTechBadge(item)}
@@ -79,13 +73,23 @@ export default function AddTechStack({ userId, tech_stack }: AddTechStackType) {
           );
         })}
       </div>
-      <div className="space-y-3">
+      <div className="space-y-5">
         <Input
           type="text"
           value={newItem}
           onChange={({ target }) => setNewItem(target.value)}
         />
-        <Button onClick={addTechStack}>Add</Button>
+        <div className="flex gap-2 justify-between">
+          <div className="flex gap-2 flex-wrap">
+            <Button onClick={addTechBadge}>Add</Button>
+            <Button onClick={saveTechStack} variant={'accent'}>
+              Save
+            </Button>
+          </div>
+          <DialogClose asChild>
+            <Button variant={'secondary'}>Cancel</Button>
+          </DialogClose>
+        </div>
       </div>
     </section>
   );

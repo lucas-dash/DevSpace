@@ -1,9 +1,9 @@
-import { redirect } from 'next/navigation';
-import ProfileSetting from './components/profile-setting';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
+import ProfileSetting from './components/profile-setting';
 import AccountSetting from './components/account-setting';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { redirect } from 'next/navigation';
 
 export default async function Setting() {
   const cookieStore = cookies();
@@ -23,7 +23,7 @@ export default async function Setting() {
     .single();
 
   return (
-    <section className="rounded-2xl bg-primary dark:bg-primary-dark h-full p-3.5 sm:py-2 sm:px-5">
+    <section className="rounded-2xl bg-primary dark:bg-primary-dark h-max p-3.5 sm:py-2 sm:px-5">
       <Tabs defaultValue="profile" className="w-full mt-2.5">
         <TabsList className="grid w-full grid-cols-2 rounded-lg bg-transparent dark:bg-transparent ">
           <TabsTrigger

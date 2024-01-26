@@ -1,17 +1,17 @@
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import FollowButton from './follow-button';
-import { User } from '@supabase/supabase-js';
-import { checkForFollowedUser } from '../actions';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import Modal from '@/components/modal';
 import SendEmail from './send-email';
+import { User } from '@supabase/supabase-js';
+import { checkForFollowedUser } from '../actions';
 
 type ProfileActionsType = {
   currentUser: User | null;
   profileId: string;
   userId: string;
   hireEmail: string | null;
+  username: string;
 };
 
 export default async function ProfileActions({
@@ -19,6 +19,7 @@ export default async function ProfileActions({
   profileId,
   userId,
   hireEmail,
+  username,
 }: ProfileActionsType) {
   if (!currentUser) {
     return;
@@ -39,14 +40,13 @@ export default async function ProfileActions({
       ) : (
         <>
           {hireEmail && (
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant={'outline'}>Get in touch</Button>
-              </DialogTrigger>
-              <Modal title="Contact User here">
-                <SendEmail hireEmail={hireEmail} />
-              </Modal>
-            </Dialog>
+            <Modal
+              title={`Contact ${username} here.`}
+              buttonChildren="Get in touch"
+              buttonVariant={'outline'}
+            >
+              <SendEmail hireEmail={hireEmail} />
+            </Modal>
           )}
           <FollowButton
             userId={currentUser.id}

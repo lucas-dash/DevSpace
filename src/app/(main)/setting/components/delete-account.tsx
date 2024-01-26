@@ -1,10 +1,10 @@
 'use client';
 
-import { deleteUserAccount } from '@/app/auth/actions';
 import { Button } from '@/components/ui/button';
 import { redirect } from 'next/navigation';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,7 +16,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Loader2 } from 'lucide-react';
+import { deleteUserAccount } from '@/app/auth/actions';
 
 export default function DeleteAccount({ userId }: { userId: string }) {
   const [isPending, startTransition] = useTransition();

@@ -1,7 +1,9 @@
 'use client';
 
-import { updateUserPassword, verifyCurrentPassword } from '@/app/auth/actions';
-import { Button } from '@/components/ui/button';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { PasswordSchema } from '@/lib/validations';
+
 import {
   Form,
   FormControl,
@@ -10,33 +12,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { z } from 'zod';
-
-const PasswordSchema = z
-  .object({
-    currentPassword: z
-      .string()
-      .min(6, { message: 'Password must cointain at least 6 character(s)' })
-      .max(100),
-    newPassword: z
-      .string()
-      .min(6, { message: 'Password must cointain at least 6 character(s)' })
-      .max(100),
-    confirmNewPassword: z
-      .string()
-      .min(6, { message: 'Password did not match' })
-      .max(100),
-  })
-  .refine((data) => data.newPassword === data.confirmNewPassword, {
-    message: 'Password did not match',
-    path: ['confirmNewPassword'],
-  });
+import { updateUserPassword, verifyCurrentPassword } from '@/app/auth/actions';
 
 export default function PasswordUpdateForm() {
   const [isPending, startTransition] = useTransition();

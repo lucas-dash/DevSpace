@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
 
+// todo check use
 export async function getUserDataById(userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);

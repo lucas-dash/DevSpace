@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { ProfileSchema } from '@/lib/validations';
 
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -14,17 +13,17 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { useTransition } from 'react';
-import { Link, Loader2, PlusCircle } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import Modal from '@/components/modal';
+import { Link, Loader2, PlusCircle } from 'lucide-react';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 import createSupabaseBrowserClient from '@/lib/supabase/client';
 import { updateProfileById } from '../../[profileId]/actions';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import Modal from '@/components/modal';
-import { Badge } from '@/components/ui/badge';
 import AddTechStack from './add-tech-stack';
 
 type ProfileSettingFormType = {
@@ -280,22 +279,18 @@ export default function ProfileSettingForm({
           <section className="pt-4">
             <div className="flex items-center gap-2">
               <h4 className="text-sm font-medium">Tech Stack</h4>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    size={'icon'}
-                    aria-label="add tech stack"
-                    className="hover:scale-110 transition-all rounded-full h-5 w-5"
-                  >
-                    <PlusCircle size={20} />
-                  </Button>
-                </DialogTrigger>
-                <Modal title="Add tech stack to your profile">
-                  <AddTechStack userId={userId} tech_stack={tech_stack} />
-                </Modal>
-              </Dialog>
+              <Modal
+                title="Add tech stack to your profile"
+                buttonChildren={<PlusCircle size={20} />}
+                buttonSize={'icon'}
+                className="hover:scale-110 transition-all rounded-full h-5 w-5"
+                aria-label="add tech stack"
+              >
+                <AddTechStack userId={userId} tech_stack={tech_stack} />
+              </Modal>
             </div>
-            <div className="flex items-center gap-1 mt-3 flex-wrap">
+
+            <article className="flex items-center gap-1 mt-3 flex-wrap">
               {tech_stack?.map((item, i) => {
                 return (
                   <Badge className="capitalize" key={i}>
@@ -303,7 +298,7 @@ export default function ProfileSettingForm({
                   </Badge>
                 );
               })}
-            </div>
+            </article>
           </section>
         </div>
 

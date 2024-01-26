@@ -73,6 +73,7 @@ export default async function ProfileHeader({
           currentUser={user}
           profileId={profileId}
           userId={id}
+          username={username}
           hireEmail={hire_email}
         />
       </section>

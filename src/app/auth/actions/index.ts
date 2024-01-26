@@ -42,6 +42,8 @@ export async function logInWithEmailAndPassword(data: {
   return JSON.stringify(result);
 }
 
+// profile handle function
+
 export async function updateUserEmail(newEmail: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);

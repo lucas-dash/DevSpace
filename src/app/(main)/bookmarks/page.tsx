@@ -16,7 +16,7 @@ export default async function Bookmarks() {
       <EmptyState
         title="You must be Logged in!"
         linkTitle="Log In"
-        linkTo="/auth"
+        linkTo="auth"
       />
     );
   }
@@ -36,7 +36,7 @@ export default async function Bookmarks() {
       .order('created_at', { ascending: false });
 
     return (
-      <section className="flex flex-col gap-5 h-full">
+      <section className="flex flex-col gap-5 h-max">
         {postsData?.length === 0 || !postsData ? (
           <EmptyState
             title="No Bookmarks yet!"

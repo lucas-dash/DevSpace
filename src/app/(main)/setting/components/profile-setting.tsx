@@ -1,10 +1,8 @@
-import { Drawer, DrawerTrigger } from '@/components/ui/drawer';
-import DrawerContents from '@/components/drawer-content';
-import ChangeAvatar from './change-avatar';
-import { Button } from '@/components/ui/button';
 import { Edit } from 'lucide-react';
 import ProfileSettingForm from './profile-setting-form';
 import UserAvatar from '@/components/ui/user-avatar';
+import CustomDrawer from '@/components/custom-drawer';
+import ChangeAvatar from './change-avatar';
 
 type ProfileSettingType = {
   userId: string;
@@ -25,23 +23,17 @@ export default function ProfileSetting({
             className="w-[100px] sm:w-[120px] h-[100px] sm:h-[120px] border-2 border-primary-dark dark:border-primary"
             textClassName="text-4xl"
           />
-          <Drawer>
-            <DrawerTrigger asChild>
-              <Button
-                variant="outline"
-                className="absolute -bottom-4 left-0 rounded-full"
-                size={'icon'}
-              >
-                <Edit />
-              </Button>
-            </DrawerTrigger>
-            <DrawerContents
-              title="Upload your avatar"
-              description="Your image must have a maximum size of 5 MB."
-            >
-              <ChangeAvatar prevAvatar={profile?.avatar_url} userId={userId} />
-            </DrawerContents>
-          </Drawer>
+          <CustomDrawer
+            title="Upload your avatar"
+            description="Your image must have a maximum size of 5 MB."
+            buttonChildren={<Edit />}
+            buttonVariant={'outline'}
+            buttonSize={'icon'}
+            className="absolute -bottom-4 left-0 rounded-full"
+            aria-label="Upload your avatar"
+          >
+            <ChangeAvatar prevAvatar={profile?.avatar_url} userId={userId} />
+          </CustomDrawer>
         </div>
       </section>
     </article>

@@ -1,5 +1,7 @@
 import * as z from 'zod';
 
+// auth schema
+
 export const SignUpSchema = z
   .object({
     name: z
@@ -34,6 +36,49 @@ export const LoginSchema = z.object({
     .max(100),
 });
 
+export const ProfileSchema = z.object({
+  username: z
+    .string()
+    .min(1, { message: 'Username must contains at least 1 character.' })
+    .max(20),
+  name: z
+    .string()
+    .min(1, { message: 'Display Name must contains at least 1 character.' })
+    .max(20),
+  bio: z
+    .string()
+    .max(160, { message: 'Bio must cointains max 160 characters.' }),
+  avatar_url: z.string(),
+  url: z.string(),
+  company: z.string().max(20),
+  hireEmail: z.string(),
+  link1: z.string(),
+  link2: z.string(),
+  link3: z.string(),
+});
+
+export const PasswordSchema = z
+  .object({
+    currentPassword: z
+      .string()
+      .min(6, { message: 'Password must cointain at least 6 character(s)' })
+      .max(100),
+    newPassword: z
+      .string()
+      .min(6, { message: 'Password must cointain at least 6 character(s)' })
+      .max(100),
+    confirmNewPassword: z
+      .string()
+      .min(6, { message: 'Password did not match' })
+      .max(100),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: 'Password did not match',
+    path: ['confirmNewPassword'],
+  });
+
+// post schema
+
 export const PostSchema = z.object({
   content: z
     .string()
@@ -55,25 +100,4 @@ export const CommentSchema = z.object({
     .max(160, {
       message: 'Post must not be longer than 160 characters.',
     }),
-});
-
-export const ProfileSchema = z.object({
-  username: z
-    .string()
-    .min(1, { message: 'Username must contains at least 1 character.' })
-    .max(20),
-  name: z
-    .string()
-    .min(1, { message: 'Display Name must contains at least 1 character.' })
-    .max(20),
-  bio: z
-    .string()
-    .max(160, { message: 'Bio must cointains max 160 characters.' }),
-  avatar_url: z.string(),
-  url: z.string(),
-  company: z.string().max(20),
-  hireEmail: z.string(),
-  link1: z.string(),
-  link2: z.string(),
-  link3: z.string(),
 });
