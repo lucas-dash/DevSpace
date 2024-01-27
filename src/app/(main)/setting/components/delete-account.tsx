@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { redirect } from 'next/navigation';
-import { useTransition } from 'react';
-import { toast } from 'sonner';
-import { Loader2 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
+import { useTransition } from "react";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,8 +15,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { deleteUserAccount } from '@/app/auth/actions';
+} from "@/components/ui/alert-dialog";
+import { deleteUserAccount } from "@/app/auth/actions";
 
 export default function DeleteAccount({ userId }: { userId: string }) {
   const [isPending, startTransition] = useTransition();
@@ -28,8 +28,8 @@ export default function DeleteAccount({ userId }: { userId: string }) {
       const { error } = JSON.parse(result);
 
       if (!error.message) {
-        toast.success('Account has been deleted!');
-        redirect('/');
+        toast.success("Account has been deleted!");
+        redirect("/");
       } else {
         toast.error(error?.message);
       }
@@ -47,7 +47,7 @@ export default function DeleteAccount({ userId }: { userId: string }) {
       </p>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant={'destructive'}>Delete your account?</Button>
+          <Button variant={"destructive"}>Delete your account?</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -61,7 +61,7 @@ export default function DeleteAccount({ userId }: { userId: string }) {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction asChild>
               <Button
-                variant={'destructive'}
+                variant={"destructive"}
                 className="bg-red-500 dark:bg-red-900 dark:text-white hover:bg-red-500/90 dark:hover:bg-red-900/90"
                 onClick={handleDeleteAccount}
               >

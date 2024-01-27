@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { ProfileSchema } from '@/lib/validations';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { ProfileSchema } from "@/lib/validations";
 
 import {
   Form,
@@ -12,19 +12,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import Modal from '@/components/modal';
-import { Link, Loader2, PlusCircle } from 'lucide-react';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
-import createSupabaseBrowserClient from '@/lib/supabase/client';
-import { updateProfileById } from '../../[profileId]/actions';
-import AddTechStack from './add-tech-stack';
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import Modal from "@/components/modal";
+import { Link as Elink, Loader2, PlusCircle } from "lucide-react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import createSupabaseBrowserClient from "@/lib/supabase/client";
+import { updateProfileById } from "../../[profileId]/actions";
+import AddTechStack from "./add-tech-stack";
 
 type ProfileSettingFormType = {
   userId: string;
@@ -54,27 +54,27 @@ export default function ProfileSettingForm({
   const form = useForm<z.infer<typeof ProfileSchema>>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
-      username: username || '',
-      name: display_name || '',
-      avatar_url: avatar_url || '',
-      bio: bio || '',
-      company: company || '',
-      url: url || '',
-      hireEmail: hire_email || '',
-      link1: social_link_one || '',
-      link2: social_link_two || '',
-      link3: social_link_three || '',
+      username: username || "",
+      name: display_name || "",
+      avatar_url: avatar_url || "",
+      bio: bio || "",
+      company: company || "",
+      url: url || "",
+      hireEmail: hire_email || "",
+      link1: social_link_one || "",
+      link2: social_link_two || "",
+      link3: social_link_three || "",
     },
   });
 
   function onSubmit(data: z.infer<typeof ProfileSchema>) {
     const checkExistsUsername = async () => {
-      let prevUsername = username;
+      const prevUsername = username;
 
       const { data: userData, error: userError } = await supabase
-        .from('profile')
+        .from("profile")
         .select()
-        .ilike('username', `%${data.username}%`)
+        .ilike("username", `%${data.username}%`)
         .single();
 
       if (
@@ -85,11 +85,11 @@ export default function ProfileSettingForm({
         if (error?.message) {
           toast.error(error?.message);
         } else {
-          toast.success('The profile has been edited!');
+          toast.success("The profile has been edited!");
           router.refresh();
         }
       } else if (!userError?.message && userData?.username === data.username) {
-        toast.warning('Username already exists!');
+        toast.warning("Username already exists!");
       } else if (userError?.message) {
         toast.error(userError?.message);
       }
@@ -226,7 +226,7 @@ export default function ProfileSettingForm({
             name="link1"
             render={({ field }) => (
               <FormItem className="flex items-center">
-                <Link className="mr-1.5" size={20} />
+                <Elink className="mr-1.5" size={20} />
                 <FormControl>
                   <Input
                     type="text"
@@ -244,7 +244,7 @@ export default function ProfileSettingForm({
             name="link2"
             render={({ field }) => (
               <FormItem className="flex items-center">
-                <Link className="mr-1.5" size={20} />
+                <Elink className="mr-1.5" size={20} />
                 <FormControl>
                   <Input
                     type="text"
@@ -262,7 +262,7 @@ export default function ProfileSettingForm({
             name="link3"
             render={({ field }) => (
               <FormItem className="flex items-center">
-                <Link className="mr-1.5" size={20} />
+                <Elink className="mr-1.5" size={20} />
                 <FormControl>
                   <Input
                     type="text"
@@ -282,7 +282,7 @@ export default function ProfileSettingForm({
               <Modal
                 title="Add tech stack to your profile"
                 buttonChildren={<PlusCircle size={20} />}
-                buttonSize={'icon'}
+                buttonSize={"icon"}
                 className="hover:scale-110 transition-all rounded-full h-5 w-5"
                 aria-label="add tech stack"
               >
@@ -304,7 +304,7 @@ export default function ProfileSettingForm({
 
         <Button
           type="submit"
-          variant={'accent'}
+          variant={"accent"}
           disabled={isPending}
           aria-disabled={isPending}
         >

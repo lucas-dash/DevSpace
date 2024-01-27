@@ -5,59 +5,71 @@ export function formatRelativeTime(isoTimestamp: string): string {
   const elapsedSeconds = now - timestamp;
 
   if (elapsedSeconds < 60) {
-    return 'just now';
-  } else if (elapsedSeconds < 3600) {
+    return "just now";
+  }
+  if (elapsedSeconds < 3600) {
     const minutes = Math.floor(elapsedSeconds / 60);
     return `${minutes}m ago`;
-  } else if (elapsedSeconds < 86400) {
+  }
+  if (elapsedSeconds < 86400) {
     const hours = Math.floor(elapsedSeconds / 3600);
     return `${hours}h ago`;
-  } else {
-    return timestampDate.toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    });
   }
+  const currentYear = new Date().getFullYear();
+  const formatOptions: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+  };
+
+  if (timestampDate.getFullYear() !== currentYear) {
+    formatOptions.year = "numeric";
+  }
+
+  return timestampDate.toLocaleDateString("en-GB", formatOptions);
 }
 
 export const linkUrlChecker = (socLink: string) => {
-  if (!socLink.includes('https://')) {
+  if (!socLink.includes("https://")) {
     return `https://${socLink}`;
-  } else {
-    return socLink;
   }
+  return socLink;
 };
 
 export function notifyTypeCheck(
   event_type:
-    | 'likes'
-    | 'follows'
-    | 'reposts'
-    | 'bookmarks'
-    | 'comments'
-    | 'replyComment'
-    | string
+    | "likes"
+    | "follows"
+    | "reposts"
+    | "bookmarks"
+    | "comments"
+    | "replyComment"
+    | string,
 ) {
-  if (event_type === 'follows') {
-    return 'started following you.';
-  } else if (event_type === 'likes') {
-    return 'like your post.';
-  } else if (event_type === 'reposts') {
-    return 'reposted your post.';
-  } else if (event_type === 'comments') {
-    return 'comment your post.';
-  } else if (event_type === 'replyComment') {
-    return 'reply to your comment.';
-  } else if (event_type === 'bookmarks') {
-    return 'bookmarked your post.';
-  } else if (typeof event_type === 'string') {
-    return 'send you notification';
+  if (event_type === "follows") {
+    return "started following you.";
+  }
+  if (event_type === "likes") {
+    return "like your post.";
+  }
+  if (event_type === "reposts") {
+    return "reposted your post.";
+  }
+  if (event_type === "comments") {
+    return "comment your post.";
+  }
+  if (event_type === "replyComment") {
+    return "reply to your comment.";
+  }
+  if (event_type === "bookmarks") {
+    return "bookmarked your post.";
+  }
+  if (typeof event_type === "string") {
+    return "send you notification";
   }
 }
 
 export function validFileType(file: File) {
-  const allowedExtensions = ['image/jpeg', 'image/png', 'image/gif'];
+  const allowedExtensions = ["image/jpeg", "image/png", "image/gif"];
   return allowedExtensions.includes(file.type);
 }
 

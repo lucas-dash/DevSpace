@@ -1,6 +1,6 @@
-import { checkForFollowedUser } from '@/app/(main)/[profileId]/actions';
-import { User } from '@supabase/supabase-js';
-import PostDropdown from './post-dropdown';
+import { checkForFollowedUser } from "@/app/(main)/[profileId]/actions";
+import { User } from "@supabase/supabase-js";
+import PostDropdown from "./post-dropdown";
 
 type PostAsyncActionsType = {
   postId: string;

@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from "react";
 
 import {
   Dialog,
@@ -7,13 +7,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/utils';
-import { Button, buttonVariants } from './ui/button';
+} from "@/components/ui/dialog";
+import { VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+import { Button, buttonVariants } from "./ui/button";
 
-type ButtonVariant = VariantProps<typeof buttonVariants>['variant'];
-type ButtonSize = VariantProps<typeof buttonVariants>['size'];
+type ButtonVariant = VariantProps<typeof buttonVariants>["variant"];
+type ButtonSize = VariantProps<typeof buttonVariants>["size"];
 
 type ModalProps = {
   children: ReactNode;
@@ -29,8 +29,8 @@ export default function Modal({
   title,
   description,
   buttonChildren,
-  buttonVariant = 'default',
-  buttonSize = 'default',
+  buttonVariant = "default",
+  buttonSize = "default",
   className,
   ...props
 }: ModalProps) {
@@ -40,7 +40,7 @@ export default function Modal({
         <Button
           variant={buttonVariant}
           size={buttonSize}
-          className={cn(className, '')}
+          className={cn(className, "")}
           {...props}
         >
           {buttonChildren}

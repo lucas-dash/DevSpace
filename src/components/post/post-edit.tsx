@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { PostSchema } from '@/lib/validations';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { PostSchema } from "@/lib/validations";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
-import { useTransition } from 'react';
-import { Loader2 } from 'lucide-react';
-import { usePathname, useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import { updatePostById } from '@/app/(main)/home/actions';
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { useTransition } from "react";
+import { Loader2 } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { updatePostById } from "@/app/(main)/home/actions";
 
 type PostEditType = {
   post: Post;
@@ -36,7 +36,7 @@ export default function PostEdit({
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
-      content: content || '',
+      content: content || "",
     },
   });
 
@@ -47,7 +47,7 @@ export default function PostEdit({
       const { error } = JSON.parse(result);
 
       if (!error?.message) {
-        toast.success('The post has been edited!');
+        toast.success("The post has been edited!");
         router.back();
       } else {
         toast.warning(error?.message);
@@ -83,7 +83,7 @@ export default function PostEdit({
           />
           <Button
             type="submit"
-            variant={'accent'}
+            variant={"accent"}
             disabled={isPending}
             aria-disabled={isPending}
           >

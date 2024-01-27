@@ -1,14 +1,14 @@
-'use server';
+"use server";
 
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { ProfileSchema } from '@/lib/validations';
-import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
-import { z } from 'zod';
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { ProfileSchema } from "@/lib/validations";
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import { z } from "zod";
 
 export async function updateProfileById(
   id: string,
-  data: z.infer<typeof ProfileSchema>
+  data: z.infer<typeof ProfileSchema>,
 ) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
@@ -21,7 +21,7 @@ export async function updateProfileById(
   });
 
   const result = await supabase
-    .from('profile')
+    .from("profile")
     .update({
       username,
       display_name: name,
@@ -33,14 +33,14 @@ export async function updateProfileById(
       social_link_three: link3,
       url,
     })
-    .eq('id', id);
+    .eq("id", id);
 
   return result;
 }
 
 export async function updateTechStackArray(
   userId: string,
-  techStack: string[]
+  techStack: string[],
 ) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
@@ -48,9 +48,9 @@ export async function updateTechStackArray(
   const updatedArray = techStack || [];
 
   const result = await supabase
-    .from('profile')
+    .from("profile")
     .update({ tech_stack: updatedArray })
-    .eq('id', userId)
+    .eq("id", userId)
     .single();
 
   return result;
@@ -61,7 +61,7 @@ export async function followUser(userId: string, toFollowId: string) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = await supabase
-    .from('follows')
+    .from("follows")
     .insert({ follower_id: userId, following_id: toFollowId });
 
   return result;
@@ -72,12 +72,12 @@ export async function unfollowUser(userId: string, toFollowId: string) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = await supabase
-    .from('follows')
+    .from("follows")
     .delete()
-    .eq('follower_id', userId)
-    .eq('following_id', toFollowId);
+    .eq("follower_id", userId)
+    .eq("following_id", toFollowId);
 
-  revalidatePath('/');
+  revalidatePath("/");
 
   return result;
 }
@@ -87,10 +87,10 @@ export async function checkForFollowedUser(userId: string, toFollowId: string) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = await supabase
-    .from('follows')
+    .from("follows")
     .select()
-    .eq('follower_id', userId)
-    .eq('following_id', toFollowId);
+    .eq("follower_id", userId)
+    .eq("following_id", toFollowId);
 
   return result;
 }

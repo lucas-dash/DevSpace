@@ -4,11 +4,10 @@ import {
   CircleUserRound,
   Layout,
   Settings2,
-  UsersRound,
-} from 'lucide-react';
-import NavLink from './navlink';
-import SidebarState from './sidebar-state';
-import readUserSession from '@/lib/actions';
+} from "lucide-react";
+import readUserSession from "@/lib/actions";
+import NavLink from "./navlink";
+import SidebarState from "./sidebar-state";
 
 export default async function Sidebar() {
   const {
@@ -24,33 +23,28 @@ export default async function Sidebar() {
 
   const sidebarLinks = [
     {
-      title: 'Home',
-      path: '/home',
+      title: "Home",
+      path: "/home",
       icon: <Layout />,
     },
     {
-      title: 'Notification',
-      path: '/notification',
+      title: "Notification",
+      path: "/notification",
       icon: <BellDot />,
     },
     {
-      title: 'Bookmarks',
-      path: '/bookmarks',
+      title: "Bookmarks",
+      path: "/bookmarks",
       icon: <Bookmark />,
     },
     {
-      title: 'Communities',
-      path: '/communities',
-      icon: <UsersRound />,
-    },
-    {
-      title: 'Profile',
+      title: "Profile",
       path: `/${username}`,
       icon: <CircleUserRound />,
     },
     {
-      title: 'Setting',
-      path: '/setting',
+      title: "Setting",
+      path: "/setting",
       icon: <Settings2 />,
     },
   ];

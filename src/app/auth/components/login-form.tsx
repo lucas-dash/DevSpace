@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { LoginSchema } from '@/lib/validations';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { LoginSchema } from "@/lib/validations";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,12 +13,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '../../../components/ui/input';
-import { Loader2 } from 'lucide-react';
-import { useTransition } from 'react';
-import { toast } from 'sonner';
-import { logInWithEmailAndPassword } from '../actions';
+} from "@/components/ui/form";
+import { Loader2 } from "lucide-react";
+import { useTransition } from "react";
+import { toast } from "sonner";
+import { Input } from "../../../components/ui/input";
+import { logInWithEmailAndPassword } from "../actions";
 
 export default function LoginForm() {
   const [isPending, startTransition] = useTransition();
@@ -26,8 +26,8 @@ export default function LoginForm() {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -39,7 +39,7 @@ export default function LoginForm() {
       if (error?.message) {
         toast.error(error?.message);
       } else {
-        toast.success('Successfully logged in!');
+        toast.success("Successfully logged in!");
         form.reset();
       }
     });

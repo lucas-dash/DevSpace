@@ -5,9 +5,9 @@ import {
   getBookmarksByPostId,
   getRepostsByPostId,
   checkRepostedPost,
-} from '@/app/(main)/home/actions';
-import PostUserActions from './post-user-actions';
-import { getPostCommentsNumber } from '@/lib/actions/comments';
+} from "@/app/(main)/home/actions";
+import { getPostCommentsNumber } from "@/lib/actions/comments";
+import PostUserActions from "./post-user-actions";
 
 type PostInteractionType = {
   postId: string;

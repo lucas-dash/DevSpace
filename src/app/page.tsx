@@ -1,6 +1,6 @@
-import HomeNav from '@/components/HomeNav';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import HomeNav from "@/components/HomeNav";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -13,11 +13,11 @@ export default function Home() {
           </h1>
 
           <div className="flex gap-5 justify-center pt-10 pb-5">
-            <Button variant={'default'} asChild>
-              <Link href={'/home'}>Explore</Link>
+            <Button variant={"default"} asChild>
+              <Link href={"/home"}>Explore</Link>
             </Button>
-            <Button asChild variant={'accent'}>
-              <Link href={'/auth'}>Log In</Link>
+            <Button asChild variant={"accent"}>
+              <Link href={"/auth"}>Log In</Link>
             </Button>
           </div>
         </section>
@@ -30,8 +30,8 @@ export default function Home() {
               </h3>
             </div>
 
-            <div className="bg-secondary dark:bg-secondary-dark rounded-5xl lg:rounded-6xl flex items-center  min-h-[105px] md:col-span-2 lg:col-span-1"></div>
-            <div className="bg-secondary dark:bg-secondary-dark rounded-5xl lg:rounded-6xl flex items-center  min-h-[105px] md:col-span-2 lg:col-span-1"></div>
+            <div className="bg-secondary dark:bg-secondary-dark rounded-5xl lg:rounded-6xl flex items-center  min-h-[105px] md:col-span-2 lg:col-span-1" />
+            <div className="bg-secondary dark:bg-secondary-dark rounded-5xl lg:rounded-6xl flex items-center  min-h-[105px] md:col-span-2 lg:col-span-1" />
 
             <div className="bg-foreground dark:bg-foreground-dark rounded-5xl lg:rounded-6xl flex justify-center items-center max-md:col-span-2 md:col-span-2 lg:col-span-3">
               <h3 className="text-lg sm:text-xl md:text-3xl lg:text-4xl text-secondary font-semibold p-3">
@@ -41,7 +41,7 @@ export default function Home() {
           </section>
 
           <div>
-            <div className="bg-accent dark:bg-accent-dark rounded-5xl lg:rounded-6xl max-h-[444px] sm:min-h-full sm:min-w-full aspect-9/16"></div>
+            <div className="bg-accent dark:bg-accent-dark rounded-5xl lg:rounded-6xl max-h-[444px] sm:min-h-full sm:min-w-full aspect-9/16" />
           </div>
         </section>
       </main>

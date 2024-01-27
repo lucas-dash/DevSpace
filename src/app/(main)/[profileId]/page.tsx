@@ -1,11 +1,11 @@
-import { redirect } from 'next/navigation';
-import UsersPosts from './components/users-posts';
-import ProfileHeader from './components/profile-header';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import UserReposts from './components/user-reposts';
-import EmptyState from '@/components/ui/state/empty-state';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
+import { redirect } from "next/navigation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import EmptyState from "@/components/ui/state/empty-state";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
+import UserReposts from "./components/user-reposts";
+import ProfileHeader from "./components/profile-header";
+import UsersPosts from "./components/users-posts";
 
 type ProfileIdType = {
   params: {
@@ -19,13 +19,13 @@ export default async function ProfileId({
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const { data: userData, error } = await supabase
-    .from('profile')
+    .from("profile")
     .select()
-    .eq('username', profileId)
+    .eq("username", profileId)
     .single();
 
   if (profileId === String(undefined)) {
-    redirect('/auth');
+    redirect("/auth");
   }
 
   if (!userData || error) {

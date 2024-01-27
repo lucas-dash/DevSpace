@@ -1,7 +1,7 @@
-import { formatRelativeTime } from '@/lib/helperFunc';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
-import Link from 'next/link';
+import { formatRelativeTime } from "@/lib/helperFunc";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
+import Link from "next/link";
 
 type PostUserType = {
   createdBy: string;
@@ -13,9 +13,9 @@ export default async function PostUser({ createdBy, createdAt }: PostUserType) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const { data: userData } = await supabase
-    .from('profile')
-    .select('*')
-    .eq('id', createdBy)
+    .from("profile")
+    .select("*")
+    .eq("id", createdBy)
     .single();
 
   return (

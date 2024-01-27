@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import PostActions from './post-actions';
-import PostUser from './post-user';
-import UserAvatar from '../ui/user-avatar';
-import PostInteraction from './post-interaction';
-import { cookies } from 'next/headers';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
+import Link from "next/link";
+import { cookies } from "next/headers";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import PostActions from "./post-actions";
+import PostUser from "./post-user";
+import UserAvatar from "../ui/user-avatar";
+import PostInteraction from "./post-interaction";
 
 export default async function Post({
   id,

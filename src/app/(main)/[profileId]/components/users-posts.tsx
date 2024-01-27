@@ -1,6 +1,6 @@
-import Post from '@/components/post/post';
-import { readPosts } from '../../home/actions';
-import EmptyState from '@/components/ui/state/empty-state';
+import Post from "@/components/post/post";
+import EmptyState from "@/components/ui/state/empty-state";
+import { readPosts } from "../../home/actions";
 
 type UsersPostsType = {
   profileId: string;

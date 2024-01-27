@@ -1,5 +1,5 @@
-import CommentDropdown from './comment-dropdown';
-import { checkForFollowedUser } from '@/app/(main)/[profileId]/actions';
+import { checkForFollowedUser } from "@/app/(main)/[profileId]/actions";
+import CommentDropdown from "./comment-dropdown";
 
 type CommentActionsType = {
   createdBy: string;

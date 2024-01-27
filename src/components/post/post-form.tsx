@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { PostSchema } from '@/lib/validations';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { PostSchema } from "@/lib/validations";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,14 +13,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Loader2 } from 'lucide-react';
-import { Textarea } from '@/components/ui/textarea';
-import { useState, useTransition } from 'react';
-import { createPost } from '@/app/(main)/home/actions';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { Checkbox } from '../ui/checkbox';
+} from "@/components/ui/form";
+import { Loader2 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { useState, useTransition } from "react";
+import { createPost } from "@/app/(main)/home/actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Checkbox } from "../ui/checkbox";
 
 export default function PostForm({ modalPost }: { modalPost?: boolean }) {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function PostForm({ modalPost }: { modalPost?: boolean }) {
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
-      content: '',
+      content: "",
       draft: false,
     },
   });
@@ -40,7 +40,7 @@ export default function PostForm({ modalPost }: { modalPost?: boolean }) {
       const result = await createPost(data.content, data.draft);
       const { error } = JSON.parse(result);
       if (!error?.message) {
-        toast.success(!data.draft ? 'Posted!' : 'Draft is saved!');
+        toast.success(!data.draft ? "Posted!" : "Draft is saved!");
         form.reset();
 
         if (modalPost) {
@@ -102,7 +102,7 @@ export default function PostForm({ modalPost }: { modalPost?: boolean }) {
             aria-disabled={isPending}
           >
             {isPending && <Loader2 className="animate-spin mr-1" />}
-            {!draft ? 'Post' : 'Save'}
+            {!draft ? "Post" : "Save"}
           </Button>
         </div>
       </form>

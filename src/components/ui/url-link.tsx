@@ -1,13 +1,13 @@
-import { linkUrlChecker } from '@/lib/helperFunc';
-import { Button, buttonVariants } from './button';
-import Link from 'next/link';
-import { Facebook, Instagram, LinkIcon, TwitterIcon } from 'lucide-react';
-import { HTMLAttributes } from 'react';
-import { cn } from '@/lib/utils';
-import { VariantProps } from 'class-variance-authority';
+import { linkUrlChecker } from "@/lib/helperFunc";
+import Link from "next/link";
+import { Facebook, Instagram, LinkIcon, TwitterIcon } from "lucide-react";
+import { HTMLAttributes } from "react";
+import { cn } from "@/lib/utils";
+import { VariantProps } from "class-variance-authority";
+import { Button, buttonVariants } from "./button";
 
-type ButtonVariant = VariantProps<typeof buttonVariants>['variant'];
-type ButtonSize = VariantProps<typeof buttonVariants>['size'];
+type ButtonVariant = VariantProps<typeof buttonVariants>["variant"];
+type ButtonSize = VariantProps<typeof buttonVariants>["size"];
 
 type UrlLinkProps = {
   url: string;
@@ -19,22 +19,24 @@ type UrlLinkProps = {
 export default function UrlLink({
   url,
   icon = false,
-  variant = 'link',
-  size = 'default',
+  variant = "link",
+  size = "default",
   className,
   ...props
 }: UrlLinkProps) {
   const socialIcons: { [key: string]: React.ElementType } = {
-    'twitter.com': TwitterIcon,
-    'facebook.com': Facebook,
-    'instagram.com': Instagram,
+    "twitter.com": TwitterIcon,
+    "facebook.com": Facebook,
+    "instagram.com": Instagram,
   };
 
-  const getSocialIcon = (url: string) => {
-    const Icon = Object.keys(socialIcons).find((domain) => url.includes(domain))
+  const getSocialIcon = (urlLink: string) => {
+    const Icon = Object.keys(socialIcons).find((domain) =>
+      urlLink.includes(domain),
+    )
       ? socialIcons[
           Object.keys(socialIcons).find((domain) =>
-            url.includes(domain)
+            urlLink.includes(domain),
           ) as keyof typeof socialIcons
         ]
       : LinkIcon;
@@ -46,7 +48,7 @@ export default function UrlLink({
       variant={variant}
       size={size}
       asChild
-      className={cn(className, '')}
+      className={cn(className, "")}
       {...props}
     >
       <Link href={linkUrlChecker(url)} rel="noreferrer" target="_blank">

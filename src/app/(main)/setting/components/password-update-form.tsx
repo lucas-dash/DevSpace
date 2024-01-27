@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { PasswordSchema } from '@/lib/validations';
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PasswordSchema } from "@/lib/validations";
 
 import {
   Form,
@@ -11,14 +11,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Loader2 } from 'lucide-react';
-import { useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { updateUserPassword, verifyCurrentPassword } from '@/app/auth/actions';
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Loader2 } from "lucide-react";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { updateUserPassword, verifyCurrentPassword } from "@/app/auth/actions";
 
 export default function PasswordUpdateForm() {
   const [isPending, startTransition] = useTransition();
@@ -26,9 +26,9 @@ export default function PasswordUpdateForm() {
   const form = useForm<z.infer<typeof PasswordSchema>>({
     resolver: zodResolver(PasswordSchema),
     defaultValues: {
-      currentPassword: '',
-      newPassword: '',
-      confirmNewPassword: '',
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
     },
   });
 
@@ -38,14 +38,14 @@ export default function PasswordUpdateForm() {
       const { error: PasswordError } = JSON.parse(verifyPassword);
 
       if (PasswordError) {
-        toast.warning('Wrong current password!');
+        toast.warning("Wrong current password!");
         return;
       }
 
       const result = await updateUserPassword(data.newPassword);
       const { error } = JSON.parse(result);
       if (!error?.message) {
-        toast.success('Password has been succesfully change!');
+        toast.success("Password has been succesfully change!");
         form.reset();
       } else {
         toast.error(error?.message);

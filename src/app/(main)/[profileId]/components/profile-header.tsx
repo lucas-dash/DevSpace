@@ -1,10 +1,10 @@
-import { Suspense } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
-import ProfileActions from './profile-actions';
-import { Badge } from '@/components/ui/badge';
-import UserAvatar from '@/components/ui/user-avatar';
-import ProfileFollows from './profile-follows';
-import UrlLink from '@/components/ui/url-link';
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import UserAvatar from "@/components/ui/user-avatar";
+import UrlLink from "@/components/ui/url-link";
+import ProfileFollows from "./profile-follows";
+import ProfileActions from "./profile-actions";
 
 export default async function ProfileHeader({
   bio,
@@ -44,7 +44,7 @@ export default async function ProfileHeader({
             @{username}
           </p>
         </div>
-        <p className={`pt-3 text-sm font-medium ${!bio && 'hidden'}`}>{bio}</p>
+        <p className={`pt-3 text-sm font-medium ${!bio && "hidden"}`}>{bio}</p>
 
         {url && (
           <UrlLink
@@ -65,8 +65,8 @@ export default async function ProfileHeader({
               <UrlLink
                 key={i}
                 url={link}
-                variant={'default'}
-                size={'sm'}
+                variant={"default"}
+                size={"sm"}
                 icon
                 className="rounded-full h-7"
               />
@@ -79,7 +79,7 @@ export default async function ProfileHeader({
         {company && (
           <div>
             <h4 className="font-semibold pb-1">Company</h4>
-            <Badge variant={'secondary'} className="text-base font-medium">
+            <Badge variant={"secondary"} className="text-base font-medium">
               {company}
             </Badge>
           </div>

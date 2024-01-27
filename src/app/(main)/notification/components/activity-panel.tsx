@@ -1,9 +1,9 @@
-import EmptyState from '@/components/ui/state/empty-state';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import Notify from './notify';
-import RealtimeNotify from './realtime-notify';
-import { selectUserNotification } from '../actions/notification';
+import EmptyState from "@/components/ui/state/empty-state";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import Notify from "./notify";
+import RealtimeNotify from "./realtime-notify";
+import { selectUserNotification } from "../actions/notification";
 
 interface ActivityPanelProps {
   userId: string;

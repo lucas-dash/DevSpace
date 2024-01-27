@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { CheckCircle } from 'lucide-react';
-import { readNotification } from '../actions/notification';
+import { Button } from "@/components/ui/button";
+import { CheckCircle } from "lucide-react";
+import { toast } from "sonner";
+import { readNotification } from "../actions/notification";
 
 type ReadButtonType = {
   notifyId: string;
@@ -13,15 +14,15 @@ export default function ReadButton({ notifyId }: ReadButtonType) {
     const { error } = await readNotification(notifyId);
 
     if (error?.message) {
-      console.log(error?.message);
+      toast.error(error?.message);
     }
   };
 
   return (
     <div className="absolute -top-2 -right-2">
       <Button
-        variant={'ghost'}
-        size={'icon'}
+        variant={"ghost"}
+        size={"icon"}
         className="rounded-full"
         onClick={handleReadNotification}
       >

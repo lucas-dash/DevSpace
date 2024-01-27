@@ -1,7 +1,7 @@
-import { readDrafts } from '@/app/(main)/home/actions';
-import Draft from './draft';
-import EmptyState from '../ui/state/empty-state';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { readDrafts } from "@/app/(main)/home/actions";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import Draft from "./draft";
+import EmptyState from "../ui/state/empty-state";
 
 export default async function Drafts({ userId }: { userId: string }) {
   const { data: drafts } = await readDrafts(userId);

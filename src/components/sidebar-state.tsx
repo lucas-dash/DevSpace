@@ -1,9 +1,9 @@
-import { Button } from './ui/button';
-import Link from 'next/link';
-import SignOut from '@/app/auth/components/sign-out';
-import { Session } from '@supabase/supabase-js';
-import UserAvatar from './ui/user-avatar';
-import AuthState from './ui/state/auth-state';
+import Link from "next/link";
+import SignOut from "@/app/auth/components/sign-out";
+import { Session } from "@supabase/supabase-js";
+import { Button } from "./ui/button";
+import UserAvatar from "./ui/user-avatar";
+import AuthState from "./ui/state/auth-state";
 
 type SidebarStateType = {
   session: Session | null;
@@ -23,7 +23,7 @@ export default function SidebarState({
   return (
     <div className="flex flex-col items-center gap-5 w-full">
       <Link href={`?modal=true`}>
-        <Button variant={'accent'} size={'lg'} className="rounded-2xl">
+        <Button variant={"accent"} size={"lg"} className="rounded-2xl">
           New Post
         </Button>
       </Link>

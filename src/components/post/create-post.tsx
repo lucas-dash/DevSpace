@@ -1,8 +1,8 @@
-import { Inbox } from 'lucide-react';
-import UserAvatar from '../ui/user-avatar';
-import PostForm from './post-form';
-import Drafts from './drafts';
-import CustomDrawer from '../custom-drawer';
+import { Inbox } from "lucide-react";
+import UserAvatar from "../ui/user-avatar";
+import PostForm from "./post-form";
+import Drafts from "./drafts";
+import CustomDrawer from "../custom-drawer";
 
 export default function CreatePost({ userId }: { userId: string }) {
   return (
@@ -12,8 +12,8 @@ export default function CreatePost({ userId }: { userId: string }) {
         <CustomDrawer
           title="Your Drafts"
           buttonChildren={<Inbox size={20} />}
-          buttonVariant={'ghost'}
-          buttonSize={'icon'}
+          buttonVariant={"ghost"}
+          buttonSize={"icon"}
           aria-label="Drafts"
         >
           <Drafts userId={userId} />

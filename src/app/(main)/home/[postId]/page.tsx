@@ -1,10 +1,10 @@
-import Post from '@/components/post/post';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
-import readUserSession from '@/lib/actions';
-import EmptyState from '@/components/ui/state/empty-state';
-import CreateComment from './components/create-comment';
-import PostComments from './components/post-comments';
+import Post from "@/components/post/post";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
+import readUserSession from "@/lib/actions";
+import EmptyState from "@/components/ui/state/empty-state";
+import CreateComment from "./components/create-comment";
+import PostComments from "./components/post-comments";
 
 type PostType = {
   params: {
@@ -21,9 +21,9 @@ export default async function PostId({ params: { postId } }: PostType) {
   } = await readUserSession();
 
   const { data: post } = await supabase
-    .from('posts')
-    .select('*')
-    .eq('id', postId)
+    .from("posts")
+    .select("*")
+    .eq("id", postId)
     .single();
 
   if (!post) {

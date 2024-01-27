@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { updateUserEmail } from '@/app/auth/actions';
-import { Button } from '@/components/ui/button';
+import { updateUserEmail } from "@/app/auth/actions";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,14 +9,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
-import { useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 const EmailSchema = z.object({
   email: z.string().email(),
@@ -28,7 +28,7 @@ export default function EmailUpdateForm() {
   const form = useForm<z.infer<typeof EmailSchema>>({
     resolver: zodResolver(EmailSchema),
     defaultValues: {
-      email: '',
+      email: "",
     },
   });
 
@@ -37,7 +37,7 @@ export default function EmailUpdateForm() {
       const result = await updateUserEmail(data.email);
       const { error } = JSON.parse(result);
       if (!error?.message) {
-        toast.success('Check your email inbox to confirm the changes.');
+        toast.success("Check your email inbox to confirm the changes.");
         form.reset();
       } else {
         toast.error(error?.message);

@@ -1,17 +1,17 @@
-'use server';
+"use server";
 
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { revalidatePath, unstable_noStore as noStore } from 'next/cache';
-import { cookies } from 'next/headers';
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { revalidatePath, unstable_noStore as noStore } from "next/cache";
+import { cookies } from "next/headers";
 
 export async function createPost(content: string, draft: boolean) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('posts')
+    .from("posts")
     .insert({ content, private: draft })
     .single();
-  revalidatePath('/home');
+  revalidatePath("/home");
 
   return JSON.stringify(result);
 }
@@ -21,33 +21,33 @@ export async function readPosts(userId?: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   if (userId) {
-    return await supabase
-      .from('posts')
+    return supabase
+      .from("posts")
       .select()
-      .eq('created_by', userId)
-      .eq('private', false)
-      .order('created_at', { ascending: false });
+      .eq("created_by", userId)
+      .eq("private", false)
+      .order("created_at", { ascending: false });
   }
-  return await supabase
-    .from('posts')
-    .select('*')
-    .eq('private', false)
-    .order('created_at', { ascending: false });
+  return supabase
+    .from("posts")
+    .select("*")
+    .eq("private", false)
+    .order("created_at", { ascending: false });
 }
 
 export async function updatePostById(
   id: string,
   content: string,
   url: string,
-  user: string
+  user: string,
 ) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 
-  const result = await supabase.from('posts').update({ content }).eq('id', id);
+  const result = await supabase.from("posts").update({ content }).eq("id", id);
 
   revalidatePath(url);
-  revalidatePath('/home');
+  revalidatePath("/home");
   revalidatePath(`/${user}`);
 
   return JSON.stringify(result);
@@ -56,8 +56,8 @@ export async function updatePostById(
 export async function deletePostById(id: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
-  const result = await supabase.from('posts').delete().eq('id', id);
-  revalidatePath('/home');
+  const result = await supabase.from("posts").delete().eq("id", id);
+  revalidatePath("/home");
   return result;
 }
 
@@ -68,11 +68,11 @@ export async function readDrafts(userId: string) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = supabase
-    .from('posts')
+    .from("posts")
     .select()
-    .eq('created_by', userId)
-    .eq('private', true)
-    .order('created_at', { ascending: false });
+    .eq("created_by", userId)
+    .eq("private", true)
+    .order("created_at", { ascending: false });
 
   return result;
 }
@@ -82,12 +82,12 @@ export async function postDraft(postId: string) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = supabase
-    .from('posts')
+    .from("posts")
     .update({ private: false, created_at: new Date().toISOString() })
-    .eq('id', postId)
+    .eq("id", postId)
     .single();
 
-  revalidatePath('/home');
+  revalidatePath("/home");
 
   return result;
 }
@@ -99,9 +99,9 @@ export async function likePost(postId: string, userId: string) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = await supabase
-    .from('likes')
+    .from("likes")
     .insert({ post_id: postId, user_id: userId });
-  revalidatePath('/home');
+  revalidatePath("/home");
 
   return result;
 }
@@ -110,11 +110,11 @@ export async function unlikePost(postId: string, userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('likes')
+    .from("likes")
     .delete()
-    .eq('post_id', postId)
-    .eq('user_id', userId);
-  revalidatePath('/home');
+    .eq("post_id", postId)
+    .eq("user_id", userId);
+  revalidatePath("/home");
 
   return result;
 }
@@ -123,10 +123,10 @@ export async function checkLikedPost(postId: string, userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('likes')
+    .from("likes")
     .select()
-    .eq('post_id', postId)
-    .eq('user_id', userId)
+    .eq("post_id", postId)
+    .eq("user_id", userId)
     .single();
 
   return result;
@@ -135,7 +135,7 @@ export async function checkLikedPost(postId: string, userId: string) {
 export async function getLikesByPostId(postId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
-  const result = await supabase.from('likes').select().eq('post_id', postId);
+  const result = await supabase.from("likes").select().eq("post_id", postId);
 
   return result;
 }
@@ -146,9 +146,9 @@ export async function bookmarkPost(postId: string, userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('bookmarks')
+    .from("bookmarks")
     .insert({ post_id: postId, user_id: userId });
-  revalidatePath('/home');
+  revalidatePath("/home");
 
   return result;
 }
@@ -157,11 +157,11 @@ export async function unbookmarkPost(postId: string, userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('bookmarks')
+    .from("bookmarks")
     .delete()
-    .eq('post_id', postId)
-    .eq('user_id', userId);
-  revalidatePath('/home');
+    .eq("post_id", postId)
+    .eq("user_id", userId);
+  revalidatePath("/home");
 
   return result;
 }
@@ -170,10 +170,10 @@ export async function checkBookmarkedPost(postId: string, userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('bookmarks')
+    .from("bookmarks")
     .select()
-    .eq('post_id', postId)
-    .eq('user_id', userId)
+    .eq("post_id", postId)
+    .eq("user_id", userId)
     .single();
 
   return result;
@@ -183,9 +183,9 @@ export async function getBookmarksByPostId(postId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('bookmarks')
+    .from("bookmarks")
     .select()
-    .eq('post_id', postId);
+    .eq("post_id", postId);
 
   return result;
 }
@@ -196,9 +196,9 @@ export async function repostPost(postId: string, userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('reposts')
+    .from("reposts")
     .insert({ post_id: postId, user_id: userId });
-  revalidatePath('/home');
+  revalidatePath("/home");
 
   return result;
 }
@@ -207,11 +207,11 @@ export async function unrepostPost(postId: string, userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('reposts')
+    .from("reposts")
     .delete()
-    .eq('post_id', postId)
-    .eq('user_id', userId);
-  revalidatePath('/home');
+    .eq("post_id", postId)
+    .eq("user_id", userId);
+  revalidatePath("/home");
 
   return result;
 }
@@ -220,10 +220,10 @@ export async function checkRepostedPost(postId: string, userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('reposts')
+    .from("reposts")
     .select()
-    .eq('post_id', postId)
-    .eq('user_id', userId)
+    .eq("post_id", postId)
+    .eq("user_id", userId)
     .single();
 
   return result;
@@ -232,7 +232,7 @@ export async function checkRepostedPost(postId: string, userId: string) {
 export async function getRepostsByPostId(postId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
-  const result = await supabase.from('reposts').select().eq('post_id', postId);
+  const result = await supabase.from("reposts").select().eq("post_id", postId);
 
   return result;
 }

@@ -7,14 +7,14 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@/components/ui/drawer';
-import { Button, buttonVariants } from './ui/button';
-import { HTMLAttributes, ReactNode } from 'react';
-import { VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/drawer";
+import { HTMLAttributes, ReactNode } from "react";
+import { VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+import { Button, buttonVariants } from "./ui/button";
 
-type ButtonVariant = VariantProps<typeof buttonVariants>['variant'];
-type ButtonSize = VariantProps<typeof buttonVariants>['size'];
+type ButtonVariant = VariantProps<typeof buttonVariants>["variant"];
+type ButtonSize = VariantProps<typeof buttonVariants>["size"];
 
 type CustomDrawerProps = {
   title: string;
@@ -40,7 +40,7 @@ export default function CustomDrawer({
       <DrawerTrigger asChild>
         <Button
           variant={buttonVariant}
-          className={cn(className, '')}
+          className={cn(className, "")}
           size={buttonSize}
           {...props}
         >

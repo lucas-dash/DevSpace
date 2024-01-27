@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '../ui/button';
-import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
-import Link from 'next/link';
-import { User } from '@supabase/supabase-js';
-import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import DeleteAlert from './delete-alert';
-import FollowButton from '@/app/(main)/[profileId]/components/follow-button';
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { User } from "@supabase/supabase-js";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import FollowButton from "@/app/(main)/[profileId]/components/follow-button";
+import DeleteAlert from "./delete-alert";
+import { Button } from "../ui/button";
 
 type PostDropdownType = {
   postId: string;
@@ -31,7 +31,7 @@ export default function PostDropdown({
     <AlertDialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant={'ghost'} size={'sm'} className="rounded-full h-auto">
+          <Button variant={"ghost"} size={"sm"} className="rounded-full h-auto">
             <MoreHorizontal />
           </Button>
         </DropdownMenuTrigger>
@@ -63,8 +63,8 @@ export default function PostDropdown({
                 currentUser={user.id}
                 profileId={createdById}
                 isFollowing={followingData?.length}
-                variant={'ghost'}
-                unVariant={'ghost'}
+                variant={"ghost"}
+                unVariant={"ghost"}
                 className="w-full h-8 rounded-md"
               />
             </DropdownMenuItem>

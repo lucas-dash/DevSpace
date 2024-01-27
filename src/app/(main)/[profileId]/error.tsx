@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import ErrorState from '@/components/ui/state/error-state';
-import { useEffect } from 'react';
+import ErrorState from "@/components/ui/state/error-state";
+import { useEffect } from "react";
 
 export default function Error({
   error,
@@ -11,6 +11,7 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.error(error);
   }, [error]);
 

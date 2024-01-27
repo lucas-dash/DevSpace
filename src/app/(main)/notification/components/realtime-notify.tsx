@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import createSupabaseBrowserClient from '@/lib/supabase/client';
-import { useRouter } from 'next/navigation';
-import { ReactNode, useEffect } from 'react';
+import createSupabaseBrowserClient from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import { ReactNode, useEffect } from "react";
 
 type RealtimeNotifyType = {
   children: ReactNode;
@@ -14,17 +14,17 @@ export default function RealtimeNotify({ children }: RealtimeNotifyType) {
 
   useEffect(() => {
     const channel = supabase
-      .channel('realtime notify')
+      .channel("realtime notify")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: '*',
-          schema: 'public',
-          table: 'notification',
+          event: "*",
+          schema: "public",
+          table: "notification",
         },
         () => {
           router.refresh();
-        }
+        },
       )
       .subscribe();
 

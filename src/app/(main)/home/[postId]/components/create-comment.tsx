@@ -1,5 +1,5 @@
-import UserAvatar from '@/components/ui/user-avatar';
-import CommentForm from './comment-form';
+import UserAvatar from "@/components/ui/user-avatar";
+import CommentForm from "./comment-form";
 
 type CreateCommentType = {
   createBy: string;

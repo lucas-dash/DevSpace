@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { MessageCircle, Heart } from 'lucide-react';
-import Link from 'next/link';
-import { toast } from 'sonner';
-import { likeComment, unlikeComment } from '@/lib/actions/comments';
-import { sendNotification } from '@/app/(main)/notification/actions/notification';
+import { Button } from "@/components/ui/button";
+import { MessageCircle, Heart } from "lucide-react";
+import Link from "next/link";
+import { toast } from "sonner";
+import { likeComment, unlikeComment } from "@/lib/actions/comments";
+import { sendNotification } from "@/app/(main)/notification/actions/notification";
 
 type CommentInteractionType = {
   comments?: number | undefined;
@@ -29,16 +29,18 @@ export default function CommentInteraction({
   const handleLikeButton = async () => {
     const { error } = await likeComment(commentId, createdBy);
     if (!error?.message) {
-      toast.success('Liked!');
+      toast.success("Liked!");
 
       // notification
       if (userId !== createdBy) {
         const { error: notifyError } = await sendNotification(
           createdBy,
-          'likes',
-          postId
+          "likes",
+          postId,
         );
-        notifyError?.message && console.log(notifyError?.message);
+        if (notifyError?.message) {
+          toast.error(notifyError?.message);
+        }
       }
     } else {
       toast.error(error?.message);
@@ -49,7 +51,7 @@ export default function CommentInteraction({
     const { error } = await unlikeComment(commentId, createdBy);
 
     if (!error?.message) {
-      toast.success('Unliked!');
+      toast.success("Unliked!");
     } else {
       toast.error(error?.message);
     }
@@ -62,15 +64,15 @@ export default function CommentInteraction({
           href={`${
             userId
               ? `?comment=${commentId}&createdBy=${createdBy}&postId=${postId}`
-              : '/auth'
+              : "/auth"
           }`}
         >
           <Button
-            size={'icon'}
+            size={"icon"}
             className="rounded-full hover:text-blue-500 dark:hover:text-blue-600"
-            variant={'ghost'}
+            variant={"ghost"}
             aria-label={`${
-              userId ? 'comment button' : 'you must be login to comment'
+              userId ? "comment button" : "you must be login to comment"
             }`}
           >
             <MessageCircle size={18} />
@@ -81,11 +83,11 @@ export default function CommentInteraction({
 
       <div className="flex items-center text-sm gap-1">
         <Button
-          size={'icon'}
+          size={"icon"}
           className={`rounded-full group hover:text-red-500 dark:hover:text-red-600 ${
-            liked ? 'text-red-500 dark:text-red-600' : ''
+            liked ? "text-red-500 dark:text-red-600" : ""
           }`}
-          variant={'ghost'}
+          variant={"ghost"}
           aria-label="like comment"
           disabled={!userId}
           aria-disabled={!userId}
@@ -93,7 +95,7 @@ export default function CommentInteraction({
         >
           <Heart
             size={18}
-            className={`${liked ? 'fill-red-500 dark:fill-red-600 ' : ''}`}
+            className={`${liked ? "fill-red-500 dark:fill-red-600 " : ""}`}
           />
         </Button>
         <p className="font-medium">{likes}</p>

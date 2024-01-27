@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Button } from './ui/button';
-import { usePathname } from 'next/navigation';
-import { HTMLAttributes } from 'react';
-import { cn } from '@/lib/utils';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { HTMLAttributes } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
 
 type NavLinkProps = {
   href: string;
@@ -25,10 +25,10 @@ export default function NavLink({
   return (
     <Button
       asChild
-      variant={`${active ? 'default' : 'ghost'}`}
-      className={'w-full flex items-center justify-start gap-2'}
+      variant={`${active ? "default" : "ghost"}`}
+      className={"w-full flex items-center justify-start gap-2"}
     >
-      <Link href={href} className={cn(className, '')} {...props}>
+      <Link href={href} className={cn(className, "")} {...props}>
         {icon}
         {title}
       </Link>

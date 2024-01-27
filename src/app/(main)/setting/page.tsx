@@ -1,10 +1,10 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import ProfileSetting from './components/profile-setting';
-import AccountSetting from './components/account-setting';
-import { getUserDataById } from '@/lib/actions';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getUserDataById } from "@/lib/actions";
+import ProfileSetting from "./components/profile-setting";
+import AccountSetting from "./components/account-setting";
 
 export default async function Setting() {
   const cookieStore = cookies();
@@ -14,7 +14,7 @@ export default async function Setting() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/auth');
+    redirect("/auth");
   }
 
   const { data: userData } = await getUserDataById(user?.id);

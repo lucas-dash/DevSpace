@@ -1,8 +1,8 @@
-import { redirect } from 'next/navigation';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
-import EmptyState from '@/components/ui/state/empty-state';
-import PostEdit from '@/components/post/post-edit';
+import { redirect } from "next/navigation";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
+import EmptyState from "@/components/ui/state/empty-state";
+import PostEdit from "@/components/post/post-edit";
 
 type EditIdType = {
   params: {
@@ -19,9 +19,9 @@ export default async function EditId({ params: { editId } }: EditIdType) {
   } = await supabase.auth.getSession();
 
   const { data: post } = await supabase
-    .from('posts')
+    .from("posts")
     .select()
-    .eq('id', editId)
+    .eq("id", editId)
     .single();
 
   if (!post) {
@@ -36,7 +36,7 @@ export default async function EditId({ params: { editId } }: EditIdType) {
   }
 
   if (!session || session.user.id !== post.created_by) {
-    redirect('/home');
+    redirect("/home");
   }
 
   const username =

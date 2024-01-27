@@ -1,5 +1,5 @@
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
 
 type ProfileFollowType = {
   userId: string;
@@ -9,14 +9,14 @@ export default async function ProfileFollows({ userId }: ProfileFollowType) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const { data: followers } = await supabase
-    .from('follows')
+    .from("follows")
     .select()
-    .eq('following_id', userId);
+    .eq("following_id", userId);
 
   const { data: following } = await supabase
-    .from('follows')
+    .from("follows")
     .select()
-    .eq('follower_id', userId);
+    .eq("follower_id", userId);
 
   return (
     <section className="flex items-center gap-3">

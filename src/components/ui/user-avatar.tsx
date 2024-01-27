@@ -1,8 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getUserDataById } from '@/lib/actions';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
-import { HTMLAttributes } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getUserDataById } from "@/lib/actions";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
+import { HTMLAttributes } from "react";
 
 type UserAvatarType = {
   userId?: string;
@@ -38,7 +38,7 @@ export default async function UserAvatar({
   return (
     <Avatar className={className} {...props}>
       <AvatarImage
-        src={userData?.avatar_url || ''}
+        src={userData?.avatar_url || ""}
         alt={`${userData?.username} profile image`}
       />
       <AvatarFallback className={`${textClassName} bg-slate-300`}>

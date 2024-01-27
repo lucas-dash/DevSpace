@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { X } from 'lucide-react';
-import { toast } from 'sonner';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { DialogClose } from '@/components/ui/dialog';
-import { updateTechStackArray } from '../../[profileId]/actions';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { X } from "lucide-react";
+import { toast } from "sonner";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { DialogClose } from "@/components/ui/dialog";
+import { updateTechStackArray } from "../../[profileId]/actions";
 
 type AddTechStackType = {
   userId: string;
@@ -16,14 +16,14 @@ type AddTechStackType = {
 };
 
 export default function AddTechStack({ userId, tech_stack }: AddTechStackType) {
-  const [newItem, setNewItem] = useState('');
+  const [newItem, setNewItem] = useState("");
   const [techStack, setTechStack] = useState(tech_stack || []);
   const router = useRouter();
 
   const addTechBadge = () => {
     if (techStack) {
       setTechStack([...techStack, newItem]);
-      setNewItem('');
+      setNewItem("");
     }
   };
 
@@ -46,8 +46,8 @@ export default function AddTechStack({ userId, tech_stack }: AddTechStackType) {
       if (error?.message) {
         toast.error(error?.message);
       } else {
-        toast.success('Tech stack has been updated!');
-        setNewItem('');
+        toast.success("Tech stack has been updated!");
+        setNewItem("");
         router.refresh();
       }
     }
@@ -61,8 +61,8 @@ export default function AddTechStack({ userId, tech_stack }: AddTechStackType) {
             <Badge className="capitalize">{item}</Badge>
             <Button
               type="button"
-              variant={'secondary'}
-              size={'icon'}
+              variant={"secondary"}
+              size={"icon"}
               className="h-4 w-4 absolute -top-0.5 -right-2 z-40"
               onClick={() => deleteTechBadge(item)}
             >
@@ -82,13 +82,13 @@ export default function AddTechStack({ userId, tech_stack }: AddTechStackType) {
           <div className="flex gap-2 flex-wrap">
             <Button onClick={addTechBadge}>Add</Button>
             <DialogClose asChild>
-              <Button onClick={saveTechStack} variant={'accent'}>
+              <Button onClick={saveTechStack} variant={"accent"}>
                 Save
               </Button>
             </DialogClose>
           </div>
           <DialogClose asChild>
-            <Button variant={'secondary'}>Cancel</Button>
+            <Button variant={"secondary"}>Cancel</Button>
           </DialogClose>
         </div>
       </div>

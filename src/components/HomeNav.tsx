@@ -1,12 +1,12 @@
-import Image from 'next/image';
-import { ModeToggle } from './ui/mode-toggle';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
+import { ModeToggle } from "./ui/mode-toggle";
 
 export default function HomeNav() {
   return (
     <nav className="container h-14 flex items-center justify-between">
       <Link
-        href={'/'}
+        href={"/"}
         aria-label="back to homepage"
         className="flex items-center gap-3"
       >

@@ -1,11 +1,11 @@
-import PostUser from '@/components/post/post-user';
-import UserAvatar from '@/components/ui/user-avatar';
-import CommentActions from './comment-actions';
-import CommentInteraction from './comment-interaction';
-import { cookies } from 'next/headers';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
-import ChildComment from './child-comment';
-import { checkLikedComment, getLikesByCommentId } from '@/lib/actions/comments';
+import PostUser from "@/components/post/post-user";
+import UserAvatar from "@/components/ui/user-avatar";
+import { cookies } from "next/headers";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { checkLikedComment, getLikesByCommentId } from "@/lib/actions/comments";
+import CommentActions from "./comment-actions";
+import CommentInteraction from "./comment-interaction";
+import ChildComment from "./child-comment";
 
 type CommentType = {
   comment: Comments;
@@ -20,10 +20,10 @@ export default async function Comment({
   const supabase = createSupabaseServerClient(cookieStore);
 
   const { data: childComments } = await supabase
-    .from('comments')
+    .from("comments")
     .select()
-    .eq('parentCommentId', comment_id)
-    .order('created_at', { ascending: false });
+    .eq("parentCommentId", comment_id)
+    .order("created_at", { ascending: false });
 
   const {
     data: { user },
@@ -33,14 +33,14 @@ export default async function Comment({
   const { data: likes } = await getLikesByCommentId(comment_id);
 
   const commentDivider = childComments?.some(
-    (comment) => comment.parentCommentId === comment_id
+    (comment) => comment.parentCommentId === comment_id,
   );
 
   return (
     <section className="border-t border-slate-200 dark:border-slate-600 py-2.5">
-      <article className={'px-2.5 max-[380px]:px-0 flex gap-3.5 relative'}>
+      <article className={"px-2.5 max-[380px]:px-0 flex gap-3.5 relative"}>
         {commentDivider && (
-          <div className="border-l-2 border-slate-200 dark:border-slate-600 absolute top-1/2 left-7 h-20"></div>
+          <div className="border-l-2 border-slate-200 dark:border-slate-600 absolute top-1/2 left-7 h-20" />
         )}
         <UserAvatar userId={user_id} />
 

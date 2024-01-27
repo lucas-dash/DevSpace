@@ -1,5 +1,5 @@
-import { cookies } from 'next/headers';
-import { createSupabaseServerClient } from '../supabase/server';
+import { cookies } from "next/headers";
+import { createSupabaseServerClient } from "../supabase/server";
 
 export default async function readUserSession() {
   const cookieStore = cookies();
@@ -14,9 +14,9 @@ export async function getUserDataById(userId: string) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = await supabase
-    .from('profile')
+    .from("profile")
     .select()
-    .eq('id', userId)
+    .eq("id", userId)
     .single();
 
   return result;

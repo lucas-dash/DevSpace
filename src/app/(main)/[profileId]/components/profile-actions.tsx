@@ -1,11 +1,11 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import FollowButton from './follow-button';
-import Modal from '@/components/modal';
-import SendEmail from './send-email';
-import { checkForFollowedUser } from '../actions';
-import { getUser } from '@/lib/actions';
-import AuthState from '@/components/ui/state/auth-state';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import Modal from "@/components/modal";
+import { getUser } from "@/lib/actions";
+import AuthState from "@/components/ui/state/auth-state";
+import FollowButton from "./follow-button";
+import SendEmail from "./send-email";
+import { checkForFollowedUser } from "../actions";
 
 type ProfileActionsType = {
   profileId: string;
@@ -35,7 +35,7 @@ export default async function ProfileActions({
   return (
     <div className="flex gap-2.5 max-sm:flex-col">
       {isUserProfile ? (
-        <Button asChild variant={'outline'}>
+        <Button asChild variant={"outline"}>
           <Link href="/setting">Edit Profile</Link>
         </Button>
       ) : (
@@ -44,7 +44,7 @@ export default async function ProfileActions({
             <Modal
               title={`Contact ${username} here.`}
               buttonChildren="Get in touch"
-              buttonVariant={'outline'}
+              buttonVariant={"outline"}
               aria-label="get in touch"
             >
               <SendEmail hireEmail={hireEmail} />

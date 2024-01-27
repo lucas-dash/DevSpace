@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { Input } from '@/components/ui/input';
-import { ChangeEvent } from 'react';
-import createSupabaseBrowserClient from '@/lib/supabase/client';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { validFileType, validFileSize } from '@/lib/helperFunc';
-import { Button } from '@/components/ui/button';
-import { DrawerClose } from '@/components/ui/drawer';
+import { Input } from "@/components/ui/input";
+import { ChangeEvent } from "react";
+import createSupabaseBrowserClient from "@/lib/supabase/client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { validFileType, validFileSize } from "@/lib/helperFunc";
+import { Button } from "@/components/ui/button";
+import { DrawerClose } from "@/components/ui/drawer";
 
 type ChangeAvatarProps = {
   prevAvatar: string | null;
@@ -25,15 +25,15 @@ export default function ChangeAvatar({
 
   const removePrevAvatar = async () => {
     if (userId && prevAvatar) {
-      const parts = prevAvatar.split('/');
+      const parts = prevAvatar.split("/");
       const avatarId = parts[parts.length - 1];
 
       const { error } = await supabase.storage
-        .from('avatars')
+        .from("avatars")
         .remove([`${userId}/${avatarId}`]);
 
       if (error?.message) {
-        toast.error('Failed to remove avatar.');
+        toast.error("Failed to remove avatar.");
       }
     }
   };
@@ -43,32 +43,32 @@ export default function ChangeAvatar({
       const file = e.target.files[0];
 
       if (!validFileType(file) || !validFileSize(file, MAX_SIZE)) {
-        toast.error('Invalid file type or size.');
+        toast.error("Invalid file type or size.");
         return;
       }
 
       if (file && userId) {
         removePrevAvatar();
 
-        let imageId = Date.now();
+        const imageId = Date.now();
 
         const { error } = await supabase.storage
-          .from('avatars')
+          .from("avatars")
           .upload(`${userId}/${imageId}`, file, { upsert: true });
 
         if (!error?.message) {
           const avatarUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${userId}/${imageId}`;
           const { error: profileError } = await supabase
-            .from('profile')
+            .from("profile")
             .update({
               avatar_url: avatarUrl,
             })
-            .eq('id', userId);
+            .eq("id", userId);
 
           if (profileError?.message) {
-            toast.error('Something get wrong. Try it again!');
+            toast.error("Something get wrong. Try it again!");
           } else {
-            toast.success('Avatar updated!');
+            toast.success("Avatar updated!");
             router.refresh();
           }
         } else {
@@ -83,17 +83,17 @@ export default function ChangeAvatar({
       removePrevAvatar();
 
       const { error: profileError } = await supabase
-        .from('profile')
+        .from("profile")
         .update({
           avatar_url: null,
         })
-        .eq('id', userId);
+        .eq("id", userId);
 
       if (profileError?.message) {
-        toast.error('Something get wrong. Try it again!');
+        toast.error("Something get wrong. Try it again!");
       }
 
-      toast.success('Avatar deleted!');
+      toast.success("Avatar deleted!");
       router.refresh();
     }
   };
@@ -110,7 +110,7 @@ export default function ChangeAvatar({
         {prevAvatar && (
           <DrawerClose asChild>
             <Button
-              variant={'destructive'}
+              variant={"destructive"}
               onClick={deleteAvatar}
               className="w-full"
             >

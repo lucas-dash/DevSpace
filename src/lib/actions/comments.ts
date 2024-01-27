@@ -1,19 +1,19 @@
-'use server';
+"use server";
 
-import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
-import { createSupabaseServerClient } from '../supabase/server';
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import { createSupabaseServerClient } from "../supabase/server";
 
 export async function createComment(
   content: string,
   post_id: string,
-  path: string
+  path: string,
 ) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = await supabase
-    .from('comments')
+    .from("comments")
     .insert({ content, post_id })
     .single();
 
@@ -27,9 +27,9 @@ export async function deleteCommentById(commentId: string) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = await supabase
-    .from('comments')
+    .from("comments")
     .delete()
-    .eq('comment_id', commentId);
+    .eq("comment_id", commentId);
 
   return result;
 }
@@ -37,12 +37,12 @@ export async function deleteCommentById(commentId: string) {
 export async function replyToComment(
   content: string,
   parentComment: string,
-  path: string
+  path: string,
 ) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 
-  const result = supabase.from('comments').insert({
+  const result = supabase.from("comments").insert({
     content,
     post_id: null,
     parentCommentId: parentComment,
@@ -57,7 +57,7 @@ export async function getPostCommentsNumber(post_id: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 
-  const result = supabase.from('comments').select().eq('post_id', post_id);
+  const result = supabase.from("comments").select().eq("post_id", post_id);
   return result;
 }
 
@@ -65,10 +65,10 @@ export async function likeComment(commentId: string, userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('likes')
+    .from("likes")
     .insert({ comment_id: commentId, user_id: userId });
 
-  revalidatePath('/home');
+  revalidatePath("/home");
   return result;
 }
 
@@ -77,11 +77,11 @@ export async function unlikeComment(commentId: string, userId: string) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = await supabase
-    .from('likes')
+    .from("likes")
     .delete()
-    .eq('comment_id', commentId)
-    .eq('user_id', userId);
-  revalidatePath('/home');
+    .eq("comment_id", commentId)
+    .eq("user_id", userId);
+  revalidatePath("/home");
 
   return result;
 }
@@ -91,10 +91,10 @@ export async function checkLikedComment(commentId: string, userId: string) {
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = await supabase
-    .from('likes')
+    .from("likes")
     .select()
-    .eq('comment_id', commentId)
-    .eq('user_id', userId)
+    .eq("comment_id", commentId)
+    .eq("user_id", userId)
     .single();
 
   return result;
@@ -104,9 +104,9 @@ export async function getLikesByCommentId(commentId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   const result = await supabase
-    .from('likes')
+    .from("likes")
     .select()
-    .eq('comment_id', commentId);
+    .eq("comment_id", commentId);
 
   return result;
 }

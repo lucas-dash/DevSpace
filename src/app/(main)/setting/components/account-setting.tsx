@@ -1,6 +1,6 @@
-import EmailUpdateForm from './email-update-form';
-import PasswordUpdateForm from './password-update-form';
-import DeleteAccount from './delete-account';
+import EmailUpdateForm from "./email-update-form";
+import PasswordUpdateForm from "./password-update-form";
+import DeleteAccount from "./delete-account";
 
 export default function AccountSetting({ userId }: { userId: string }) {
   return (

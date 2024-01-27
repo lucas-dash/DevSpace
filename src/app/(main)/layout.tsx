@@ -1,7 +1,7 @@
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import NotificationPanel from '@/components/notification-panel';
-import URLModal from '@/components/url-modal';
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+import NotificationPanel from "@/components/notification-panel";
+import URLModal from "@/components/url-modal";
 
 export default function MainLayout({
   children,

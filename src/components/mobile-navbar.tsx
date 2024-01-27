@@ -1,7 +1,6 @@
-'use client';
+"use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Button } from './ui/button';
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   BellDot,
   Bookmark,
@@ -11,13 +10,14 @@ import {
   Settings2,
   UsersRound,
   X,
-} from 'lucide-react';
-import NavLink from './navlink';
-import createSupabaseBrowserClient from '@/lib/supabase/client';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { Session } from '@supabase/supabase-js';
-import Link from 'next/link';
+} from "lucide-react";
+import createSupabaseBrowserClient from "@/lib/supabase/client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Session } from "@supabase/supabase-js";
+import Link from "next/link";
+import NavLink from "./navlink";
+import { Button } from "./ui/button";
 
 export default function MobileNavbar({
   close,
@@ -25,19 +25,18 @@ export default function MobileNavbar({
   close: Dispatch<SetStateAction<boolean>>;
 }) {
   const supabase = createSupabaseBrowserClient();
-  const [session, setSession] = useState<Session | null>();
+  const [currentSession, setCurrentSession] = useState<Session | null>();
   const router = useRouter();
 
   const profilePath =
-    session?.user.user_metadata.username ||
-    session?.user.user_metadata.user_name;
+    currentSession?.user.user_metadata.username ||
+    currentSession?.user.user_metadata.user_name;
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
 
     if (!error?.message) {
-      router.push('/auth');
-      return;
+      router.push("/auth");
     } else {
       toast.error(error?.message);
     }
@@ -51,9 +50,9 @@ export default function MobileNavbar({
       } = await supabase.auth.getSession();
 
       if (error?.message) {
-        toast.error('Something went wrong!');
+        toast.error("Something went wrong!");
       } else {
-        setSession(session);
+        setCurrentSession(session);
       }
     };
     getUsername();
@@ -61,33 +60,33 @@ export default function MobileNavbar({
 
   const navbarLinks = [
     {
-      title: 'Home',
-      path: '/home',
+      title: "Home",
+      path: "/home",
       icon: <Layout />,
     },
     {
-      title: 'Notification',
-      path: '/notification',
+      title: "Notification",
+      path: "/notification",
       icon: <BellDot />,
     },
     {
-      title: 'Bookmarks',
-      path: '/bookmarks',
+      title: "Bookmarks",
+      path: "/bookmarks",
       icon: <Bookmark />,
     },
     {
-      title: 'Communities',
-      path: '/communities',
+      title: "Communities",
+      path: "/communities",
       icon: <UsersRound />,
     },
     {
-      title: 'Profile',
+      title: "Profile",
       path: `/${profilePath}`,
       icon: <CircleUserRound />,
     },
     {
-      title: 'Setting',
-      path: '/setting',
+      title: "Setting",
+      path: "/setting",
       icon: <Settings2 />,
     },
   ];
@@ -95,8 +94,8 @@ export default function MobileNavbar({
   return (
     <nav className="fixed inset-0 z-50 min-h-screen bg-primary/95 dark:bg-primary-dark/95 backdrop-blur-3xl md:hidden flex flex-col items-center justify-center">
       <Button
-        variant={'ghost'}
-        size={'icon'}
+        variant={"ghost"}
+        size={"icon"}
         className="rounded-full md:hidden absolute top-3 right-5"
         onClick={() => close(false)}
       >
@@ -104,13 +103,13 @@ export default function MobileNavbar({
         <span className="sr-only">Close</span>
       </Button>
 
-      {!session ? (
+      {!currentSession ? (
         <div className="flex items-center justify-center gap-5">
           <Button asChild className="w-full">
-            <Link href={'/auth'}>Login</Link>
+            <Link href={"/auth"}>Login</Link>
           </Button>
-          <Button asChild className="w-full" variant={'accent'}>
-            <Link href={'/auth'}>Sign Up</Link>
+          <Button asChild className="w-full" variant={"accent"}>
+            <Link href={"/auth"}>Sign Up</Link>
           </Button>
         </div>
       ) : (
@@ -131,7 +130,7 @@ export default function MobileNavbar({
           </ul>
 
           <Button
-            variant={'destructive'}
+            variant={"destructive"}
             className="rounded-2xl w-max mt-10"
             onClick={handleSignOut}
           >

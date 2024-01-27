@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { SignUpSchema } from '@/lib/validations';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { SignUpSchema } from "@/lib/validations";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,13 +13,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '../../../components/ui/input';
-import { useTransition } from 'react';
-import { Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
-import { signUpWithEmailAndPassword } from '../actions';
-import createSupabaseBrowserClient from '@/lib/supabase/client';
+} from "@/components/ui/form";
+import { useTransition } from "react";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import createSupabaseBrowserClient from "@/lib/supabase/client";
+import { signUpWithEmailAndPassword } from "../actions";
+import { Input } from "../../../components/ui/input";
 
 export default function SignUpForm() {
   const supabase = createSupabaseBrowserClient();
@@ -28,32 +28,32 @@ export default function SignUpForm() {
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
-      username: '',
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      username: "",
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
   async function onSubmit(formData: z.infer<typeof SignUpSchema>) {
     const checkAndSignUpUser = async () => {
       const { data: userData, error } = await supabase
-        .from('profile')
+        .from("profile")
         .select()
-        .ilike('username', `%${formData.username}%`)
+        .ilike("username", `%${formData.username}%`)
         .single();
       if (userData?.username !== formData.username) {
         const result = await signUpWithEmailAndPassword(formData);
-        const { error } = JSON.parse(result);
-        if (error?.message) {
-          toast.error(error?.message);
+        const { error: singUpError } = JSON.parse(result);
+        if (singUpError?.message) {
+          toast.error(singUpError?.message);
         } else {
-          toast.success('Successfully registered!');
+          toast.success("Successfully registered!");
           form.reset();
         }
       } else if (!error?.message && userData?.username === formData.username) {
-        toast.warning('Username already exists!');
+        toast.warning("Username already exists!");
       } else if (error?.message) {
         toast.error(error?.message);
       }

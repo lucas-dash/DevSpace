@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import createSupabaseBrowserClient from '@/lib/supabase/client';
-import { Github } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { Button } from "@/components/ui/button";
+import createSupabaseBrowserClient from "@/lib/supabase/client";
+import { Github } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function OAuthForm() {
   const supabase = createSupabaseBrowserClient();
@@ -11,7 +11,7 @@ export default function OAuthForm() {
 
   const handleSignInWithGithub = () => {
     supabase.auth.signInWithOAuth({
-      provider: 'github',
+      provider: "github",
       options: {
         redirectTo: `http://localhost:3000/auth/callback?next=${pathname}`,
       },
@@ -21,7 +21,7 @@ export default function OAuthForm() {
   return (
     <div className="flex items-center justify-center w-full pt-3 pb-1">
       <Button
-        variant={'outline'}
+        variant={"outline"}
         onClick={handleSignInWithGithub}
         className="font-semibold rounded-2xl"
       >

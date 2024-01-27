@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { CommentSchema } from '@/lib/validations';
-import { createComment, replyToComment } from '@/lib/actions/comments';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { CommentSchema } from "@/lib/validations";
+import { createComment, replyToComment } from "@/lib/actions/comments";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Loader2 } from 'lucide-react';
-import { Textarea } from '@/components/ui/textarea';
-import { useEffect, useState, useTransition } from 'react';
-import { toast } from 'sonner';
-import { usePathname, useRouter } from 'next/navigation';
-import { sendNotification } from '@/app/(main)/notification/actions/notification';
-import createSupabaseBrowserClient from '@/lib/supabase/client';
+} from "@/components/ui/form";
+import { Loader2 } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { useEffect, useState, useTransition } from "react";
+import { toast } from "sonner";
+import { usePathname, useRouter } from "next/navigation";
+import { sendNotification } from "@/app/(main)/notification/actions/notification";
+import createSupabaseBrowserClient from "@/lib/supabase/client";
 
 type CommentFormType = {
   createdBy: string;
@@ -47,7 +47,6 @@ export default function CommentForm({
         data: { user },
       } = await supabase.auth.getUser();
       setUserId(user?.id);
-      return;
     };
     getUser();
   }, [supabase]);
@@ -55,7 +54,7 @@ export default function CommentForm({
   const form = useForm<z.infer<typeof CommentSchema>>({
     resolver: zodResolver(CommentSchema),
     defaultValues: {
-      content: '',
+      content: "",
     },
   });
 
@@ -65,15 +64,17 @@ export default function CommentForm({
         const { error } = await replyToComment(data.content, commentId, path);
 
         if (!error?.message) {
-          toast.success('Send!');
+          toast.success("Send!");
           // notification
           if (userId !== createdBy) {
             const { error: notifyError } = await sendNotification(
               createdBy,
-              'replyComment',
-              postId
+              "replyComment",
+              postId,
             );
-            notifyError?.message && console.log(notifyError?.message);
+            if (notifyError?.message) {
+              toast.error(notifyError?.message);
+            }
           }
 
           form.reset();
@@ -89,16 +90,18 @@ export default function CommentForm({
         const { error } = await createComment(data.content, postId, path);
 
         if (!error?.message) {
-          toast.success('Send!');
+          toast.success("Send!");
 
           // notification
           if (userId !== createdBy) {
             const { error: notifyError } = await sendNotification(
               createdBy,
-              'comments',
-              postId
+              "comments",
+              postId,
             );
-            notifyError?.message && console.log(notifyError?.message);
+            if (notifyError?.message) {
+              toast.error(notifyError?.message);
+            }
           }
 
           form.reset();

@@ -1,5 +1,5 @@
-import { NextResponse, type NextRequest } from 'next/server';
-import { createClient } from '@/lib/supabase/middleware';
+import { NextResponse, type NextRequest } from "next/server";
+import { createClient } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
   try {
@@ -17,9 +17,9 @@ export async function middleware(request: NextRequest) {
     } = await supabase.auth.getSession();
 
     const sessionCookies = {
-      name: 'sb-duncazsaiuxemkuxyfpm-auth-token',
+      name: "sb-duncazsaiuxemkuxyfpm-auth-token",
       value: JSON.stringify(session),
-      path: '/',
+      path: "/",
       expires: new Date(new Date().getTime() + 60 * 60 * 1000 * 24 * 365), // 1 year,
     };
 
@@ -47,8 +47,8 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    '/',
-    '/home',
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    "/",
+    "/home",
+    "/((?!_next/static|_next/image|favicon.ico).*)",
   ],
 };

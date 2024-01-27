@@ -1,4 +1,4 @@
-import NotifySkeleton from '@/components/ui/skeletons/notify-skeleton';
+import NotifySkeleton from "@/components/ui/skeletons/notify-skeleton";
 
 export default function Loading() {
   return (
