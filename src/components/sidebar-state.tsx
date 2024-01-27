@@ -3,6 +3,7 @@ import Link from 'next/link';
 import SignOut from '@/app/auth/components/sign-out';
 import { Session } from '@supabase/supabase-js';
 import UserAvatar from './ui/user-avatar';
+import AuthState from './auth-state';
 
 type SidebarStateType = {
   session: Session | null;
@@ -16,13 +17,7 @@ export default function SidebarState({
   display_name,
 }: SidebarStateType) {
   if (!session) {
-    return (
-      <div className="flex w-full">
-        <Button asChild className="w-full">
-          <Link href={'/auth'}>Login</Link>
-        </Button>
-      </div>
-    );
+    return <AuthState />;
   }
 
   return (

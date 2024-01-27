@@ -1,9 +1,9 @@
-import { formatRelativeTime, notifyTypeCheck } from '@/lib/helperFunc';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import ReadButton from './read-button';
+import { formatRelativeTime, notifyTypeCheck } from '@/lib/helperFunc';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 
 export default async function Notify({
   created_at,
@@ -22,7 +22,8 @@ export default async function Notify({
     .eq('id', sender_user_id)
     .single();
 
-  const nameFallback = userData?.display_name[0].toUpperCase();
+  const nameFallback = userData?.display_name[0].toUpperCase() || 'U';
+
   let linkToPost: string = '';
 
   const { data: post } = await supabase

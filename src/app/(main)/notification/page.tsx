@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import Notify from './components/notify';
 import { selectUserNotification } from './actions/notification';
 import EmptyState from '@/components/empty-state';
+import RealtimeNotify from './components/realtime-notify';
 
 export default async function Notification() {
   const cookieStore = cookies();
@@ -20,14 +21,16 @@ export default async function Notification() {
   const { data: notifications } = await selectUserNotification(user?.id);
 
   return (
-    <section className="h-full bg-primary dark:bg-primary-dark rounded-2xl p-3 flex flex-col gap-3">
-      {notifications?.length === 0 || !notifications ? (
-        <EmptyState title="You have no notifications." />
-      ) : (
-        notifications?.map((notify) => (
-          <Notify key={notify.notify_id} {...notify} />
-        ))
-      )}
+    <section className="h-max bg-primary dark:bg-primary-dark rounded-2xl p-3">
+      <RealtimeNotify>
+        {notifications?.length === 0 || !notifications ? (
+          <EmptyState title="You have no notifications." />
+        ) : (
+          notifications?.map((notify) => (
+            <Notify key={notify.notify_id} {...notify} />
+          ))
+        )}
+      </RealtimeNotify>
     </section>
   );
 }
