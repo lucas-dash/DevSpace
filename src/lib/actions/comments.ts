@@ -1,8 +1,8 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { createSupabaseServerClient } from '../supabase/server';
-import { revalidatePath } from 'next/cache';
 
 export async function createComment(
   content: string,

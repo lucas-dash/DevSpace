@@ -1,9 +1,10 @@
 import Post from '@/components/post/post';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
+import readUserSession from '@/lib/actions';
+import EmptyState from '@/components/ui/state/empty-state';
 import CreateComment from './components/create-comment';
 import PostComments from './components/post-comments';
-import EmptyState from '@/components/ui/state/empty-state';
 
 type PostType = {
   params: {
@@ -17,7 +18,7 @@ export default async function PostId({ params: { postId } }: PostType) {
 
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await readUserSession();
 
   const { data: post } = await supabase
     .from('posts')
@@ -30,7 +31,7 @@ export default async function PostId({ params: { postId } }: PostType) {
       <EmptyState
         title="Post doesn't exists."
         linkTitle="Back to home"
-        linkTo="/home"
+        linkTo="home"
         icon
       />
     );

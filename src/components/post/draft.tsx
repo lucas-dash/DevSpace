@@ -1,11 +1,11 @@
 'use client';
 
-import { deletePostById, postDraft } from '@/app/(main)/home/actions';
 import { Button } from '../ui/button';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
 import { Loader2, Trash2 } from 'lucide-react';
 import { DrawerClose } from '../ui/drawer';
+import { deletePostById, postDraft } from '@/app/(main)/home/actions';
 
 export default function Draft({ id, content }: Post) {
   const [isPending, startTransition] = useTransition();
@@ -34,7 +34,7 @@ export default function Draft({ id, content }: Post) {
 
   return (
     <article className="border-b border-primary-dark dark:border-primary py-2 px-4 flex items-center justify-between">
-      <p className="font-medium">{content}</p>
+      <p className="font-medium pr-1.5">{content}</p>
       <div className="flex items-center gap-1.5">
         <DrawerClose asChild>
           <Button variant={'default'} onClick={updateDraft}>

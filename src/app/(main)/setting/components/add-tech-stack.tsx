@@ -7,8 +7,8 @@ import { X } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { updateTechStackArray } from '../../[profileId]/actions';
 import { DialogClose } from '@/components/ui/dialog';
+import { updateTechStackArray } from '../../[profileId]/actions';
 
 type AddTechStackType = {
   userId: string;
@@ -56,35 +56,36 @@ export default function AddTechStack({ userId, tech_stack }: AddTechStackType) {
   return (
     <section>
       <div className="flex items-center gap-3 mb-3 flex-wrap">
-        {techStack?.map((item, i) => {
-          return (
-            <div key={i} className="relative">
-              <Badge className="capitalize">{item}</Badge>
-              <Button
-                type="button"
-                variant={'secondary'}
-                size={'icon'}
-                className="h-4 w-4 absolute -top-0.5 -right-2 z-40"
-                onClick={() => deleteTechBadge(item)}
-              >
-                <X size={18} />
-              </Button>
-            </div>
-          );
-        })}
+        {techStack?.map((item, i) => (
+          <div key={i} className="relative">
+            <Badge className="capitalize">{item}</Badge>
+            <Button
+              type="button"
+              variant={'secondary'}
+              size={'icon'}
+              className="h-4 w-4 absolute -top-0.5 -right-2 z-40"
+              onClick={() => deleteTechBadge(item)}
+            >
+              <X size={18} />
+            </Button>
+          </div>
+        ))}
       </div>
       <div className="space-y-5">
         <Input
           type="text"
           value={newItem}
+          placeholder="React"
           onChange={({ target }) => setNewItem(target.value)}
         />
         <div className="flex gap-2 justify-between">
           <div className="flex gap-2 flex-wrap">
             <Button onClick={addTechBadge}>Add</Button>
-            <Button onClick={saveTechStack} variant={'accent'}>
-              Save
-            </Button>
+            <DialogClose asChild>
+              <Button onClick={saveTechStack} variant={'accent'}>
+                Save
+              </Button>
+            </DialogClose>
           </div>
           <DialogClose asChild>
             <Button variant={'secondary'}>Cancel</Button>

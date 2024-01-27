@@ -9,7 +9,6 @@ export default function CreatePost({ userId }: { userId: string }) {
     <section className="bg-primary dark:bg-primary-dark rounded-2xl w-full flex gap-3.5 p-2.5">
       <div className="flex flex-col items-center gap-3">
         <UserAvatar />
-
         <CustomDrawer
           title="Your Drafts"
           buttonChildren={<Inbox size={20} />}
@@ -20,6 +19,7 @@ export default function CreatePost({ userId }: { userId: string }) {
           <Drafts userId={userId} />
         </CustomDrawer>
       </div>
+
       <PostForm />
     </section>
   );

@@ -45,6 +45,7 @@ export default async function ProfileActions({
               title={`Contact ${username} here.`}
               buttonChildren="Get in touch"
               buttonVariant={'outline'}
+              aria-label="get in touch"
             >
               <SendEmail hireEmail={hireEmail} />
             </Modal>

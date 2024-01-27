@@ -47,8 +47,8 @@ export default function CustomDrawer({
           {buttonChildren}
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-[90dvh] sm:h-[85dvh]">
-        <div className="mx-auto w-full max-w-sm">
+      <DrawerContent className="h-[90dvh] sm:h-[75dvh]">
+        <div className="mx-auto w-full  max-w-xl">
           <DrawerHeader>
             <DrawerTitle>{title}</DrawerTitle>
             {description && (

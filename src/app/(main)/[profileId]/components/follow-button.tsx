@@ -78,6 +78,7 @@ export default function FollowButton({
   return (
     <Button
       variant={isFollowing ? unVariant : variant}
+      size={size}
       onClick={isFollowing ? handleUnfollowUser : handleFollowUser}
       disabled={isPending}
       aria-disabled={isPending}

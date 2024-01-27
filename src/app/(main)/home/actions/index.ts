@@ -35,6 +35,34 @@ export async function readPosts(userId?: string) {
     .order('created_at', { ascending: false });
 }
 
+export async function updatePostById(
+  id: string,
+  content: string,
+  url: string,
+  user: string
+) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
+  const result = await supabase.from('posts').update({ content }).eq('id', id);
+
+  revalidatePath(url);
+  revalidatePath('/home');
+  revalidatePath(`/${user}`);
+
+  return JSON.stringify(result);
+}
+
+export async function deletePostById(id: string) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+  const result = await supabase.from('posts').delete().eq('id', id);
+  revalidatePath('/home');
+  return result;
+}
+
+// drafts
+
 export async function readDrafts(userId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
@@ -64,31 +92,6 @@ export async function postDraft(postId: string) {
   return result;
 }
 
-export async function updatePostById(
-  id: string,
-  content: string,
-  url: string,
-  user: string
-) {
-  const cookieStore = cookies();
-  const supabase = createSupabaseServerClient(cookieStore);
-
-  const result = await supabase.from('posts').update({ content }).eq('id', id);
-
-  revalidatePath(url);
-  revalidatePath('/home');
-  revalidatePath(`/${user}`);
-
-  return JSON.stringify(result);
-}
-
-export async function deletePostById(id: string) {
-  const cookieStore = cookies();
-  const supabase = createSupabaseServerClient(cookieStore);
-  const result = await supabase.from('posts').delete().eq('id', id);
-  revalidatePath('/home');
-  return result;
-}
 // post actions
 
 export async function likePost(postId: string, userId: string) {
