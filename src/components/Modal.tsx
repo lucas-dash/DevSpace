@@ -8,9 +8,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button, buttonVariants } from './ui/button';
 import { VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import { Button, buttonVariants } from './ui/button';
 
 type ButtonVariant = VariantProps<typeof buttonVariants>['variant'];
 type ButtonSize = VariantProps<typeof buttonVariants>['size'];
@@ -29,8 +29,8 @@ export default function Modal({
   title,
   description,
   buttonChildren,
-  buttonVariant,
-  buttonSize,
+  buttonVariant = 'default',
+  buttonSize = 'default',
   className,
   ...props
 }: ModalProps) {

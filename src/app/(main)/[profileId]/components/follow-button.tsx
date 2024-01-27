@@ -1,44 +1,60 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { followUser, unfollowUser } from '../actions';
+import { cn } from '@/lib/utils';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { VariantProps } from 'class-variance-authority';
 import { Loader2, UserRoundPlus, UserRoundMinus } from 'lucide-react';
-import { useTransition } from 'react';
+import { HTMLAttributes, useTransition } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { sendNotification } from '../../notification/actions/notification';
+import { followUser, unfollowUser } from '../actions';
 
-type FollowButtonType = {
-  userId: string | undefined;
-  followId: string;
-  followed: Following[] | null;
-};
+type ButtonVariant = VariantProps<typeof buttonVariants>['variant'];
+type ButtonSize = VariantProps<typeof buttonVariants>['size'];
+
+type FollowButtonProps = {
+  currentUser: string | undefined;
+  profileId: string;
+  isFollowing: number | undefined;
+  variant?: ButtonVariant;
+  unVariant?: ButtonVariant;
+  size?: ButtonSize;
+} & HTMLAttributes<HTMLButtonElement>;
 
 export default function FollowButton({
-  userId,
-  followId,
-  followed,
-}: FollowButtonType) {
+  currentUser,
+  profileId,
+  isFollowing,
+  variant = 'accent',
+  unVariant = 'destructive',
+  size = 'default',
+  className,
+  ...props
+}: FollowButtonProps) {
   const [isPending, startTranstion] = useTransition();
   const router = useRouter();
 
-  if (!userId) {
+  if (!currentUser) {
     return;
   }
 
   const handleFollowUser = () => {
     startTranstion(async () => {
-      const { error } = await followUser(userId, followId);
+      const { error } = await followUser(currentUser, profileId);
 
       if (!error?.message) {
         toast.success('You started following the new user!');
 
-        const { error } = await sendNotification(followId, 'follows', followId);
+        const { error: notifyError } = await sendNotification(
+          profileId,
+          'follows',
+          profileId
+        );
 
-        if (error?.message) {
-          console.log(error?.message);
+        if (notifyError?.message) {
+          console.log(notifyError?.message);
         }
-
         router.refresh();
       } else {
         toast.error('Something went wrong!');
@@ -48,7 +64,7 @@ export default function FollowButton({
 
   const handleUnfollowUser = () => {
     startTranstion(async () => {
-      const { error } = await unfollowUser(userId, followId);
+      const { error } = await unfollowUser(currentUser, profileId);
 
       if (!error?.message) {
         toast.success('Unfollowing the user was successful!');
@@ -59,37 +75,23 @@ export default function FollowButton({
     });
   };
 
-  if (followed?.length !== 0) {
-    return (
-      <Button
-        variant={'destructive'}
-        onClick={handleUnfollowUser}
-        disabled={isPending}
-        aria-disabled={isPending}
-      >
-        {isPending ? (
-          <Loader2 className="mr-1 animate-spin" size={20} />
-        ) : (
-          <UserRoundMinus className="mr-1" size={20} />
-        )}
-        Unfollow
-      </Button>
-    );
-  }
-
   return (
     <Button
-      variant={'accent'}
-      onClick={handleFollowUser}
+      variant={isFollowing ? unVariant : variant}
+      onClick={isFollowing ? handleUnfollowUser : handleFollowUser}
       disabled={isPending}
       aria-disabled={isPending}
+      className={cn(className, '')}
+      {...props}
     >
       {isPending ? (
         <Loader2 className="mr-1 animate-spin" size={20} />
+      ) : isFollowing ? (
+        <UserRoundMinus className="mr-1" size={20} />
       ) : (
         <UserRoundPlus className="mr-1" size={20} />
       )}
-      Follow
+      {isFollowing ? 'Unfollow' : 'Follow'}
     </Button>
   );
 }

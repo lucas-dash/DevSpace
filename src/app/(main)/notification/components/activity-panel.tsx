@@ -1,13 +1,13 @@
-import EmptyState from '@/components/empty-state';
-import RealtimeNotify from './realtime-notify';
-import Notify from './notify';
+import EmptyState from '@/components/ui/state/empty-state';
 import { Button } from '@/components/ui/button';
-import { selectUserNotification } from '../actions/notification';
 import Link from 'next/link';
+import Notify from './notify';
+import RealtimeNotify from './realtime-notify';
+import { selectUserNotification } from '../actions/notification';
 
-type ActivityPanelProps = {
+interface ActivityPanelProps {
   userId: string;
-};
+}
 
 export default async function ActivityPanel({ userId }: ActivityPanelProps) {
   const { data: notifications } = await selectUserNotification(userId);
@@ -26,11 +26,11 @@ export default async function ActivityPanel({ userId }: ActivityPanelProps) {
             {index === 4 && (
               <Button
                 asChild
-                variant={'link'}
-                size={'sm'}
+                variant="link"
+                size="sm"
                 className="text-accent dark:text-accent-dark w-full mt-1"
               >
-                <Link href={'/notification'} className="text-center">
+                <Link href="/notification" className="text-center">
                   Show More
                 </Link>
               </Button>

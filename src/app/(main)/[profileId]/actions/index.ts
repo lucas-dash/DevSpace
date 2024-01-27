@@ -6,20 +6,6 @@ import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { z } from 'zod';
 
-// todo check use
-export async function getUserDataById(userId: string) {
-  const cookieStore = cookies();
-  const supabase = createSupabaseServerClient(cookieStore);
-
-  const { data: userData } = await supabase
-    .from('profile')
-    .select()
-    .eq('id', userId)
-    .single();
-
-  return userData;
-}
-
 export async function updateProfileById(
   id: string,
   data: z.infer<typeof ProfileSchema>
@@ -31,21 +17,21 @@ export async function updateProfileById(
     data;
 
   await supabase.auth.updateUser({
-    data: { username: username, display_name: name },
+    data: { username, display_name: name },
   });
 
   const result = await supabase
     .from('profile')
     .update({
-      username: username,
+      username,
       display_name: name,
-      bio: bio,
-      company: company,
+      bio,
+      company,
       hire_email: hireEmail,
       social_link_one: link1,
       social_link_two: link2,
       social_link_three: link3,
-      url: url,
+      url,
     })
     .eq('id', id);
 
@@ -70,18 +56,18 @@ export async function updateTechStackArray(
   return result;
 }
 
-export async function followUser(userId: string, followId: string) {
+export async function followUser(userId: string, toFollowId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 
   const result = await supabase
     .from('follows')
-    .insert({ follower_id: userId, following_id: followId });
+    .insert({ follower_id: userId, following_id: toFollowId });
 
   return result;
 }
 
-export async function unfollowUser(userId: string, followId: string) {
+export async function unfollowUser(userId: string, toFollowId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 
@@ -89,14 +75,14 @@ export async function unfollowUser(userId: string, followId: string) {
     .from('follows')
     .delete()
     .eq('follower_id', userId)
-    .eq('following_id', followId);
+    .eq('following_id', toFollowId);
 
   revalidatePath('/');
 
   return result;
 }
 
-export async function checkForFollowedUser(userId: string, followId: string) {
+export async function checkForFollowedUser(userId: string, toFollowId: string) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 
@@ -104,7 +90,7 @@ export async function checkForFollowedUser(userId: string, followId: string) {
     .from('follows')
     .select()
     .eq('follower_id', userId)
-    .eq('following_id', followId);
+    .eq('following_id', toFollowId);
 
   return result;
 }

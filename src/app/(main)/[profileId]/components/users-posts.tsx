@@ -1,13 +1,13 @@
 import Post from '@/components/post/post';
 import { readPosts } from '../../home/actions';
-import EmptyState from '@/components/empty-state';
+import EmptyState from '@/components/ui/state/empty-state';
 
 type UsersPostsType = {
-  userId: string;
+  profileId: string;
 };
 
-export default async function UsersPosts({ userId }: UsersPostsType) {
-  const { data: posts } = await readPosts(userId);
+export default async function UsersPosts({ profileId }: UsersPostsType) {
+  const { data: posts } = await readPosts(profileId);
 
   return (
     <section className="flex flex-col gap-5">

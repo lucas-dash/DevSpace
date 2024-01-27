@@ -1,6 +1,6 @@
 import { readDrafts } from '@/app/(main)/home/actions';
 import Draft from './draft';
-import EmptyState from '../empty-state';
+import EmptyState from '../ui/state/empty-state';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default async function Drafts({ userId }: { userId: string }) {

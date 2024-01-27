@@ -1,11 +1,11 @@
-import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import UsersPosts from './components/users-posts';
 import ProfileHeader from './components/profile-header';
-import { cookies } from 'next/headers';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UserReposts from './components/user-reposts';
-import EmptyState from '@/components/empty-state';
+import EmptyState from '@/components/ui/state/empty-state';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
 
 type ProfileIdType = {
   params: {
@@ -18,10 +18,9 @@ export default async function ProfileId({
 }: ProfileIdType) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
-
-  const { data: userData } = await supabase
+  const { data: userData, error } = await supabase
     .from('profile')
-    .select('*')
+    .select()
     .eq('username', profileId)
     .single();
 
@@ -29,7 +28,7 @@ export default async function ProfileId({
     redirect('/auth');
   }
 
-  if (!userData) {
+  if (!userData || error) {
     return (
       <EmptyState
         title="User not found!"
@@ -42,7 +41,7 @@ export default async function ProfileId({
 
   return (
     <section className="h-full">
-      <ProfileHeader userData={userData} profileId={profileId} />
+      <ProfileHeader {...userData} />
       <Tabs defaultValue="posts" className="w-full mt-2.5">
         <TabsList className="grid w-full grid-cols-2 rounded-lg bg-transparent dark:bg-transparent">
           <TabsTrigger
@@ -59,10 +58,10 @@ export default async function ProfileId({
           </TabsTrigger>
         </TabsList>
         <TabsContent value="posts">
-          <UsersPosts userId={userData.id} />
+          <UsersPosts profileId={userData.id} />
         </TabsContent>
         <TabsContent value="reposts">
-          <UserReposts userId={userData.id} />
+          <UserReposts profileId={userData.id} />
         </TabsContent>
       </Tabs>
     </section>

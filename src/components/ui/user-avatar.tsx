@@ -1,5 +1,5 @@
-import { getUserDataById } from '@/app/(main)/[profileId]/actions';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { getUserDataById } from '@/lib/actions';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
 import { HTMLAttributes } from 'react';
@@ -29,7 +29,7 @@ export default async function UserAvatar({
 
   if (!effectiveUserId) return null;
 
-  const userData = await getUserDataById(effectiveUserId);
+  const { data: userData } = await getUserDataById(effectiveUserId);
 
   if (!userData) return null;
 

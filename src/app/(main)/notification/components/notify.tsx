@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import ReadButton from './read-button';
 import { formatRelativeTime, notifyTypeCheck } from '@/lib/helperFunc';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
+import ReadButton from './read-button';
 
 export default async function Notify({
   created_at,

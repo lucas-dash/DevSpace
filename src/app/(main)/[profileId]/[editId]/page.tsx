@@ -1,8 +1,8 @@
-import EmptyState from '@/components/empty-state';
-import PostEdit from '@/components/post/post-edit';
+import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import EmptyState from '@/components/ui/state/empty-state';
+import PostEdit from '@/components/post/post-edit';
 
 type EditIdType = {
   params: {
@@ -39,9 +39,12 @@ export default async function EditId({ params: { editId } }: EditIdType) {
     redirect('/home');
   }
 
+  const username =
+    session.user.user_metadata.username || session.user.user_metadata.user_name;
+
   return (
     <section className="bg-primary dark:bg-primary-dark rounded-2xl p-5">
-      <PostEdit post={post} user={session.user.user_metadata.username} />
+      <PostEdit post={post} user={username} />
     </section>
   );
 }

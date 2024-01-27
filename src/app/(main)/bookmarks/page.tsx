@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
+import EmptyState from '@/components/ui/state/empty-state';
 import Post from '@/components/post/post';
-import EmptyState from '@/components/empty-state';
 
 export default async function Bookmarks() {
   const cookieStore = cookies();

@@ -58,11 +58,14 @@ export default function PostDropdown({
               </DropdownMenuItem>
             </>
           ) : (
-            <DropdownMenuItem>
+            <DropdownMenuItem className="m-0 p-0">
               <FollowButton
-                followId={createdById}
-                userId={user.id}
-                followed={followingData}
+                currentUser={user.id}
+                profileId={createdById}
+                isFollowing={followingData?.length}
+                variant={'ghost'}
+                unVariant={'ghost'}
+                className="w-full h-8 rounded-md"
               />
             </DropdownMenuItem>
           )}

@@ -89,7 +89,6 @@ export async function deletePostById(id: string) {
   revalidatePath('/home');
   return result;
 }
-
 // post actions
 
 export async function likePost(postId: string, userId: string) {

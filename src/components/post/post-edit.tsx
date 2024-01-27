@@ -16,9 +16,9 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { useTransition } from 'react';
 import { Loader2 } from 'lucide-react';
-import { updatePostById } from '@/app/(main)/home/actions';
 import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { updatePostById } from '@/app/(main)/home/actions';
 
 type PostEditType = {
   post: Post;

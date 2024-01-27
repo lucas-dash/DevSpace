@@ -1,9 +1,10 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import ProfileSetting from './components/profile-setting';
 import AccountSetting from './components/account-setting';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { redirect } from 'next/navigation';
+import { getUserDataById } from '@/lib/actions';
 
 export default async function Setting() {
   const cookieStore = cookies();
@@ -16,11 +17,7 @@ export default async function Setting() {
     redirect('/auth');
   }
 
-  const { data: userData } = await supabase
-    .from('profile')
-    .select()
-    .eq('id', user?.id)
-    .single();
+  const { data: userData } = await getUserDataById(user?.id);
 
   return (
     <section className="rounded-2xl bg-primary dark:bg-primary-dark h-max p-3.5 sm:py-2 sm:px-5">

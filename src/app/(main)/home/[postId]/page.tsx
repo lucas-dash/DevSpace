@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
 import CreateComment from './components/create-comment';
 import PostComments from './components/post-comments';
-import EmptyState from '@/components/empty-state';
+import EmptyState from '@/components/ui/state/empty-state';
 
 type PostType = {
   params: {

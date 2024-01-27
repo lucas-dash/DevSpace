@@ -3,7 +3,7 @@ import { BellDot } from 'lucide-react';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import ActivityPanel from '@/app/(main)/notification/components/activity-panel';
-import AuthState from './auth-state';
+import AuthState from './ui/state/auth-state';
 
 export default async function NotificationPanel() {
   const cookieStore = cookies();
@@ -23,7 +23,11 @@ export default async function NotificationPanel() {
         Activity
       </Link>
 
-      {user ? <ActivityPanel userId={user.id} /> : <AuthState />}
+      {user ? (
+        <ActivityPanel userId={user.id} />
+      ) : (
+        <AuthState className="w-full" />
+      )}
     </aside>
   );
 }

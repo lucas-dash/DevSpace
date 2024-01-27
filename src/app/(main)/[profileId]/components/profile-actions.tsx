@@ -3,33 +3,34 @@ import { Button } from '@/components/ui/button';
 import FollowButton from './follow-button';
 import Modal from '@/components/modal';
 import SendEmail from './send-email';
-import { User } from '@supabase/supabase-js';
 import { checkForFollowedUser } from '../actions';
+import { getUser } from '@/lib/actions';
+import AuthState from '@/components/ui/state/auth-state';
 
 type ProfileActionsType = {
-  currentUser: User | null;
   profileId: string;
-  userId: string;
   hireEmail: string | null;
   username: string;
 };
 
 export default async function ProfileActions({
-  currentUser,
   profileId,
-  userId,
   hireEmail,
   username,
 }: ProfileActionsType) {
-  if (!currentUser) {
-    return;
+  const {
+    data: { user },
+  } = await getUser();
+
+  if (!user) {
+    return <AuthState />;
   }
 
-  const { data } = await checkForFollowedUser(currentUser?.id, userId);
+  const { data } = await checkForFollowedUser(user?.id, profileId);
 
   const isUserProfile =
-    currentUser.user_metadata.username === profileId ||
-    currentUser.user_metadata.user_name === profileId;
+    user.user_metadata.username === username ||
+    user.user_metadata.user_name === username;
 
   return (
     <div className="flex gap-2.5 max-sm:flex-col">
@@ -49,9 +50,9 @@ export default async function ProfileActions({
             </Modal>
           )}
           <FollowButton
-            userId={currentUser.id}
-            followId={userId}
-            followed={data}
+            currentUser={user.id}
+            profileId={profileId}
+            isFollowing={data?.length}
           />
         </>
       )}

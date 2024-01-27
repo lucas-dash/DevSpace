@@ -2,16 +2,20 @@ import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
 import { readPosts } from '../../home/actions';
 import Post from '@/components/post/post';
-import EmptyState from '@/components/empty-state';
+import EmptyState from '@/components/ui/state/empty-state';
 
-export default async function UserReposts({ userId }: { userId: string }) {
+export default async function UserReposts({
+  profileId,
+}: {
+  profileId: string;
+}) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
 
   const { data: reposts } = await supabase
     .from('reposts')
     .select()
-    .eq('user_id', userId)
+    .eq('user_id', profileId)
     .order('created_at', { ascending: false });
 
   const { data: posts } = await readPosts();

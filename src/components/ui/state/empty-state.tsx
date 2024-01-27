@@ -1,9 +1,9 @@
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { Button } from './ui/button';
+import { Button } from '../button';
 import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
 import { HTMLAttributes } from 'react';
-import { cn } from '@/lib/utils';
 
 type EmptyStateType = {
   title: string;
