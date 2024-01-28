@@ -12,7 +12,7 @@ import { useTransition } from "react";
 import { deletePostById } from "@/app/(main)/home/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { deleteCommentById } from "@/lib/actions/comments";
+import { deleteCommentById } from "@/app/(main)/home/[postId]/actions/comments";
 
 type DeleteAlertType = {
   id: string;
@@ -54,7 +54,7 @@ export default function DeleteAlert({ id, type }: DeleteAlertType) {
       <AlertDialogHeader>
         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
         <AlertDialogDescription>
-          This action cannot be undone. This will permanently delete your{" "}
+          This action cannot be undone. This will permanently delete your
           {type === "Post" ? "post" : "comment"}.
         </AlertDialogDescription>
       </AlertDialogHeader>

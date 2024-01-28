@@ -6,19 +6,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import Link from "next/link";
+import { MoreHorizontal } from "lucide-react";
 import { User } from "@supabase/supabase-js";
-import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { AlertDialog } from "@/components/ui/alert-dialog";
 import FollowButton from "@/app/(main)/[profileId]/components/follow-button";
 import DeleteAlert from "./delete-alert";
 import { Button } from "../ui/button";
+import EditMenuItem from "./edit-menu-item";
+import DeleteMenuItem from "../features/delete-menu-item";
 
 type PostDropdownType = {
   postId: string;
   user: User;
   createdById: string;
-  followingData: Following[] | null;
+  followingData: number | undefined;
 };
 
 export default function PostDropdown({
@@ -27,6 +28,10 @@ export default function PostDropdown({
   user,
   followingData,
 }: PostDropdownType) {
+  const isOwner = user.id === createdById;
+
+  const username = user.user_metadata.username || user.user_metadata.user_name;
+
   return (
     <AlertDialog>
       <DropdownMenu>
@@ -36,33 +41,17 @@ export default function PostDropdown({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="rounded-lg">
-          {user.id === createdById ? (
+          {isOwner ? (
             <>
-              <DropdownMenuItem className="font-semibold">
-                <Pencil className="mr-1.5" size={18} />
-                <Link
-                  href={`/${user.user_metadata.username}/${postId}`}
-                  className="w-full"
-                >
-                  Edit
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <AlertDialogTrigger className="flex items-center text-red-500 dark:text-red-700 hover:text-red-500 dark:hover:text-red-700 w-full font-semibold">
-                  <Trash2
-                    className="mr-1.5 text-inherit bg-inherit"
-                    size={18}
-                  />
-                  Delete
-                </AlertDialogTrigger>
-              </DropdownMenuItem>
+              <EditMenuItem postId={postId} username={username} />
+              <DeleteMenuItem />
             </>
           ) : (
             <DropdownMenuItem className="m-0 p-0">
               <FollowButton
                 currentUser={user.id}
                 profileId={createdById}
-                isFollowing={followingData?.length}
+                isFollowing={followingData}
                 variant={"ghost"}
                 unVariant={"ghost"}
                 className="w-full h-8 rounded-md"

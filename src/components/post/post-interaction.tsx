@@ -6,47 +6,73 @@ import {
   getRepostsByPostId,
   checkRepostedPost,
 } from "@/app/(main)/home/actions";
-import { getPostCommentsNumber } from "@/lib/actions/comments";
-import PostUserActions from "./post-user-actions";
+import { getUser } from "@/lib/actions";
+import { getPostCommentsNumber } from "@/app/(main)/home/[postId]/actions/comments";
+import CommentButton from "../features/comment-button";
+import RepostButton from "./repost-button";
+import LikeButton from "../features/like-button";
+import BookmarkButton from "./bookmark-button";
 
 type PostInteractionType = {
   postId: string;
-  userId: string | undefined;
   createdBy: string;
 };
 
 export default async function PostInteraction({
   postId,
-  userId,
   createdBy,
 }: PostInteractionType) {
-  if (!userId) {
+  const {
+    data: { user },
+  } = await getUser();
+
+  if (!user) {
     return;
   }
 
-  const { data: liked } = await checkLikedPost(postId, userId);
+  const { data: liked } = await checkLikedPost(postId, user.id);
   const { data: likes } = await getLikesByPostId(postId);
 
-  const { data: bookmarked } = await checkBookmarkedPost(postId, userId);
+  const { data: bookmarked } = await checkBookmarkedPost(postId, user.id);
   const { data: bookmarks } = await getBookmarksByPostId(postId);
 
-  const { data: reposted } = await checkRepostedPost(postId, userId);
+  const { data: reposted } = await checkRepostedPost(postId, user.id);
   const { data: reposts } = await getRepostsByPostId(postId);
 
   const { data: comments } = await getPostCommentsNumber(postId);
 
   return (
-    <PostUserActions
-      postId={postId}
-      userId={userId}
-      createdBy={createdBy}
-      liked={liked}
-      likes={likes?.length}
-      bookmarked={bookmarked}
-      bookmarks={bookmarks?.length}
-      reposted={reposted}
-      reposts={reposts?.length}
-      comments={comments?.length}
-    />
+    <div className="flex items-center justify-between min-[390px]:justify-evenly ">
+      <CommentButton
+        comments={comments?.length}
+        postId={postId}
+        userId={user.id}
+        aria-label="link to comments of this post"
+      />
+
+      <RepostButton
+        createdBy={createdBy}
+        userId={user.id}
+        postId={postId}
+        reposted={reposted}
+        reposts={reposts?.length}
+      />
+
+      <LikeButton
+        createdBy={createdBy}
+        userId={user.id}
+        postId={postId}
+        liked={liked}
+        likes={likes?.length}
+      />
+
+      <BookmarkButton
+        bookmarked={bookmarked}
+        bookmarks={bookmarks?.length}
+        createdBy={createdBy}
+        userId={user.id}
+        postId={postId}
+      />
+    </div>
   );
 }

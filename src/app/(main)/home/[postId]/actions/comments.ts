@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { createSupabaseServerClient } from "../supabase/server";
+import { createSupabaseServerClient } from "../../../../../lib/supabase/server";
 
 export async function createComment(
   content: string,

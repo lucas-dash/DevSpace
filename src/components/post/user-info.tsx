@@ -1,22 +1,14 @@
+import { getUserDataById } from "@/lib/actions";
 import { formatRelativeTime } from "@/lib/helperFunc";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { cookies } from "next/headers";
 import Link from "next/link";
 
-type PostUserType = {
+type UserInfoType = {
   createdBy: string;
   createdAt: string;
 };
 
-export default async function PostUser({ createdBy, createdAt }: PostUserType) {
-  const cookieStore = cookies();
-  const supabase = createSupabaseServerClient(cookieStore);
-
-  const { data: userData } = await supabase
-    .from("profile")
-    .select("*")
-    .eq("id", createdBy)
-    .single();
+export default async function UserInfo({ createdBy, createdAt }: UserInfoType) {
+  const { data: userData } = await getUserDataById(createdBy);
 
   return (
     <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">

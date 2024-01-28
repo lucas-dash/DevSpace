@@ -14,7 +14,7 @@ type ButtonVariant = VariantProps<typeof buttonVariants>["variant"];
 type ButtonSize = VariantProps<typeof buttonVariants>["size"];
 
 type FollowButtonProps = {
-  currentUser: string | undefined;
+  currentUser: string;
   profileId: string;
   isFollowing: number | undefined;
   variant?: ButtonVariant;

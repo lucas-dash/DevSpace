@@ -4,7 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { CommentSchema } from "@/lib/validations";
-import { createComment, replyToComment } from "@/lib/actions/comments";
+import {
+  createComment,
+  replyToComment,
+} from "@/app/(main)/home/[postId]/actions/comments";
 
 import { Button } from "@/components/ui/button";
 import {

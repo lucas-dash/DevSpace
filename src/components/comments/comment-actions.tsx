@@ -1,24 +1,22 @@
-import { checkForFollowedUser } from "@/app/(main)/[profileId]/actions";
 import { getUser } from "@/lib/actions";
-import PostDropdown from "./post-dropdown";
-import AlertState from "../ui/state/alert-state";
+import { checkForFollowedUser } from "@/app/(main)/[profileId]/actions";
+import AlertState from "@/components/ui/state/alert-state";
+import CommentDropdown from "./comment-dropdown";
 
-type PostActionsType = {
+type CommentActionsType = {
   createdBy: string;
-  postId: string;
+  commentId: string;
 };
 
-export default async function PostActions({
-  postId,
+export default async function CommentActions({
   createdBy,
-}: PostActionsType) {
+  commentId,
+}: CommentActionsType) {
   const {
     data: { user },
   } = await getUser();
 
-  if (!user) {
-    return;
-  }
+  if (!user) return;
 
   const { data: followData, error } = await checkForFollowedUser(
     user.id,
@@ -30,9 +28,9 @@ export default async function PostActions({
   }
 
   return (
-    <PostDropdown
-      postId={postId}
-      user={user}
+    <CommentDropdown
+      commentId={commentId}
+      currentUser={user.id}
       createdById={createdBy}
       followingData={followData?.length}
     />

@@ -71,7 +71,10 @@ export default async function Notify({
           >
             <p className="inline px-1">{notifyTypeCheck(event_type)}</p>
           </Link>
-          <p className="text-sm max-[420px]:text-sm font-medium inline-block">
+          <p
+            className="text-sm max-[420px]:text-sm font-medium inline-block"
+            aria-label="created at"
+          >
             <span className="mr-1">&#x2022;</span>
             {formatRelativeTime(created_at)}
           </p>

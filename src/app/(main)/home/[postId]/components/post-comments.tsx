@@ -1,6 +1,6 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
-import Comment from "./comment";
+import Comments from "@/components/comments/comments";
 
 type PostCommentsType = {
   postId: string;
@@ -19,7 +19,7 @@ export default async function PostComments({ postId }: PostCommentsType) {
   return (
     <section className="flex flex-col gap-2">
       {comments?.map((comment) => (
-        <Comment key={comment.comment_id} comment={comment} postId={postId} />
+        <Comments key={comment.comment_id} comment={comment} postId={postId} />
       ))}
     </section>
   );
