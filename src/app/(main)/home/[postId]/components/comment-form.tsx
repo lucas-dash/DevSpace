@@ -27,7 +27,7 @@ import createSupabaseBrowserClient from "@/lib/supabase/client";
 
 type CommentFormType = {
   createdBy: string;
-  postId?: string;
+  postId: string | undefined;
   commentId?: string;
   modal?: boolean;
 };
@@ -63,11 +63,13 @@ export default function CommentForm({
 
   function onSubmit(data: z.infer<typeof CommentSchema>) {
     startTransition(async () => {
+      // reply to child comment in post
       if (commentId && postId) {
         const { error } = await replyToComment(data.content, commentId, path);
 
         if (!error?.message) {
           toast.success("Send!");
+
           // notification
           if (userId !== createdBy) {
             const { error: notifyError } = await sendNotification(
@@ -89,6 +91,7 @@ export default function CommentForm({
         }
       }
 
+      // reply to parent in post
       if (postId && !commentId) {
         const { error } = await createComment(data.content, postId, path);
 

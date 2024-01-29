@@ -1,4 +1,4 @@
-import HomeNav from "@/components/HomeNav";
+import HomeNav from "@/components/home-navbar";
 import readUserSession from "@/lib/actions";
 import { redirect } from "next/navigation";
 import AuthForm from "./components/auth-form";

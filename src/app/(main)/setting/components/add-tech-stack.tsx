@@ -74,6 +74,7 @@ export default function AddTechStack({ userId, tech_stack }: AddTechStackType) {
       <div className="space-y-5">
         <Input
           type="text"
+          autoFocus
           value={newItem}
           placeholder="React"
           onChange={({ target }) => setNewItem(target.value)}

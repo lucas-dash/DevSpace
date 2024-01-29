@@ -1,18 +1,14 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import EmptyState from "@/components/ui/state/empty-state";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getUser } from "@/lib/actions";
 import Notify from "./components/notify";
 import RealtimeNotify from "./components/realtime-notify";
 import { selectUserNotification } from "./actions/notification";
 
 export default async function Notification() {
-  const cookieStore = cookies();
-  const supabase = createSupabaseServerClient(cookieStore);
-
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await getUser();
 
   if (!user) {
     return redirect("/auth");

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ModeToggle } from "./ui/mode-toggle";
 
-export default function HomeNav() {
+export default function HomeNavbar() {
   return (
     <nav className="container h-14 flex items-center justify-between">
       <Link

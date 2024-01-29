@@ -1,4 +1,4 @@
-import { linkUrlChecker } from "@/lib/helperFunc";
+import { linkUrlChecker } from "@/lib/helper-function";
 import Link from "next/link";
 import { Facebook, Instagram, LinkIcon, TwitterIcon } from "lucide-react";
 import { HTMLAttributes } from "react";

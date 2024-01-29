@@ -76,7 +76,7 @@ export default function SignUpForm() {
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="johndoe"
+                    placeholder="john_doe"
                     className="bg-white"
                     {...field}
                     onChange={field.onChange}

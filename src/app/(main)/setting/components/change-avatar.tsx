@@ -5,7 +5,7 @@ import { ChangeEvent } from "react";
 import createSupabaseBrowserClient from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { validFileType, validFileSize } from "@/lib/helperFunc";
+import { validFileType, validFileSize } from "@/lib/helper-function";
 import { Button } from "@/components/ui/button";
 import { DrawerClose } from "@/components/ui/drawer";
 

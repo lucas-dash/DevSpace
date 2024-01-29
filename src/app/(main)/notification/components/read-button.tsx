@@ -1,8 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useTransition } from "react";
 import { readNotification } from "../actions/notification";
 
 type ReadButtonType = {
@@ -10,12 +11,14 @@ type ReadButtonType = {
 };
 
 export default function ReadButton({ notifyId }: ReadButtonType) {
-  const handleReadNotification = async () => {
-    const { error } = await readNotification(notifyId);
-
-    if (error?.message) {
-      toast.error(error?.message);
-    }
+  const [isPending, startTransition] = useTransition();
+  const handleReadNotification = () => {
+    startTransition(async () => {
+      const { error } = await readNotification(notifyId);
+      if (error?.message) {
+        toast.error(error?.message);
+      }
+    });
   };
 
   return (
@@ -25,8 +28,14 @@ export default function ReadButton({ notifyId }: ReadButtonType) {
         size={"icon"}
         className="rounded-full"
         onClick={handleReadNotification}
+        disabled={isPending}
+        aria-disabled={isPending}
       >
-        <CheckCircle size={20} />
+        {isPending ? (
+          <Loader2 size={20} className="animate-spin" />
+        ) : (
+          <CheckCircle size={20} />
+        )}
       </Button>
     </div>
   );

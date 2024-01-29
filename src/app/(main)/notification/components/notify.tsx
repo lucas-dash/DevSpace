@@ -1,8 +1,7 @@
 import { cookies } from "next/headers";
-import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { formatRelativeTime, notifyTypeCheck } from "@/lib/helperFunc";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import UserInfo from "@/components/post/user-info";
+import UserAvatar from "@/components/ui/user-avatar";
 import ReadButton from "./read-button";
 
 export default async function Notify({
@@ -15,14 +14,6 @@ export default async function Notify({
 }: Notify) {
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
-
-  const { data: userData } = await supabase
-    .from("profile")
-    .select("*")
-    .eq("id", sender_user_id)
-    .single();
-
-  const nameFallback = userData?.display_name[0].toUpperCase() || "U";
 
   let linkToPost: string = "";
 
@@ -49,36 +40,13 @@ export default async function Notify({
       } `}
     >
       <div className="flex items-center gap-2 ">
-        <Avatar>
-          <AvatarImage src={userData?.avatar_url || ""} />
-          <AvatarFallback className="bg-slate-300">
-            {nameFallback}
-          </AvatarFallback>
-        </Avatar>
-
-        <div>
-          <Link
-            href={`/${userData?.username}`}
-            className="hover:underline font-semibold text-lg"
-          >
-            {userData?.display_name}
-          </Link>
-          <Link
-            href={linkToPost}
-            className={`${
-              linkToPost !== "" ? "hover:underline" : "cursor-default"
-            }`}
-          >
-            <p className="inline px-1">{notifyTypeCheck(event_type)}</p>
-          </Link>
-          <p
-            className="text-sm max-[420px]:text-sm font-medium inline-block"
-            aria-label="created at"
-          >
-            <span className="mr-1">&#x2022;</span>
-            {formatRelativeTime(created_at)}
-          </p>
-        </div>
+        <UserAvatar userId={sender_user_id} />
+        <UserInfo
+          createdBy={sender_user_id}
+          createdAt={created_at}
+          eventType={event_type}
+          linkToPost={linkToPost}
+        />
       </div>
       {!is_read && <ReadButton notifyId={notify_id} />}
     </article>

@@ -1,4 +1,4 @@
-import { formatRelativeTime } from "@/lib/helperFunc";
+import { formatRelativeTime } from "@/lib/helper-function";
 import createSupabaseBrowserClient from "@/lib/supabase/client";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";

@@ -1,7 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getUserDataById } from "@/lib/actions";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { cookies } from "next/headers";
+import { getUser, getUserDataById } from "@/lib/actions";
 import { HTMLAttributes } from "react";
 
 type UserAvatarType = {
@@ -16,14 +14,11 @@ export default async function UserAvatar({
   className,
   ...props
 }: UserAvatarType) {
-  const cookieStore = cookies();
-  const supabase = createSupabaseServerClient(cookieStore);
-
   let effectiveUserId = userId;
   if (!effectiveUserId) {
     const {
       data: { user },
-    } = await supabase.auth.getUser();
+    } = await getUser();
     effectiveUserId = user?.id;
   }
 
@@ -33,7 +28,7 @@ export default async function UserAvatar({
 
   if (!userData) return null;
 
-  const nameFallback = userData?.display_name[0].toUpperCase();
+  const nameFallback = userData?.display_name[0].toUpperCase() || "U";
 
   return (
     <Avatar className={className} {...props}>
