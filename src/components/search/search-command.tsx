@@ -10,17 +10,21 @@ import {
 import { Bookmark, Layout, Search, Settings2 } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import Link from "next/link";
+import { useDebounce } from "@/lib/hooks/useDebounce";
 import createSupabaseBrowserClient from "@/lib/supabase/client";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import SearchingPost from "./searching-post";
 import { ScrollArea } from "../ui/scroll-area";
+import PostSkeleton from "../ui/skeletons/post-skeleton";
 
 export default function SearchCommand() {
+  const supabase = createSupabaseBrowserClient();
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [posts, setPosts] = useState<Post[] | null>(null);
-  const supabase = createSupabaseBrowserClient();
+  const debounceSearch = useDebounce(query);
 
   const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -28,13 +32,8 @@ export default function SearchCommand() {
   };
 
   useEffect(() => {
-    if (query === "") {
-      setPosts(null);
-    }
-  }, [posts, query]);
-
-  useEffect(() => {
     const getPosts = async (searchQuery: string) => {
+      setLoading(true);
       if (searchQuery !== "") {
         const { data, error } = await supabase
           .from("posts")
@@ -44,11 +43,12 @@ export default function SearchCommand() {
           setPosts(null);
         } else {
           setPosts(data);
+          setLoading(false);
         }
       }
     };
-    getPosts(query);
-  }, [supabase, query]);
+    getPosts(debounceSearch);
+  }, [supabase, debounceSearch]);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -92,10 +92,14 @@ export default function SearchCommand() {
         <CommandList>
           <ScrollArea className="h-72">
             <CommandGroup heading="Searching">
-              {posts?.length === 0 ? (
+              {posts?.length === 0 && (
                 <p className="py-2 text-center text-sm w-full">
                   No posts found.
                 </p>
+              )}
+
+              {loading && query ? (
+                <PostSkeleton />
               ) : (
                 posts?.map((post) => {
                   return (

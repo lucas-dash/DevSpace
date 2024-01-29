@@ -1,3 +1,5 @@
+"use client";
+
 import { formatRelativeTime } from "@/lib/helper-function";
 import createSupabaseBrowserClient from "@/lib/supabase/client";
 import Link from "next/link";

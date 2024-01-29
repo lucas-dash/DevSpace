@@ -7,7 +7,7 @@ export default function PostSkeleton() {
         <Skeleton className="rounded-full h-10 w-10" />
         <Skeleton className="rounded-lg h-5 w-1/2" />
       </div>
-      <Skeleton className="rounded-md h-10 w-full" />
+      <Skeleton className="rounded-md h-8 w-full" />
     </div>
   );
 }
