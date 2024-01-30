@@ -9,7 +9,7 @@ type ProfileSettingType = {
   profile: Profile;
 };
 
-export default function ProfileSetting({
+export default async function ProfileSetting({
   userId,
   profile,
 }: ProfileSettingType) {

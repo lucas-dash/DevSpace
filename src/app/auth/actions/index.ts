@@ -83,3 +83,19 @@ export async function deleteUserAccount(userId: string) {
 
   return JSON.stringify(result);
 }
+
+export async function checkNewUsername(newUsername: string) {
+  const cookieStore = cookies();
+  const supabase = createSupabaseServerClient(cookieStore);
+
+  const { data: userData } = await supabase
+    .from("profile")
+    .select()
+    .eq("username", newUsername)
+    .single();
+
+  if (!userData) {
+    return true;
+  }
+  return false;
+}

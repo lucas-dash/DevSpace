@@ -17,12 +17,10 @@ import {
 import { useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import createSupabaseBrowserClient from "@/lib/supabase/client";
-import { signUpWithEmailAndPassword } from "../actions";
+import { checkNewUsername, signUpWithEmailAndPassword } from "../actions";
 import { Input } from "../../../components/ui/input";
 
 export default function SignUpForm() {
-  const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof SignUpSchema>>({
@@ -37,13 +35,10 @@ export default function SignUpForm() {
   });
 
   async function onSubmit(formData: z.infer<typeof SignUpSchema>) {
-    const checkAndSignUpUser = async () => {
-      const { data: userData, error } = await supabase
-        .from("profile")
-        .select()
-        .ilike("username", `%${formData.username}%`)
-        .single();
-      if (userData?.username !== formData.username) {
+    startTransition(async () => {
+      const response = await checkNewUsername(formData.username);
+
+      if (response) {
         const result = await signUpWithEmailAndPassword(formData);
         const { error: singUpError } = JSON.parse(result);
         if (singUpError?.message) {
@@ -52,14 +47,9 @@ export default function SignUpForm() {
           toast.success("Successfully registered!");
           form.reset();
         }
-      } else if (!error?.message && userData?.username === formData.username) {
+      } else if (!response) {
         toast.warning("Username already exists!");
-      } else if (error?.message) {
-        toast.error(error?.message);
       }
-    };
-    startTransition(async () => {
-      await checkAndSignUpUser();
     });
   }
 

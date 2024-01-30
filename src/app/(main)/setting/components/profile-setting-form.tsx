@@ -22,7 +22,7 @@ import { Link as Elink, Loader2, PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
-import createSupabaseBrowserClient from "@/lib/supabase/client";
+import { checkNewUsername } from "@/app/auth/actions";
 import { updateProfileById } from "../../[profileId]/actions";
 import AddTechStack from "./add-tech-stack";
 
@@ -47,7 +47,6 @@ export default function ProfileSettingForm({
     tech_stack,
   },
 }: ProfileSettingFormType) {
-  const supabase = createSupabaseBrowserClient();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -68,19 +67,12 @@ export default function ProfileSettingForm({
   });
 
   function onSubmit(data: z.infer<typeof ProfileSchema>) {
-    const checkExistsUsername = async () => {
+    startTransition(async () => {
       const prevUsername = username;
 
-      const { data: userData, error: userError } = await supabase
-        .from("profile")
-        .select()
-        .ilike("username", `%${data.username}%`)
-        .single();
+      const response = await checkNewUsername(data.username);
 
-      if (
-        userData?.username !== data.username ||
-        prevUsername === data.username
-      ) {
+      if (response || prevUsername === data.username) {
         const { error } = await updateProfileById(userId, data);
         if (error?.message) {
           toast.error(error?.message);
@@ -88,15 +80,9 @@ export default function ProfileSettingForm({
           toast.success("The profile has been edited!");
           router.refresh();
         }
-      } else if (!userError?.message && userData?.username === data.username) {
+      } else if (!response) {
         toast.warning("Username already exists!");
-      } else if (userError?.message) {
-        toast.error(userError?.message);
       }
-    };
-
-    startTransition(async () => {
-      await checkExistsUsername();
     });
   }
 

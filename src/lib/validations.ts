@@ -11,7 +11,7 @@ export const SignUpSchema = z
     username: z
       .string()
       .min(3, { message: "Username must cointain at least 3 characters" })
-      .max(20)
+      .max(15, { message: "Username must contains max 15 characters." })
       .toLowerCase(),
     email: z.string().email(),
     password: z
@@ -40,7 +40,7 @@ export const ProfileSchema = z.object({
   username: z
     .string()
     .min(1, { message: "Username must contains at least 1 character." })
-    .max(20),
+    .max(15, { message: "Username must contains max 15 characters." }),
   name: z
     .string()
     .min(1, { message: "Display Name must contains at least 1 character." })

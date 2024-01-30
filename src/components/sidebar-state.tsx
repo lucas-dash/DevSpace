@@ -32,7 +32,6 @@ export default function SidebarState({
           <UserAvatar />
           <Link href={`/${username}`}>
             <p className="font-semibold text-lg">{display_name}</p>
-            {/* fade text if its too long */}
             <p className="text-fadeText dark:text-fadeText-dark text-sm">
               @{username}
             </p>
