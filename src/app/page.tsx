@@ -1,5 +1,6 @@
 import HomeNavbar from "@/components/home-navbar";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -49,7 +50,15 @@ export default function Home() {
             </div>
           </section>
 
-          <div className="bg-accent dark:bg-accent-dark rounded-5xl lg:rounded-6xl max-h-[444px] max-[340px]:h-full min-[341px]:aspect-9/16 lg:min-h-[390px]" />
+          <div className="bg-accent dark:bg-accent-dark rounded-5xl lg:rounded-6xl max-h-[444px] max-[340px]:h-full min-[341px]:aspect-9/16 lg:min-h-[390px] grid place-items-center">
+            <Image
+              src={"/logo.svg"}
+              alt="DevSpace logo"
+              width={40}
+              height={40}
+              className="border-2 border-primary-dark rounded-full"
+            />
+          </div>
         </section>
       </main>
     </>

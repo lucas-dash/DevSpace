@@ -5,8 +5,9 @@ DevSpace is a social media application built with Next.js, Typescript, Supabase,
 ## Features
 
 - User authentication via Supabase
-- Real-time posts, comments, likes, follows
-- Responsive design with Tailwind CSS
+- Authentication through Github
+- Posts, comments, likes, follows
+- Mobile responsiveness
 - Dark mode
 - Beutiful styled components with Shadcn-ui
 - Real-time notification

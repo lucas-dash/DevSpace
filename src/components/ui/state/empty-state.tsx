@@ -11,6 +11,7 @@ type EmptyStateType = {
   linkTitle?: string;
   icon?: boolean;
   image?: boolean;
+  notFound?: boolean;
 } & HTMLAttributes<HTMLHeadingElement>;
 
 export default function EmptyState({
@@ -19,6 +20,7 @@ export default function EmptyState({
   linkTitle,
   icon,
   image,
+  notFound,
   className,
   ...props
 }: EmptyStateType) {
@@ -34,7 +36,7 @@ export default function EmptyState({
       {!image && (
         <div className="dark:bg-slate-300 rounded-xl">
           <Image
-            src={"/empty-state.svg"}
+            src={`${notFound ? "/error.svg" : "/empty-state.svg"}`}
             alt="empty state"
             width={350}
             height={350}
