@@ -179,7 +179,7 @@ export interface Database {
         Insert: {
           created_at?: string;
           event_id: string;
-          event_type?: string;
+          event_type: string;
           is_read?: boolean;
           notify_id?: string;
           recipient_user_id: string;
