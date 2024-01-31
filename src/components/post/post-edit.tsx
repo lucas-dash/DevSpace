@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { PostSchema } from "@/lib/validations";
+import { EditSchema } from "@/lib/validations";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -33,14 +33,14 @@ export default function PostEdit({
   const pathname = usePathname();
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof PostSchema>>({
-    resolver: zodResolver(PostSchema),
+  const form = useForm<z.infer<typeof EditSchema>>({
+    resolver: zodResolver(EditSchema),
     defaultValues: {
       content: content || "",
     },
   });
 
-  function onSubmit(data: z.infer<typeof PostSchema>) {
+  function onSubmit(data: z.infer<typeof EditSchema>) {
     startTransition(async () => {
       const result = await updatePostById(id, data.content, pathname, user);
 
