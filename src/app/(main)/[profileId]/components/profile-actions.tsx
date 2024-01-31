@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import Modal from "@/components/modal";
+import Modal from "@/components/Modal";
 import { getUser } from "@/lib/actions";
 import AuthState from "@/components/ui/state/auth-state";
 import FollowButton from "./follow-button";
