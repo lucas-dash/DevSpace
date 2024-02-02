@@ -1,17 +1,13 @@
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getUser } from "@/lib/actions";
 import { BellDot } from "lucide-react";
-import { cookies } from "next/headers";
 import Link from "next/link";
 import ActivityPanel from "@/app/(main)/notification/components/activity-panel";
 import AuthState from "./ui/state/auth-state";
 
 export default async function NotificationPanel() {
-  const cookieStore = cookies();
-  const supabase = createSupabaseServerClient(cookieStore);
-
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await getUser();
 
   return (
     <aside className="max-lg:hidden sticky top-[calc(60px+20px)] rounded-2xl bg-primary dark:bg-primary-dark min-w-[250px] max-w-[280px] xl:max-w-[420px] h-max p-3 flex-1">

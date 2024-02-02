@@ -25,7 +25,7 @@ export default function Navbar() {
     <nav className="w-full sticky top-0 z-50 bg-primary/70 dark:bg-primary-dark/70 backdrop-blur-sm flex items-center justify-between h-[60px] max-md:px-5 md:px-8 ">
       <div className="flex items-center gap-7">
         <Link
-          href={"/"}
+          href={"/home"}
           aria-label="back to homepage"
           className="flex items-center gap-3"
         >

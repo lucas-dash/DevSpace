@@ -13,7 +13,7 @@ export default function OAuthForm() {
     supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: `http://localhost:3000/auth/callback?next=${pathname}`,
+        redirectTo: `https://dev-space-social.vercel.app/auth/callback?next=${pathname}`,
       },
     });
   };

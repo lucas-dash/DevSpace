@@ -1,7 +1,8 @@
 "use server";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { revalidatePath, unstable_noStore as noStore } from "next/cache";
+import { revalidatePath } from "next/cache";
+// import { revalidatePath, unstable_noStore as noStore } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function createPost(content: string, draft: boolean) {
@@ -17,7 +18,7 @@ export async function createPost(content: string, draft: boolean) {
 }
 
 export async function readPosts(userId?: string) {
-  noStore();
+  // noStore();
   const cookieStore = cookies();
   const supabase = createSupabaseServerClient(cookieStore);
   if (userId) {
@@ -101,7 +102,7 @@ export async function likePost(postId: string, userId: string) {
   const result = await supabase
     .from("likes")
     .insert({ post_id: postId, user_id: userId });
-  revalidatePath("/home");
+  // revalidatePath("/home");
 
   return result;
 }
@@ -114,7 +115,7 @@ export async function unlikePost(postId: string, userId: string) {
     .delete()
     .eq("post_id", postId)
     .eq("user_id", userId);
-  revalidatePath("/home");
+  // revalidatePath("/home");
 
   return result;
 }

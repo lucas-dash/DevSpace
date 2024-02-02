@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { sendNotification } from "@/app/(main)/notification/actions/notification";
 import { toast } from "sonner";
 import { Heart } from "lucide-react";
@@ -26,8 +27,19 @@ export default function LikeButton({
   liked,
   likes,
 }: LikeButtonProps) {
+  const [isLiked, setIsLiked] = useState(Boolean(liked));
+  const [allLikes, setAllLikes] = useState<number>(0);
+
+  useEffect(() => {
+    if (likes) {
+      setAllLikes(likes);
+    }
+  }, [likes]);
+
   const handleLikeButton = async () => {
     let likeError;
+
+    // post like
     if (postId && !commentId) {
       const { error } = await likePost(postId, userId);
       likeError = error?.message;
@@ -43,6 +55,8 @@ export default function LikeButton({
         }
       }
     }
+
+    // comment like
     if (commentId && postId) {
       const { error } = await likeComment(commentId, userId);
       likeError = error?.message;
@@ -58,9 +72,7 @@ export default function LikeButton({
         }
       }
     }
-    if (!likeError) {
-      toast.success("Liked!");
-    } else {
+    if (likeError) {
       toast.error(likeError);
     }
   };
@@ -80,25 +92,37 @@ export default function LikeButton({
     }
   };
 
+  const toggleLike = async () => {
+    if (isLiked) {
+      setIsLiked(false);
+      setAllLikes((prev) => prev - 1);
+      handleUnlikeButton();
+    } else {
+      setIsLiked(true);
+      setAllLikes((prev) => prev + 1);
+      handleLikeButton();
+    }
+  };
+
   return (
     <div className="flex items-center text-sm gap-1">
       <Button
         size={"icon"}
         className={`rounded-full group hover:text-red-500 dark:hover:text-red-600 ${
-          liked ? "text-red-500 dark:text-red-600" : ""
+          isLiked ? "text-red-500 dark:text-red-600" : ""
         }`}
         variant={"ghost"}
-        onClick={!liked ? handleLikeButton : handleUnlikeButton}
+        onClick={toggleLike}
         aria-label="I like it"
         disabled={!userId}
         aria-disabled={!userId}
       >
         <Heart
           size={18}
-          className={`${liked ? "fill-red-500 dark:fill-red-600 " : ""}`}
+          className={`${isLiked ? "fill-red-500 dark:fill-red-600 " : ""}`}
         />
       </Button>
-      <p className="font-medium">{likes}</p>
+      <p className="font-medium">{allLikes}</p>
     </div>
   );
 }

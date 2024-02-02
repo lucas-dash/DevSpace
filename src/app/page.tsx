@@ -50,7 +50,7 @@ export default function Home() {
             </div>
           </section>
 
-          <div className="bg-accent dark:bg-accent-dark rounded-5xl lg:rounded-6xl max-h-[444px] max-[340px]:h-full min-[341px]:aspect-9/16 lg:min-h-[390px] grid place-items-center">
+          <div className="bg-accent dark:bg-accent-dark rounded-5xl lg:rounded-6xl max-h-[444px] max-[340px]:h-full min-[341px]:aspect-9/16 lg:min-h-[390px] flex items-center justify-center ">
             <Image
               src={"/logo.svg"}
               alt="DevSpace logo"

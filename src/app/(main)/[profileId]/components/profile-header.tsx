@@ -22,7 +22,7 @@ export default async function ProfileHeader({
   const socialLinks = [social_link_one, social_link_two, social_link_three];
 
   return (
-    <section className="h-max bg-primary dark:bg-primary-dark rounded-2xl p-5 flex flex-col gap-2">
+    <section className="h-max bg-primary dark:bg-primary-dark rounded-3xl sm:rounded-2xl p-5 flex flex-col gap-2">
       <div className="flex justify-between gap-5">
         <UserAvatar
           userId={id}
