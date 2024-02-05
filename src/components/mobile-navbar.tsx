@@ -8,7 +8,6 @@ import {
   Layout,
   LogOut,
   Settings2,
-  UsersRound,
   X,
 } from "lucide-react";
 import createSupabaseBrowserClient from "@/lib/supabase/client";
@@ -73,11 +72,6 @@ export default function MobileNavbar({
       title: "Bookmarks",
       path: "/bookmarks",
       icon: <Bookmark />,
-    },
-    {
-      title: "Communities",
-      path: "/communities",
-      icon: <UsersRound />,
     },
     {
       title: "Profile",

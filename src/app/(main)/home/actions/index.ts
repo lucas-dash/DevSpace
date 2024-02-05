@@ -102,7 +102,6 @@ export async function likePost(postId: string, userId: string) {
   const result = await supabase
     .from("likes")
     .insert({ post_id: postId, user_id: userId });
-  // revalidatePath("/home");
 
   return result;
 }
@@ -115,7 +114,6 @@ export async function unlikePost(postId: string, userId: string) {
     .delete()
     .eq("post_id", postId)
     .eq("user_id", userId);
-  // revalidatePath("/home");
 
   return result;
 }
@@ -149,7 +147,6 @@ export async function bookmarkPost(postId: string, userId: string) {
   const result = await supabase
     .from("bookmarks")
     .insert({ post_id: postId, user_id: userId });
-  revalidatePath("/home");
 
   return result;
 }
@@ -162,7 +159,6 @@ export async function unbookmarkPost(postId: string, userId: string) {
     .delete()
     .eq("post_id", postId)
     .eq("user_id", userId);
-  revalidatePath("/home");
 
   return result;
 }
@@ -199,7 +195,6 @@ export async function repostPost(postId: string, userId: string) {
   const result = await supabase
     .from("reposts")
     .insert({ post_id: postId, user_id: userId });
-  revalidatePath("/home");
 
   return result;
 }
@@ -212,7 +207,6 @@ export async function unrepostPost(postId: string, userId: string) {
     .delete()
     .eq("post_id", postId)
     .eq("user_id", userId);
-  revalidatePath("/home");
 
   return result;
 }

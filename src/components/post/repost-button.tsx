@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Repeat2 } from "lucide-react";
 import { repostPost, unrepostPost } from "@/app/(main)/home/actions";
 import { sendNotification } from "@/app/(main)/notification/actions/notification";
@@ -20,6 +21,9 @@ export default function RepostButton({
   postId,
   userId,
 }: RepostButtonProps) {
+  const [isReposted, setIsReposted] = useState(Boolean(reposted));
+  const [allReposts, setAllReposts] = useState<number>(reposts || 0);
+
   const handleRepostButton = async () => {
     const { error } = await repostPost(postId, userId);
     if (!error?.message) {
@@ -49,20 +53,32 @@ export default function RepostButton({
       toast.error(error?.message);
     }
   };
+
+  const toggleRepost = () => {
+    if (isReposted) {
+      setIsReposted(false);
+      setAllReposts((prev) => prev - 1);
+      handleUnrepostButton();
+    } else {
+      setIsReposted(true);
+      setAllReposts((prev) => prev + 1);
+      handleRepostButton();
+    }
+  };
   return (
     <div className="flex items-center text-sm gap-1">
       <Button
         size={"icon"}
         className={`rounded-full hover:text-green-500 dark:hover:text-green-600 ${
-          reposted ? "text-green-500 " : ""
+          isReposted ? "text-green-500 " : ""
         }`}
         variant={"ghost"}
-        onClick={!reposted ? handleRepostButton : handleUnrepostButton}
+        onClick={toggleRepost}
         aria-label="repost post"
       >
         <Repeat2 size={18} />
       </Button>
-      <p className="font-medium">{reposts}</p>
+      <p className="font-medium">{allReposts}</p>
     </div>
   );
 }

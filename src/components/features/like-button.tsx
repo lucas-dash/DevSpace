@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { sendNotification } from "@/app/(main)/notification/actions/notification";
 import { toast } from "sonner";
 import { Heart } from "lucide-react";
@@ -28,13 +28,7 @@ export default function LikeButton({
   likes,
 }: LikeButtonProps) {
   const [isLiked, setIsLiked] = useState(Boolean(liked));
-  const [allLikes, setAllLikes] = useState<number>(0);
-
-  useEffect(() => {
-    if (likes) {
-      setAllLikes(likes);
-    }
-  }, [likes]);
+  const [allLikes, setAllLikes] = useState<number>(likes || 0);
 
   const handleLikeButton = async () => {
     let likeError;
@@ -92,7 +86,7 @@ export default function LikeButton({
     }
   };
 
-  const toggleLike = async () => {
+  const toggleLike = () => {
     if (isLiked) {
       setIsLiked(false);
       setAllLikes((prev) => prev - 1);
