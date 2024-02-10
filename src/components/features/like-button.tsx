@@ -9,6 +9,7 @@ import {
   likeComment,
   unlikeComment,
 } from "@/app/(main)/home/[postId]/actions/comments";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { Button } from "../ui/button";
 
 type LikeButtonProps = {
@@ -16,19 +17,22 @@ type LikeButtonProps = {
   createdBy: string;
   postId?: string;
   commentId?: string;
-  liked: Likes | null;
-  likes: number | undefined;
+  likedRes: PostgrestSingleResponse<Likes>;
+  likesRes: PostgrestSingleResponse<Likes[]>;
 };
 export default function LikeButton({
   userId,
   createdBy,
   commentId,
   postId,
-  liked,
-  likes,
+  likedRes,
+  likesRes,
 }: LikeButtonProps) {
+  const { data: liked } = likedRes;
+  const { data: likes } = likesRes;
+
   const [isLiked, setIsLiked] = useState(Boolean(liked));
-  const [allLikes, setAllLikes] = useState<number>(likes || 0);
+  const [allLikes, setAllLikes] = useState<number>(likes?.length || 0);
 
   const handleLikeButton = async () => {
     let likeError;

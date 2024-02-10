@@ -31,7 +31,7 @@ export default function RealtimeNotify({ children }: RealtimeNotifyType) {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [router, supabase]);
+  }, [router, supabase, children]);
 
   return <section className="flex flex-col gap-3">{children}</section>;
 }

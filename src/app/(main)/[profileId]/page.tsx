@@ -1,9 +1,11 @@
+import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Suspense } from "react";
 import EmptyState from "@/components/ui/state/empty-state";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
-import UserReposts from "./components/user-reposts";
+import PostSkeleton from "@/components/ui/skeletons/post-skeleton";
 import ProfileHeader from "./components/profile-header";
 import UsersPosts from "./components/users-posts";
 
@@ -23,6 +25,8 @@ export default async function ProfileId({
     .select()
     .eq("username", profileId)
     .single();
+
+  const LazyUserReposts = dynamic(() => import("./components/user-reposts"));
 
   if (profileId === String(undefined)) {
     redirect("/auth");
@@ -61,7 +65,9 @@ export default async function ProfileId({
           <UsersPosts profileId={userData.id} />
         </TabsContent>
         <TabsContent value="reposts">
-          <UserReposts profileId={userData.id} />
+          <Suspense fallback={<PostSkeleton />}>
+            <LazyUserReposts profileId={userData.id} />
+          </Suspense>
         </TabsContent>
       </Tabs>
     </section>

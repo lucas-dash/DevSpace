@@ -1,9 +1,13 @@
 import { Inbox } from "lucide-react";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 import { getUser } from "@/lib/actions";
 import UserAvatar from "../ui/user-avatar";
 import PostForm from "./post-form";
-import Drafts from "./drafts";
 import CustomDrawer from "../custom-drawer";
+import PostSkeleton from "../ui/skeletons/post-skeleton";
+
+const LazyDrafts = dynamic(() => import("./drafts"));
 
 export default async function CreatePost() {
   const {
@@ -25,7 +29,9 @@ export default async function CreatePost() {
           buttonSize={"icon"}
           aria-label="Drafts"
         >
-          <Drafts userId={user.id} />
+          <Suspense fallback={<PostSkeleton />}>
+            <LazyDrafts userId={user.id} />
+          </Suspense>
         </CustomDrawer>
       </div>
 

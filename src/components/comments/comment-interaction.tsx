@@ -25,8 +25,13 @@ export default async function CommentInteraction({
 
   if (!user) return;
 
-  const { data: liked } = await checkLikedComment(commentId, user?.id);
-  const { data: likes } = await getLikesByCommentId(commentId);
+  const likedPromise = await checkLikedComment(commentId, user?.id);
+  const likesPromise = await getLikesByCommentId(commentId);
+
+  const [likedResponse, likesResponse] = await Promise.all([
+    likedPromise,
+    likesPromise,
+  ]);
 
   return (
     <div className="flex items-center gap-5">
@@ -41,8 +46,8 @@ export default async function CommentInteraction({
 
       <LikeButton
         createdBy={createdBy}
-        liked={liked}
-        likes={likes?.length}
+        likedRes={likedResponse}
+        likesRes={likesResponse}
         userId={user?.id}
         commentId={commentId}
         postId={postId}

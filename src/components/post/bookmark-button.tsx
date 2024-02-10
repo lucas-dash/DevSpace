@@ -47,9 +47,7 @@ export default function BookmarkButton({
 
   const handleUnbookmarkButton = async () => {
     const { error } = await unbookmarkPost(postId, userId);
-    if (!error?.message) {
-      toast.success("Unbookmarked!");
-    } else {
+    if (error?.message) {
       toast.error(error?.message);
     }
   };

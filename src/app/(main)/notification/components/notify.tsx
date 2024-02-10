@@ -48,7 +48,7 @@ export default async function Notify({
           linkToPost={linkToPost}
         />
       </div>
-      {!is_read && <ReadButton notifyId={notify_id} />}
+      <ReadButton notifyId={notify_id} is_read={is_read} />
     </article>
   );
 }

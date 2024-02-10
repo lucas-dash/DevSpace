@@ -1,6 +1,6 @@
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import { Loader2 } from "lucide-react";
-import PostActions from "./post-actions";
 import UserInfo from "./user-info";
 
 type PostHeaderProps = {
@@ -14,11 +14,13 @@ export default function PostHeader({
   createdBy,
   postId,
 }: PostHeaderProps) {
+  const LazyPostActions = dynamic(() => import("./post-actions"));
+
   return (
     <section className="flex items-center justify-between">
       <UserInfo createdBy={createdBy} createdAt={createdAt} />
       <Suspense fallback={<Loader2 className="animate-spin" />}>
-        <PostActions postId={postId} createdBy={createdBy} />
+        <LazyPostActions postId={postId} createdBy={createdBy} />
       </Suspense>
     </section>
   );

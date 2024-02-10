@@ -30,8 +30,13 @@ export default async function PostInteraction({
     return;
   }
 
-  const { data: liked } = await checkLikedPost(postId, user.id);
-  const { data: likes } = await getLikesByPostId(postId);
+  const likedPromise = checkLikedPost(postId, user.id);
+  const likesPromise = getLikesByPostId(postId);
+
+  const [likedResponse, likesResponse] = await Promise.all([
+    likedPromise,
+    likesPromise,
+  ]);
 
   const { data: bookmarked } = await checkBookmarkedPost(postId, user.id);
   const { data: bookmarks } = await getBookmarksByPostId(postId);
@@ -62,8 +67,8 @@ export default async function PostInteraction({
         createdBy={createdBy}
         userId={user.id}
         postId={postId}
-        liked={liked}
-        likes={likes?.length}
+        likedRes={likedResponse}
+        likesRes={likesResponse}
       />
 
       <BookmarkButton

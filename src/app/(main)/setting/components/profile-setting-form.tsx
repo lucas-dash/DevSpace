@@ -176,7 +176,7 @@ export default function ProfileSettingForm({
               <FormControl>
                 <Input
                   type="text"
-                  placeholder="@Netflix"
+                  placeholder="Netflix"
                   maxLength={20}
                   {...field}
                   onChange={field.onChange}
