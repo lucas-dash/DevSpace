@@ -14,6 +14,8 @@ export default function NavigationButtons() {
         size={"icon"}
         className="rounded-full"
         onClick={() => router.back()}
+        aria-label="back"
+        aria-describedby="go to previous page"
       >
         <ChevronLeft />
       </Button>
@@ -22,6 +24,8 @@ export default function NavigationButtons() {
         size={"icon"}
         className="rounded-full"
         onClick={() => router.forward()}
+        aria-label="forward"
+        aria-describedby="go to next page"
       >
         <ChevronRight />
       </Button>
